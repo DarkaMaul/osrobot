@@ -2,6 +2,7 @@
 #include <stdlib.h>
 
 #include "main.h"
+#include "logger.h"
 #include "ev3c.h"
 
 state st;
@@ -10,6 +11,7 @@ state* s = &st;
 int main(int argc, char *argv[])
 {
 	//Start logger	
+	init_logger(s);	
 
 	//Initialize the robot
 	//Capteurs Moteur "Connexion"
@@ -21,6 +23,7 @@ int main(int argc, char *argv[])
 	//Reset robot
 	
 	//Close logger
+	close_logger(s);
 	
 	return 0;
 }
