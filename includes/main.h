@@ -8,6 +8,10 @@ typedef struct _state
 	/* Position of the robot */
 	int pos;
 	int angle;
+
+    //Bluetooth
+    int sock;
+    int lastAck;
 } state;
 
 #endif
