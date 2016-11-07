@@ -8,7 +8,7 @@
 
 void init_logger(state *s)
 {
-	FILE* fp = fopen("logs/log.txt", "w");
+	FILE* fp = fopen(LOGFILE, "w");
     if (fp == NULL)
     {
         perror("[Logger] Unable to open log file.\n");
