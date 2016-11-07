@@ -5,9 +5,8 @@ typedef struct _state
 {
 	/* log file fd */
 	FILE * logfile_fd;
-	//Position of the robot
-	int x;
-	int y;
+	/* Position of the robot */
+	int pos;
 	int angle;
 } state;
 
