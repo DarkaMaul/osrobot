@@ -1,0 +1,3 @@
+[submodule "ev3c"]
+	path = ev3c
+	url = https://github.com/theZiz/ev3c.git
