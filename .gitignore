@@ -29,5 +29,8 @@
 *.so.*
 *.dylib
 
+#Binarys
+bin/*
+
 #Gedit temp file
 *~

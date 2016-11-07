@@ -8,19 +8,24 @@ OBJ_FILES = $(addprefix $(OBJ_DIR),$(notdir $(C_FILES:.c=.o)))
 CFLAGS = $(INC_DIR) -Wall
 LDFLAGS = -lm -lbluetooth -pthread
 
-osRobot: ev3c.a $(OBJ_FILES)
+bin/testOsRobot: ev3c.a $(OBJ_FILES)
+	mkdir -p $(@D)
+	$(CC) $(CFLAGS) -o $@ $(OBJ_FILES) ev3c/lib/ev3c.a
+
+bin/osRobot: ev3c.a $(OBJ_FILES)
+	mkdir -p $(@D)
 	$(CC) $(CFLAGS) -o $@ $(OBJ_FILES) ev3c/lib/ev3c.a $(LDFLAGS)
 
 ev3c.a:
 	$(MAKE) -C ev3c
 
 obj/%.o: src/%.c
-	@if [ ! -d $(OBJ_DIR) ]; then mkdir -p $(OBJ_DIR); fi
+	mkdir -p $(@D)
 	$(CC) $(CFLAGS) $(INCLUDE) -c -o $@ $^
 
 clean:
 	rm -rf $(OBJ_DIR)
-	rm -f wallev3
+	rm -f bin/*
 
-.PHONY:	clean osRobot
-	
+.PHONY:	clean bin/osRobot bin/testOsRobot
+.DEFAULT: bin/testOsRobot
