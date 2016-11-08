@@ -32,9 +32,9 @@ int testRobot()
             fprintf(fp, "command[%i]: %s\n",i,motor->commands[i]);
             if (i == 0)
             {
-                ev3_command_motor_by_name(motor, "run-forever");
+                ev3_command_motor_by_name(&motor, "run-forever");
                 sleep(5);
-                ev3_stop_command_motor(motor, 5);
+                ev3_stop_command_motor(&motor, 5);
             }
         }
 
