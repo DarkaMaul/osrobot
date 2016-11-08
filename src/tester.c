@@ -18,14 +18,16 @@ int testRobot()
         ev3_open_motor(motor);
         motor = motor->next;
 
+        ev3_command_motor_by_name(motor, "run-forever");
+
         fprintf(fp, "Motor openned\n");
     }
-
+/*
     a = ev3_search_motor_by_port(motors, 'A');
     b = ev3_search_motor_by_port(motors, 'B');
     c = ev3_search_motor_by_port(motors, 'C');
 
-    ev3_command_motor_by_name(a, "run-forever");
+
     ev3_command_motor_by_name(b, "run-forever");
     ev3_command_motor_by_name(c, "run-forever");
 
@@ -34,7 +36,7 @@ int testRobot()
     ev3_stop_command_motor_by_name(a, "hold");
     ev3_stop_command_motor_by_name(b, "hold");
     ev3_stop_command_motor_by_name(c, "hold");
-
+*/
     ev3_delete_motors(motors);
 
     fclose(fp);
