@@ -10,21 +10,22 @@ state* s = &st;
 
 int main(int argc, char *argv[])
 {
-	//Start logger	
-	init_logger(s);	
+	//Start logger
+	init_logger(s);
 
 	//Initialize the robot
 	//Capteurs Moteur "Connexion"
 
+    testRobot();
+
 	//Initialize the "trip"
-	
+
 	//ACTION
-	
+
 	//Reset robot
-	
+
 	//Close logger
 	close_logger(s);
-	
+
 	return 0;
 }
-
