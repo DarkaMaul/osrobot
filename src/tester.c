@@ -1,10 +1,11 @@
 #include <stdio.h>
 #include "ev3c.h"
+#include "tester.h"
 
-int testRobot(int argc, char* argv)
+int testRobot()
 {
     int i;
-    FILE* fp = fopen("logs/motortest.txt");
+    FILE* fp = fopen("logs/motortest.txt", "w");
 
 	//Loading all motors
 	ev3_motor_ptr motors = ev3_load_motors();
@@ -59,7 +60,7 @@ int testRobot(int argc, char* argv)
 	//motors
 	ev3_delete_motors(motors);
 
-    fclose();
+    fclose(fp);
 
 	return 0;
 }
