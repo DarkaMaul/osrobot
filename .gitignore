@@ -32,8 +32,5 @@
 #Binarys
 bin/*
 
-#Logs
-logs/*
-
 #Gedit temp file
 *~
