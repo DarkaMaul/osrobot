@@ -35,6 +35,8 @@ int testRobot()
     ev3_stop_command_motor_by_name(b, "hold");
     ev3_stop_command_motor_by_name(c, "hold");
 
+    ev3_delete_motors(motors);
+
     fclose(fp);
 
     return 0;
