@@ -16,9 +16,11 @@ int testRobot()
     {
         ev3_reset_motor(motor);
         ev3_open_motor(motor);
-        motor = motor->next;
 
         ev3_command_motor_by_name(motor, "run-forever");
+
+        motor = motor->next;
+
 
         fprintf(fp, "Motor openned\n");
     }
