@@ -6,7 +6,7 @@ typedef struct _state
 	/* log file fd */
 	FILE * logfile_fd;
 	/* Position of the robot */
-	int pos;
+	int pos[2];
 	int angle;
 
     //Bluetooth
