@@ -1,6 +1,14 @@
 #include <stdio.h>
+#include <unistd.h>
+
 #include "ev3c.h"
 #include "tester.h"
+
+int runForever()
+{
+
+    return 0;
+}
 
 int testRobot()
 {
@@ -20,7 +28,16 @@ int testRobot()
 		fprintf(fp, "port: %c\n",motor->port);
 		fprintf(fp, "command count: %i\n",motor->command_count);
 		for (i = 0; i < motor->command_count; i++)
-			fprintf(fp, "command[%i]: %s\n",i,motor->commands[i]);
+        {
+            fprintf(fp, "command[%i]: %s\n",i,motor->commands[i]);
+            if (i == 0)
+            {
+                ev3_command_motor_by_name(motor, "run-forever");
+                sleep(5);
+                ev3_stop_command_motor(motor, 5);
+            }
+        }
+
 		fprintf(fp, "stop_command count: %i\n",motor->stop_command_count);
 		for (i = 0; i < motor->stop_command_count; i++)
 			fprintf(fp, "stop_command[%i]: %s\n",i,motor->stop_commands[i]);
