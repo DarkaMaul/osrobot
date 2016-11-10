@@ -5,15 +5,17 @@
 
 typedef struct _state
 {
-	/* log file fd */
+	//External ressources needed
+	//Log file
 	FILE * logfile_fd;
+
+    //Socket
+    int sock;
+
 	/* Position of the robot */
 	int pos[2];
 	int angle;
-
-    //Bluetooth
-    int sock;
-    int lastAck;
+    
 } state;
 
 #endif

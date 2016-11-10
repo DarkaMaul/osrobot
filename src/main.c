@@ -4,19 +4,42 @@
 #include "main.h"
 #include "logger.h"
 #include "ev3c.h"
+#include "utils.h"
 
 state st;
 state* s = &st;
 
+void nice_exit(state *s, int exitState)
+{
+    log_this(s, "[Main] Nice exit called.\n");
+
+    if (s->sock > 0)
+        close_inet(s);
+
+    if (s->logfile_fd > 0)
+        close_logger(s);
+
+    exit(exitState);
+}
+
 int main(int argc, char *argv[])
 {
-	//Start logger
+	//Initialize external ressources
 	init_logger(s);
+
+    s->sock = init_inet(s);
+    if (s->sock == -1)
+        nice_exit(s, EXIT_FAILURE);
+
+
 
 	//Initialize the robot
 	//Capteurs Moteur "Connexion"
 
-    testRobot();
+    //Initialize connexion
+
+
+    //testRobot();
 
 	//Initialize the "trip"
 
@@ -24,8 +47,8 @@ int main(int argc, char *argv[])
 
 	//Reset robot
 
-	//Close logger
-	close_logger(s);
+	//Close external ressources
+    nice_exit(s, EXIT_SUCCESS);
 
 	return 0;
 }
