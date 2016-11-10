@@ -40,3 +40,4 @@ test/*
 #Private git file
 .gitconfig
 .metadata
+/.cproject
