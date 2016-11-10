@@ -4,6 +4,10 @@
 //Logger configuration
 #define LOGFILE "logs/log.txt"
 
+//Team constants
+#define TEAM_ID 1
+#define SERVER_ID 0XFF
+
 //Robot constants
 
 //Positions of of fixed elements
@@ -20,6 +24,12 @@
 #define MSG_KICK 5
 #define MSG_POSITION 6
 
+#define MSG_ACK_LEN 8
+#define MSG_NEXT_LEN 5
+#define MSG_POSITION_LEN 9
+
+#define ACK_OK 0
+#define ACK_NOK 1
 #define HEADER_SIZE 5
 #define MSG_MAX_LEN 60 //58?
 

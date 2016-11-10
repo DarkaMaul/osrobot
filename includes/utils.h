@@ -8,5 +8,6 @@ int init_inet(state *s);
 void close_inet(state *s);
 
 int read_from_server(state *s, char *buffer);
+int send_message(state *s, int messageType, ...);
 
 #endif

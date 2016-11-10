@@ -5,6 +5,7 @@
 #include <bluetooth/bluetooth.h>
 #include <bluetooth/rfcomm.h>
 #include <arpa/inet.h>
+#include <stdarg.h>
 
 #include "main.h"
 #include "config.h"
@@ -56,7 +57,6 @@ int read_from_server(state *s, char *buffer)
     return readedBytes;
 }
 
-
 /**
  * Init the inet connexion
  * @param  s State structure
@@ -81,6 +81,7 @@ int init_inet(state *s)
 
     return sock;
 }
+
 /**
  * Close the inet socket previously opened
  * @param s State structure
@@ -89,4 +90,88 @@ void close_inet(state *s)
 {
     close(s->sock);
     log_this(s, "[Utils] Closing socket INET.");
+}
+
+/**
+ * Send a message to the destination
+ * @param  s           State structure
+ * @param  messageType Message type (must be in MSG_* constants)
+ * @param  destination Address of the reciever (format 0xXX)
+ * @param  VARARGS     Param for the message type:
+ *                          ACK : (unsigned int) id of the message to ack
+ *                                (int) status of the ACK (ACK_OK || ACK_NOK)
+ *                          NEXT: void
+ *                          CUSTOM: not implemeented
+ *                          POSITION: (int) x
+ *                                    (int) y
+ *
+ * @return             0 if everything is OK || -1 if not
+ */
+int send_message(state *s, int messageType, int destination, ...)
+{
+
+    va_list argumentList;
+    va_start(argumentList, destination);
+
+    char message[MSG_MAX_LEN];
+    int messageLength = 0;
+
+    unsigned int messageId = s->msgId++;
+    *((uint16_t *) message) = messageId;
+    message[2] = TEAM_ID;
+    message[3] = destination;
+    message[4] = messageType;
+
+    unsigned int ackId;
+    int statusCode;
+    uint16_t position[2];
+
+    switch(messageType)
+    {
+        //Send ACK message
+        // char* id of the message to acknowledge
+        // int ack type
+        case MSG_ACK:
+            ackId = va_arg(argumentList, unsigned int);
+            statusCode = va_arg(argumentList, int);
+
+            *((uint16_t *) (message+5)) = ackId;
+            message[7] = statusCode;
+
+            messageLength = MSG_ACK_LEN;
+            break;
+
+        case MSG_NEXT:
+            messageLength = MSG_NEXT_LEN;
+            break;
+
+        case MSG_CUSTOM:
+            log_this(s, "[Utils] No custom messages implemeented yet.\n");
+            break;
+
+        case MSG_POSITION:
+            position[0] = (uint16_t) va_arg(argumentList, int);
+            position[1] = (uint16_t) va_arg(argumentList, int);
+
+            *((uint16_t *) (message+5)) = position[0];
+            *((uint16_t *) (message+7)) = position[1];
+
+            messageLength = MSG_POSITION_LEN;
+            break;
+
+        default:
+            log_this(s, "[Utils] Unknown message type to send (%d).\n", messageType);
+            return -1;
+    }
+
+    va_end(argumentList);
+
+    //Send the message
+    write(s->sock, message, messageLength);
+
+    //write(STDOUT_FILENO, message, messageLength);
+
+    log_this(s, "[Utils] Message of type %d with id %u sended to %d\n", messageType, s->msgId, destination);
+
+    return 0;
 }

@@ -15,7 +15,12 @@ typedef struct _state
 	/* Position of the robot */
 	int pos[2];
 	int angle;
-    
+
+    int msgId;
+    int msgAck;
+
 } state;
+
+void nice_exit(state *s, int exitState);
 
 #endif

@@ -31,7 +31,8 @@ int main(int argc, char *argv[])
     if (s->sock == -1)
         nice_exit(s, EXIT_FAILURE);
 
-
+    send_message(s, MSG_NEXT);
+    send_message(s, MSG_ACK, 0x01, ACK_OK);
 
 	//Initialize the robot
 	//Capteurs Moteur "Connexion"
