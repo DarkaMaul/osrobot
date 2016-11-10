@@ -26,7 +26,7 @@ obj/%.o: src/%.c
 
 clean:
 	rm -rf $(OBJ_DIR)
-	rm -f $(BIN_DIR)
+	rm -rf $(BIN_DIR)
 
 .PHONY:	clean bin/osRobot bin/testOsRobot
 .DEFAULT: bin/testOsRobot
