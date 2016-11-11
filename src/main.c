@@ -30,12 +30,12 @@ int main(int argc, char *argv[])
 	//Initialize external ressources
 	init_logger(s);
 
-    s->sock = init_inet(s);
+    /*s->sock = init_inet(s);
     if (s->sock == -1)
         nice_exit(s, EXIT_FAILURE);
 
     send_message(s, MSG_NEXT);
-    send_message(s, MSG_ACK, 0x01, ACK_OK);
+    send_message(s, MSG_ACK, 0x01, ACK_OK);*/
 
 	//Initialize the robot
 	//Capteurs Moteur "Connexion"
@@ -43,9 +43,12 @@ int main(int argc, char *argv[])
     //Initialize connexion
 
 
-    //testRobot();
+    //tests dev in progress
     init_robot();
     grab(s,300);
+    sleep(2);
+    release(s, 300);
+
 	//Initialize the "trip"
 
 	//ACTION
