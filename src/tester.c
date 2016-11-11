@@ -4,9 +4,80 @@
 #include "ev3c.h"
 #include "tester.h"
 
+/**
+ * Theoretical max speed 1560 counts/s for the small motor
+ */
+/*
+int grab(int absoluteposition, int speed)
+{
+	ev3_motor_ptr a;
+	ev3_motor_ptr motors = ev3_load_motors();
+
+	FILE* fp = fopen("logs/motortest.txt", "w");
+
+	a = ev3_search_motor_by_port(motors, 'A');
+	ev3_open_motor(a);
+	for(int i=0;i<2;i++){
+		if(i==1) {
+			speed=-speed;
+			absoluteposition=-absoluteposition;
+		}
+		ev3_reset_motor(a);
+		ev3_set_speed_sp( a, -1*speed );
+		ev3_set_position_sp(a, absoluteposition);
+		ev3_command_motor_by_name(a, "run-to-abs-pos");
+
+		while (ev3_motor_state(a) & MOTOR_RUNNING);
+	}
+	fprintf(fp, "Motor opened\n");
+
+
+
+	ev3_delete_motors(motors);
+
+	fclose(fp);
+
+	return 0;
+}
+
+
+*
+ * Theoretical max speed 1560 counts/s for the small motor
+
+int release(int absoluteposition, int speed)
+{
+	ev3_motor_ptr a;
+	ev3_motor_ptr motors = ev3_load_motors();
+
+	FILE* fp = fopen("logs/motortest.txt", "w");
+
+	a = ev3_search_motor_by_port(motors, 'A');
+	ev3_open_motor(a);
+	for(int i=0;i<2;i++){
+		if(i==1) {
+			speed=-speed;
+			absoluteposition=-absoluteposition;
+		}
+		ev3_reset_motor(a);
+		ev3_set_speed_sp( a, -1*speed );
+		ev3_set_position_sp(a, absoluteposition);
+		ev3_command_motor_by_name(a, "run-to-abs-pos");
+
+		while (ev3_motor_state(a) & MOTOR_RUNNING);
+	}
+	fprintf(fp, "Motor opened\n");
+
+
+
+	ev3_delete_motors(motors);
+
+	fclose(fp);
+
+	return 0;
+}
+
 int testRobot()
 {
-	//	ev3_motor_ptr a, b, c;
 	ev3_motor_ptr motors = ev3_load_motors();
 	ev3_motor_ptr motor = motors;
 
@@ -23,24 +94,15 @@ int testRobot()
 		fprintf(fp, "Motor opened\n");
 	}
 	sleep(3);
-	/*
-    a = ev3_search_motor_by_port(motors, 'A');
-    b = ev3_search_motor_by_port(motors, 'B');
-    c = ev3_search_motor_by_port(motors, 'C');
 
-
-    ev3_command_motor_by_name(b, "run-forever");
-    ev3_command_motor_by_name(c, "run-forever");
-
-    sleep(5);
-
-    ev3_stop_command_motor_by_name(a, "hold");
-    ev3_stop_command_motor_by_name(b, "hold");
-    ev3_stop_command_motor_by_name(c, "hold");
-	 */
 	ev3_delete_motors(motors);
 
 	fclose(fp);
 
 	return 0;
 }
+*/
+
+
+
+

@@ -10,6 +10,17 @@
 
 //Robot constants
 
+//Ports of motors
+#define PORT_LEFT_MOTOR "D"
+#define PORT_RIGHT_MOTOR "B"
+#define PORT_GRAB_MOTOR "A"
+#define PORT_SWEEP_MOTOR "D"
+
+//Grabing constants
+#define GRAB_POSITION 1000
+#define INIT_GRAB_POSITION 0
+
+
 //Positions of of fixed elements
 #define CENTER_POSITION 0
 #define MAX_WIDTH_POSITION 120

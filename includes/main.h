@@ -16,6 +16,13 @@ typedef struct _state
 	int pos[2];
 	int angle;
 
+	/* Motors */
+	ev3_motor_ptr motors;
+	ev3_motor_ptr leftmotor;
+	ev3_motor_ptr rightmotor;
+	ev3_motor_ptr grabmotor;
+	ev3_motor_ptr sweepmotor;
+
     int msgId;
     int msgAck;
 

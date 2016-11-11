@@ -2,6 +2,8 @@
 #include <stdlib.h>
 
 #include "main.h"
+
+#include "../includes/motors.h"
 #include "logger.h"
 #include "ev3c.h"
 #include "utils.h"
@@ -18,9 +20,10 @@ void nice_exit(state *s, int exitState)
 
     if (s->logfile_fd > 0)
         close_logger(s);
-
+    ev3_delete_motors(s->motors);
     exit(exitState);
 }
+
 
 int main(int argc, char *argv[])
 {
@@ -41,7 +44,8 @@ int main(int argc, char *argv[])
 
 
     //testRobot();
-
+    init_robot();
+    grab(s,300);
 	//Initialize the "trip"
 
 	//ACTION
