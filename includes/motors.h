@@ -8,6 +8,8 @@
 #ifndef INCLUDES_MOTORS_H_
 #define INCLUDES_MOTORS_H_
 
+#include "main.h"
+
 void init_motors(state * s);
 int grab(state * s, int speed);
 int release(state * s, int speed);
