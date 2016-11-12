@@ -3,10 +3,10 @@
 
 #include "main.h"
 
-#include "../includes/motors.h"
 #include "logger.h"
 #include "ev3c.h"
 #include "utils.h"
+#include "motors.h"
 
 state st;
 state* s = &st;
@@ -44,7 +44,7 @@ int main(int argc, char *argv[])
 
 
     //tests dev in progress
-    init_robot();
+    init_motors(s);
     grab(s,300);
     sleep(2);
     release(s, 300);
