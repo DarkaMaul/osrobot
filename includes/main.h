@@ -2,6 +2,7 @@
 #define MAIN_H
 
 #include <stdio.h>
+#include "ev3c.h"
 
 typedef struct _state
 {
