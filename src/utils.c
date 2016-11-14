@@ -246,9 +246,9 @@ char read_from_server(state *s, char *buffer)
 
 int load_game_params(state *s, char *buffer)
 {
-    s.role = buffer[5];
-    s.side = buffer[6];
-    s.ally = buffer[7];
+    s->role = buffer[5];
+    s->side = buffer[6];
+    s->ally = buffer[7];
 
     return 1;
 }
