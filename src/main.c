@@ -34,13 +34,15 @@ int main(int argc, char *argv[])
     /*s->sock = init_inet(s);
     if (s->sock == -1)
         nice_exit(s, EXIT_FAILURE);
-
-    //send_message(s, MSG_NEXT);
-    //send_message(s, MSG_ACK, SERVER_ID, 0x1234, ACK_OK);
-    //char buffer[MSG_MAX_LEN];
-    //char type = read_from_server(s, buffer);
-
     */
+
+    char buffer[MSG_MAX_LEN];
+    char messageType = read_from_server(s, buffer);
+
+    //Load game params (side, role, ally)
+    if (messageType == MSG_START)
+        load_game_params(s, buffer);
+
 
 	//Initialize the robot
 	//Capteurs Moteur "Connexion"

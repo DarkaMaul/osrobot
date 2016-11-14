@@ -27,6 +27,11 @@ typedef struct _state
     int msgId;
     int msgAck;
 
+    /* Game */
+    int role;
+    int side;
+    int ally;
+
 } state;
 
 void nice_exit(state *s, int exitState);
