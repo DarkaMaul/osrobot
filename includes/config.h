@@ -21,6 +21,9 @@
 #define MAX_GRABBING_SPEED 1050
 #define INIT_GRAB_POSITION 0
 
+//Wheel motors constants
+#define MAX_WHEEL_SPEED 1050
+
 
 //Positions of of fixed elements
 #define CENTER_POSITION 0
