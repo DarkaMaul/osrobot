@@ -45,9 +45,9 @@ int main(int argc, char *argv[])
 
     //tests dev in progress
     init_motors(s);
-    grab(s,300);
+    grab(s,MAX_GRABBING_SPEED);
     sleep(2);
-    release(s, 300);
+    release(s, MAX_GRABBING_SPEED);
 
 	//Initialize the "trip"
 
