@@ -7,6 +7,7 @@
 #include "ev3c.h"
 #include "utils.h"
 #include "motors.h"
+//#include "config.h"
 
 state st;
 state* s = &st;
@@ -20,35 +21,35 @@ void nice_exit(state *s, int exitState)
 
     if (s->logfile_fd > 0)
         close_logger(s);
+
     ev3_delete_motors(s->motors);
     exit(exitState);
 }
-
 
 int main(int argc, char *argv[])
 {
 	//Initialize external ressources
 	init_logger(s);
 
-    /*s->sock = init_inet(s);
+    s->sock = init_inet(s);
     if (s->sock == -1)
         nice_exit(s, EXIT_FAILURE);
 
-    send_message(s, MSG_NEXT);
-    send_message(s, MSG_ACK, 0x01, ACK_OK);*/
+//    send_message(s, MSG_NEXT);
+    send_message(s, MSG_ACK, SERVER_ID, 0x1234, ACK_OK);
 
 	//Initialize the robot
 	//Capteurs Moteur "Connexion"
 
     //Initialize connexion
 
-
+/*
     //tests dev in progress
     init_motors(s);
     grab(s,300);
     sleep(2);
     release(s, 300);
-
+*/
 	//Initialize the "trip"
 
 	//ACTION
