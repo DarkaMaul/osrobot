@@ -37,6 +37,10 @@ test/*
 *~
 /.project
 
+#Debug files
+.gdb_history
+peda*
+
 #Private git file
 .gitconfig
 .metadata
