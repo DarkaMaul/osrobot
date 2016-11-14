@@ -45,11 +45,12 @@ int main(int argc, char *argv[])
 
 
     //tests dev in progress
-    init_motors(s);
-    grab(s,MAX_GRABBING_SPEED);
-    sleep(2);
-    release(s, MAX_GRABBING_SPEED);
-
+	/*init_motors(s);
+	grab(s,MAX_GRABBING_SPEED);
+	sleep(2);
+	release(s, MAX_GRABBING_SPEED);*/
+	init_pos(s);
+	go_straight(s, 300, 1000);
 	//Initialize the "trip"
 
 	//ACTION
