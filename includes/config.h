@@ -17,7 +17,8 @@
 #define PORT_SWEEP_MOTOR "D"
 
 //Grabing constants
-#define GRAB_POSITION 1000
+#define GRAB_POSITION 18
+#define MAX_GRABBING_SPEED 1050
 #define INIT_GRAB_POSITION 0
 
 
