@@ -67,3 +67,24 @@ int release(state *s, int speed)
 	//log_this(s, "Motor %i on port %c opened, assigned and reseted\n", motor->motor_nr, motor->port);
 	return 0;
 }
+/*
+ * TODO Function that will be used to go to a specified position
+ *
+ */
+int go_to_pos(state *s,int *desiredposition){
+	while((s->pos[0]!=desiredposition[0])&&(s->pos[1]!=desiredposition[1])){
+
+	}
+	return 0;
+}
+/**
+ * Go straightforward at a specified distance with specified speed
+ */
+int go_straight(state *s,int speed, int distance){
+	ev3_set_speed_sp(s->leftmotor, speed);
+	ev3_set_speed_sp(s->rightmotor, speed);
+	ev3_set_position_sp(s->grabmotor, distance);
+	ev3_command_motor_by_name(s->grabmotor, "run-to-abs-pos");
+	while (ev3_motor_state(s->grabmotor) & MOTOR_RUNNING);
+	return 0;
+}
