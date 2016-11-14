@@ -21,17 +21,17 @@ void nice_exit(state *s, int exitState)
 
     if (s->logfile_fd > 0)
         close_logger(s);
-
     ev3_delete_motors(s->motors);
     exit(exitState);
 }
+
 
 int main(int argc, char *argv[])
 {
 	//Initialize external ressources
 	init_logger(s);
 
-    s->sock = init_inet(s);
+    /*s->sock = init_inet(s);
     if (s->sock == -1)
         nice_exit(s, EXIT_FAILURE);
 
@@ -40,18 +40,21 @@ int main(int argc, char *argv[])
     //char buffer[MSG_MAX_LEN];
     //char type = read_from_server(s, buffer);
 
+    */
+
 	//Initialize the robot
 	//Capteurs Moteur "Connexion"
 
     //Initialize connexion
 
-/*
+
+    /*
     //tests dev in progress
     init_motors(s);
-    grab(s,300);
+    grab(s,MAX_GRABBING_SPEED);
     sleep(2);
-    release(s, 300);
-*/
+    release(s, MAX_GRABBING_SPEED);
+    */
 	//Initialize the "trip"
 
 	//ACTION

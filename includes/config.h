@@ -17,7 +17,8 @@
 #define PORT_SWEEP_MOTOR "D"
 
 //Grabing constants
-#define GRAB_POSITION 1000
+#define GRAB_POSITION 18
+#define MAX_GRABBING_SPEED 1050
 #define INIT_GRAB_POSITION 0
 
 
@@ -42,7 +43,7 @@
 #define ACK_OK 0
 #define ACK_NOK 1
 #define HEADER_SIZE 5
-#define MSG_MAX_LEN 60 //58?
+#define MSG_MAX_LEN 58 //58?
 
 #define HEADER_ID0  0
 #define HEADER_ID1  1

@@ -74,17 +74,6 @@ void close_inet(state *s)
 }
 
 /**
- * Convert an uint16 to byte in little endian
- * @param id     Unsigned int to convert
- * @param bytes Char* to hold the result (bytes+1 is the most significant byte)
- */
-void uint_to_bytes(uint16_t id, char bytes[2])
-{
-    bytes[1] = (id >> 8) & 0xff;
-    bytes[0] = id & 0xff;
-}
-
-/**
  * Send a message to the destination
  * @param  s           State structure
  * @param  messageType Message type (must be in MSG_* constants)
@@ -107,8 +96,8 @@ int send_message(state *s, int messageType, int destination, ...)
 
     char message[MSG_MAX_LEN];
     int messageLength = 0;
-    char bytes[2];
 
+<<<<<<< HEAD
 
     uint16_t messageId = s->msgId++;
     uint_to_bytes(messageId, bytes);
@@ -118,6 +107,13 @@ int send_message(state *s, int messageType, int destination, ...)
     message[HEADER_SRC] = TEAM_ID;
     message[HEADER_DEST] = destination;
     message[HEADER_TYPE] = messageType;
+=======
+    unsigned int messageId = s->msgId++;
+    *((uint16_t *) message) = messageId;
+    message[2] = TEAM_ID;
+    message[3] = destination;
+    message[4] = messageType;
+>>>>>>> 1c7d72d37077b8e17291af89dd2a037da3b1a6e3
 
     unsigned int ackId;
     int statusCode;
@@ -129,13 +125,10 @@ int send_message(state *s, int messageType, int destination, ...)
         // char* id of the message to acknowledge
         // int ack type
         case MSG_ACK:
-            ackId = va_arg(argumentList, int);
+            ackId = va_arg(argumentList, unsigned int);
             statusCode = va_arg(argumentList, int);
 
-            uint_to_bytes((uint16_t) ackId, bytes);
-
-            message[5] = bytes[0];
-            message[6] = bytes[1];
+            *((uint16_t *) (message+5)) = ackId;
             message[7] = statusCode;
 
             messageLength = MSG_ACK_LEN;
@@ -170,7 +163,7 @@ int send_message(state *s, int messageType, int destination, ...)
     write(s->sock, message, messageLength);
 
     //write(STDOUT_FILENO, message, messageLength);
-    printf("%x %x\n", bytes[0], bytes[1]);
+
     log_this(s, "[Utils] Message of type %d with id %u sended to %d\n", messageType, s->msgId, destination);
 
     return 0;
