@@ -108,6 +108,7 @@ int send_message(state *s, int messageType, int destination, ...)
     char message[MSG_MAX_LEN];
     int messageLength = 0;
 
+    char bytes[2];
     uint16_t messageId = s->msgId++;
     uint_to_bytes(messageId, bytes);
 
@@ -144,7 +145,7 @@ int send_message(state *s, int messageType, int destination, ...)
             log_this(s, "[Utils] No custom messages implemeented yet.\n");
             break;
 
-        case MSG_POSITION
+        case MSG_POSITION:
             position[0] = (uint16_t) va_arg(argumentList, int);
             position[1] = (uint16_t) va_arg(argumentList, int);
 
