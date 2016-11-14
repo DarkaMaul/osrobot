@@ -39,25 +39,6 @@ int init_bluetooth()
 }
 
 /**
- * Read byutes from server
- * @param  s      State structure
- * @param  buffer Where to store the readed bytes
- * @return        Number of bytes read
- */
-int read_from_server(state *s, char *buffer)
-{
-    int readedBytes = read(s->sock, buffer, MSG_MAX_LEN);
-
-    if (readedBytes <= 0)
-    {
-        log_this(s, "[Utils] Impossible to read from server (error code: %d)", readedBytes);
-        return -1;
-    }
-
-    return readedBytes;
-}
-
-/**
  * Init the inet connexion
  * @param  s State structure
  * @return   Socket ID or -1 if there is an error.
@@ -132,11 +113,11 @@ int send_message(state *s, int messageType, int destination, ...)
     uint16_t messageId = s->msgId++;
     uint_to_bytes(messageId, bytes);
 
-    message[0] = bytes[0];
-    message[1] = bytes[1];
-    message[2] = TEAM_ID;
-    message[3] = destination;
-    message[4] = messageType;
+    message[HEADER_ID0] = bytes[0];
+    message[HEADER_ID1] = bytes[1];
+    message[HEADER_SRC] = TEAM_ID;
+    message[HEADER_DEST] = destination;
+    message[HEADER_TYPE] = messageType;
 
     unsigned int ackId;
     int statusCode;
@@ -193,4 +174,76 @@ int send_message(state *s, int messageType, int destination, ...)
     log_this(s, "[Utils] Message of type %d with id %u sended to %d\n", messageType, s->msgId, destination);
 
     return 0;
+}
+
+/**
+ * Read a message from the server
+ * 
+ * @param  s      State structure
+ * @param  buffer Where to store the readed bytes
+ * @return char   Message type
+ * @todo !!!
+ */
+char read_from_server(state *s, char *buffer)
+{
+    int readedBytes = read(s->sock, buffer, MSG_MAX_LEN);
+
+    log_this(s, "[Utils] Waiting for input from the server.\n");
+
+    if (readedBytes <= 0)
+    {
+        log_this(s, "[Utils] Server closed the connexion unexpectedly (readedBytes: %d).\n", readedBytes);
+        return -1;
+    }
+/*
+    if (buffer[HEADER_DEST] != (TEAM_ID & 0xFF))
+    {
+        log_this(s, "[Utils] Recieved a message for an other team (%d)\n", (int) buffer[HEADER_DEST]);
+        return -2;
+    }
+
+    if (buffer[HEADER_SRC] != SERVER_ID)
+    {
+        log_this(s, "[Utils] Recieved a message something that is not the server (%d)! \n", buffer[HEADER_SRC]);
+        return -2;
+    }
+
+    if (readedBytes < HEADER_SIZE)
+    {
+        log_this(s, "[Utils] Message malformed (header size is less %d/5)! \n", readedBytes);
+        return -2;
+    }
+    */
+
+    int expectedMessageLength;
+    switch (buffer[HEADER_TYPE])
+    {
+        case MSG_START:
+            expectedMessageLength = 7;
+            break;
+
+        case MSG_STOP:
+            expectedMessageLength = 5;
+            break;
+
+        case MSG_CUSTOM:
+            expectedMessageLength = MSG_MAX_LEN;
+            break;
+
+        case MSG_KICK:
+            expectedMessageLength = 6;
+            break;
+
+        default:
+            log_this(s, "[Utils] Unknow message type (%c)! \n, ", buffer[HEADER_TYPE]);
+            return -2;
+    }
+
+    if (readedBytes < expectedMessageLength && buffer[HEADER_TYPE] != MSG_CUSTOM)
+    {
+        log_this(s, "[Utils] Message malformed (type was %d (expect %d) and size was %d).\n", buffer[HEADER_TYPE], expectedMessageLength, readedBytes);
+        return -2;
+    }
+
+    return buffer[HEADER_TYPE];
 }

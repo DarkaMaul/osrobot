@@ -5,7 +5,7 @@
 #define LOGFILE "logs/log.txt"
 
 //Team constants
-#define TEAM_ID 1
+#define TEAM_ID 0x01
 #define SERVER_ID 0XFF
 
 //Robot constants
@@ -43,6 +43,12 @@
 #define ACK_NOK 1
 #define HEADER_SIZE 5
 #define MSG_MAX_LEN 60 //58?
+
+#define HEADER_ID0  0
+#define HEADER_ID1  1
+#define HEADER_SRC  2
+#define HEADER_DEST 3
+#define HEADER_TYPE 4
 
 #define SERV_ADDR ""
 #define TEST_SERV_ADDR "127.0.0.1"
