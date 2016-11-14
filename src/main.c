@@ -7,6 +7,7 @@
 #include "ev3c.h"
 #include "utils.h"
 #include "motors.h"
+//#include "config.h"
 
 state st;
 state* s = &st;
