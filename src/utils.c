@@ -255,7 +255,9 @@ char read_from_server(state *s, char *buffer)
  */
 int load_game_params(state *s, char *buffer)
 {
-    if (buffer[5] == ROLE_FIRST || buffer[5] == ROLE_SECOND)
+    s->role = s->side = s->ally = -1;
+
+    if (buffer[5] == ROLE_FIRST || buffer[5] == ROLE_SECOND)
         s->role = buffer[5];
 
     if (buffer[6] == SIDE_RIGHT || buffer[6] == SIDE_LEFT)
