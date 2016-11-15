@@ -5,8 +5,10 @@
 #define LOGFILE "logs/log.txt"
 
 //Team constants
-#define TEAM_ID 0x01
-#define SERVER_ID 0XFF
+#define TEAM_ID 1
+#define SERVER_ID 255
+#define SERV_ADDR ""
+#define TEST_SERV_ADDR "127.0.0.1"
 
 //Robot constants
 
@@ -51,7 +53,12 @@
 #define HEADER_DEST 3
 #define HEADER_TYPE 4
 
-#define SERV_ADDR ""
-#define TEST_SERV_ADDR "127.0.0.1"
+#define NOT_FOR_ME -3
+
+//Game constants
+#define ROLE_FIRST 0
+#define ROLE_SECOND 1
+#define SIDE_RIGHT 0
+#define SIDE_LEFT 1
 
 #endif

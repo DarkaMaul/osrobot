@@ -191,16 +191,16 @@ char read_from_server(state *s, char *buffer)
         log_this(s, "[Utils] Server closed the connexion unexpectedly (readedBytes: %d).\n", readedBytes);
         return -1;
     }
-/*
-    if (buffer[HEADER_DEST] != (TEAM_ID & 0xFF))
+
+    if (buffer[HEADER_DEST] != TEAM_ID)
     {
         log_this(s, "[Utils] Recieved a message for an other team (%d)\n", (int) buffer[HEADER_DEST]);
-        return -2;
+        return NOT_FOR_ME;
     }
 
     if (buffer[HEADER_SRC] != SERVER_ID)
     {
-        log_this(s, "[Utils] Recieved a message something that is not the server (%d)! \n", buffer[HEADER_SRC]);
+        log_this(s, "[Utils] Recieved a message someone that is not the server (%d)! \n", buffer[HEADER_SRC]);
         return -2;
     }
 
@@ -209,11 +209,14 @@ char read_from_server(state *s, char *buffer)
         log_this(s, "[Utils] Message malformed (header size is less %d/5)! \n", readedBytes);
         return -2;
     }
-    */
 
     int expectedMessageLength;
     switch (buffer[HEADER_TYPE])
     {
+        case MSG_ACK:
+            expectedMessageLength = 8;
+            break;
+
         case MSG_START:
             expectedMessageLength = 7;
             break;
@@ -244,11 +247,28 @@ char read_from_server(state *s, char *buffer)
     return buffer[HEADER_TYPE];
 }
 
+/**
+ * Parse the START message to load the game parameters
+ * @param  s      State structure
+ * @param  buffer Raw message
+ * @return        0 in case of success | -1 otherwise
+ */
 int load_game_params(state *s, char *buffer)
 {
-    s->role = buffer[5];
-    s->side = buffer[6];
-    s->ally = buffer[7];
+    if (buffer[5] == ROLE_FIRST || buffer[5] == ROLE_SECOND)
+        s->role = buffer[5];
 
-    return 1;
+    if (buffer[6] == SIDE_RIGHT || buffer[6] == SIDE_LEFT)
+        s->side = buffer[6];
+
+    if (buffer[7] > 0 && buffer[7] < 254)
+        s->ally = buffer[7];
+
+    if (!s->role || s->side || s->ally)
+    {
+        log_this(s, "[Utils] Error while defining game constants in load_game_params(%d, %d, %d).\n", buffer[5], buffer[6], buffer[7]);
+        return -1;
+    }
+
+    return 0;
 }
