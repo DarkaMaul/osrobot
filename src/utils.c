@@ -80,8 +80,8 @@ void close_inet(state *s)
 */
 void uint_to_bytes(uint16_t id, char bytes[2])
 {
-bytes[1] = (id >> 8) & 0xff;
-bytes[0] = id & 0xff;
+    bytes[1] = (id >> 8) & 0xff;
+    bytes[0] = id & 0xff;
 }
 
 /**
