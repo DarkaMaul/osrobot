@@ -24,8 +24,8 @@ typedef struct _state
 	ev3_motor_ptr grabmotor;
 	ev3_motor_ptr sweepmotor;
 
-    int msgId;
-    int msgAck;
+    uint16_t msgId;
+	uint16_t msgAck;
 
     /* Game */
     int role;
