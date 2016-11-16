@@ -34,36 +34,38 @@ int main(int argc, char *argv[])
     /*s->sock = init_inet(s);
     if (s->sock == -1)
         nice_exit(s, EXIT_FAILURE);
+    */
+    //
+    // char buffer[MSG_MAX_LEN];
+    // char messageType = read_from_server(s, buffer);
 
-    //send_message(s, MSG_NEXT);
-    //send_message(s, MSG_ACK, SERVER_ID, 0x1234, ACK_OK);
-    //char buffer[MSG_MAX_LEN];
-    //char type = read_from_server(s, buffer);
-
+    //Waiting for the game to start. Ignore all messages not directed to our team.
+    /*
+    while (messageType != MSG_START)
+    {
+        if (messageType == NOT_FOR_ME)
+            messageType = read_from_server(s, buffer);
+        else
+            nice_exit(s, EXIT_FAILURE);
+    }
     */
 
-	//Initialize the robot
-	//Capteurs Moteur "Connexion"
-
-    //Initialize connexion
-
+    // //Try to parse start message to load the game parameters
+    // int returnCode;
+    // if (messageType == MSG_START)
+    // {
+    //     returnCode = load_game_params(s, buffer);
+    //     if (returnCode != 0)
+    //         nice_exit(s, EXIT_FAILURE);
+    // }
 
     /*
     //tests dev in progress
-<<<<<<< HEAD
-	/*init_motors(s);
-	grab(s,MAX_GRABBING_SPEED);
-	sleep(2);
-	release(s, MAX_GRABBING_SPEED);*/
-	init_pos(s);
-	go_straight(s, 300, 1000);
-=======
     init_motors(s);
     grab(s,MAX_GRABBING_SPEED);
     sleep(2);
     release(s, MAX_GRABBING_SPEED);
     */
->>>>>>> branch 'master' of git@github.com:DarkaMaul/osrobot.git
 	//Initialize the "trip"
 
 	//ACTION
