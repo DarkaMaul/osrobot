@@ -21,5 +21,6 @@ int wheels_run_time(state *s, int speed, int time);
 int wheels_run_pos(state *s, int speed, int pos);
 int go_to_position(state * s, int speed);
 int go_straight(state *s,int speed, int distance);
+int turn_to_desired_angle(state *s,int angle);
 
 #endif /* INCLUDES_MOTORS_H_ */

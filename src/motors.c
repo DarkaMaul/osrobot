@@ -1,16 +1,13 @@
-/*
- * init.c
- *
- *  Created on: 11 nov. 2016
- *      Author: axel
- */
 #include "motors.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdarg.h>
+#include <math.h>
+
 
 #include "logger.h"
 #include "config.h"
+#include "utils.h"
 
 #define FILENAME "motors.c :"
 
@@ -31,6 +28,9 @@ void init_motors(state *s){
         motor = motor->next;
     }
     ev3_stop_command_motor_by_name(s->grabmotor, "hold");
+
+    init_pos(s);
+    log_this(s, "Position initialized to x:%i, y:%i\n", FILENAME,s->pos[0],s->pos[1]);
 }
 
 //Grabbing functions
@@ -102,6 +102,7 @@ void set_wheels_pos(state *s, int pos){
 void command_wheels(state *s, int cmd){
     ev3_command_motor(s->leftmotor, cmd);
     ev3_command_motor(s->rightmotor, cmd);
+    while (ev3_motor_state(s->leftmotor) & MOTOR_RUNNING);
 }
 
 /*
@@ -135,18 +136,29 @@ int wheels_run_pos(state *s, int speed, int pos){
 int go_straight(state *s, int speed, int distance){
     log_this(s, "%s Going Straight for %d cm...", FILENAME, distance);
     // deduce the angle from the given distance :
-    int position = (distance*360)/(PI*WHEEL_DIAMETER);// wheels have diameter 5.6 cm
+    int position = (distance*360)/(M_PI*WHEEL_DIAMETER);// wheels have diameter 5.6 cm
     return wheels_run_pos(s, speed, position);
 }
 
 
 /*
  * TODO Function that will be used to go to a specified position
- *
+ * First version go straight to the position ignoring obstacles
  */
 int go_to_pos(state *s,int *desiredposition){
-    while((s->pos[0]!=desiredposition[0])&&(s->pos[1]!=desiredposition[1])){
-
-    }
+    //while((s->pos[0]!=desiredposition[0])&&(s->pos[1]!=desiredposition[1])){
+    int distancetodest=compute_distance(desiredposition);
+    int angletodest=compute_angle(desiredposition);
+    turn_to_desired_angle(s, angletodest);
+    go_straight(s, MAX_WHEEL_SPEED, distancetodest);
+    //}
+    update_pos(s, desiredposition, angletodest);
     return 0;
+}
+/**
+ * TODO
+ * Function that will be used to turn the robot to the desired angle
+ */
+int turn_to_desired_angle(state *s,int angle){
+	return 0;
 }
