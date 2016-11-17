@@ -149,7 +149,7 @@ int go_to_pos(state *s,int *desiredposition){
     //while((s->pos[0]!=desiredposition[0])&&(s->pos[1]!=desiredposition[1])){
     int distancetodest=computedistance(desiredposition);
     int angletodest=computeangle(desiredposition);
-    turn_to_desired_angle(s);
+    turn_to_desired_angle(s, angletodest);
     go_straight(s, MAX_WHEEL_SPEED, distancetodest);
     //}
     update_pos(s, desiredposition, angletodest);
@@ -159,6 +159,6 @@ int go_to_pos(state *s,int *desiredposition){
  * TODO
  * Function that will be used to turn the robot to the desired angle
  */
-int turn_to_desired_angle(int angle){
+int turn_to_desired_angle(state *s,int angle){
 	return 0;
 }
