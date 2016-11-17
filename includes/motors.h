@@ -16,7 +16,7 @@ int release(state * s, int speed);
 void set_wheels_speed(state *s, int speed);
 void set_wheels_time(state *s, int time);
 void set_wheels_pos(state *s, int pos);
-void command_wheels(*s, int cmd);
+void command_wheels(state *s, int cmd);
 int wheels_run_time(state *s, int speed, int time);
 int wheels_run_pos(state *s, int speed, int pos);
 int go_to_position(state * s, int speed);

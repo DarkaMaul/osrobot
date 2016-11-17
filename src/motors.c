@@ -76,67 +76,67 @@ int release(state *s, int speed)
 //Wheels control functions
 
 /*
-* Functions to set up both wheels at the same time
-*/
+ * Functions to set up both wheels at the same time
+ */
 void set_wheels_speed(state *s, int speed){
-    ev3_set_speed_sp(s->leftmotor, speed);
-    ev3_set_speed_sp(s->rightmotor, speed);
-    log_this(s, "%s Wheels' speed set to %d \n", FILENAME, speed);
+	ev3_set_speed_sp(s->leftmotor, speed);
+	ev3_set_speed_sp(s->rightmotor, speed);
+	log_this(s, "%s Wheels' speed set to %d \n", FILENAME, speed);
 }
 
 void set_wheels_time(state *s, int time){
-    ev3_set_time_sp(s->leftmotor, time);
-    ev3_set_time_sp(s->rightmotor, time);
-    log_this(s, "%s Wheels' time set to %d \n", FILENAME, time);
+	ev3_set_time_sp(s->leftmotor, time);
+	ev3_set_time_sp(s->rightmotor, time);
+	log_this(s, "%s Wheels' time set to %d \n", FILENAME, time);
 }
 
 void set_wheels_pos(state *s, int pos){
-    ev3_set_position_sp(s->leftmotor, pos);
-    ev3_set_position_sp(s->rightmotor, pos);
-    log_this(s, "%s Wheels' position set to %d \n", FILENAME, pos);
+	ev3_set_position_sp(s->leftmotor, pos);
+	ev3_set_position_sp(s->rightmotor, pos);
+	log_this(s, "%s Wheels' position set to %d \n", FILENAME, pos);
 }
 
 /*
-* Function to command both wheels at the same time
-*/
-void command_wheels(*s, int cmd){
-    ev3_command_motor(s->leftmotor, cmd);
-    ev3_command_motor(s->rightmotor, cmd);
+ * Function to command both wheels at the same time
+ */
+void command_wheels(state *s, int cmd){
+	ev3_command_motor(s->leftmotor, cmd);
+	ev3_command_motor(s->rightmotor, cmd);
 }
 
 /*
-* Function to go for a given time at a given speed
-*/
+ * Function to go for a given time at a given speed
+ */
 int wheels_run_time(state *s, int speed, int time){
-    log_this(s, "%s Wheels running for %d s ...", FILEMNAME, time);
-    set_wheels_speed(*s, speed);  
-    set_wheels_time(*s, time);
-    command_wheels(*s, RUN_TIMED);
-    log_this(s, "Done\n");
-    return 0;
+	log_this(s, "%s Wheels running for %d s ...", FILENAME, time);
+	set_wheels_speed(s, speed);
+	set_wheels_time(s, time);
+	command_wheels(s, RUN_TIMED);
+	log_this(s, "Done\n");
+	return 0;
 }
 
 
 /*
-* Function to go a given distance at a given speed
-*/
+ * Function to go a given distance at a given speed
+ */
 int wheels_run_pos(state *s, int speed, int pos){
-    log_this(s, "%s Wheels running to relative position %d...", FILENAME, pos);
-    set_wheels_speed(*s, speed);
-    set_wheels_pos(*s, pos);
-    command_wheels(*s, RUN_TO_REL_POS);
-    log_this(s, "Done\n");
-    return 0;
+	log_this(s, "%s Wheels running to relative position %d...", FILENAME, pos);
+	set_wheels_speed(s, speed);
+	set_wheels_pos(s, pos);
+	command_wheels(s, RUN_TO_REL_POS);
+	log_this(s, "Done\n");
+	return 0;
 }
 
 /*
-* Function to go straight
-*/
+ * Function to go straight
+ */
 int go_straight(state *s, int speed, int distance){
-    log_this(s, "%s Going Straight for %d cm...", FILENAME, distance);
-    // deduce the angle from the given distance :
-    int position = (distance*360)/(PI*WHEEL_DIAMETER);// wheels have diameter 5.6 cm
-    return wheels_run_pos(*s, speed, position);
+	log_this(s, "%s Going Straight for %d cm...", FILENAME, distance);
+	// deduce the angle from the given distance :
+	int position = (distance*360)/(PI*WHEEL_DIAMETER);// wheels have diameter 5.6 cm
+	return wheels_run_pos(s, speed, position);
 }
 
 
