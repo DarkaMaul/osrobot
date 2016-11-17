@@ -147,8 +147,8 @@ int go_straight(state *s, int speed, int distance){
  */
 int go_to_pos(state *s,int *desiredposition){
     //while((s->pos[0]!=desiredposition[0])&&(s->pos[1]!=desiredposition[1])){
-    int distancetodest=computedistance(desiredposition);
-    int angletodest=computeangle(desiredposition);
+    int distancetodest=compute_distance(desiredposition);
+    int angletodest=compute_angle(desiredposition);
     turn_to_desired_angle(s, angletodest);
     go_straight(s, MAX_WHEEL_SPEED, distancetodest);
     //}
