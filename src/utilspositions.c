@@ -13,6 +13,7 @@
 #include "config.h"
 #include "logger.h"
 #include "utils.h"
+#include "math.h"
 
 void update_pos(state* s, int * pos, int angle) {
 	//s->pos=pos; CAREFUL s->pos is int[2]
@@ -25,10 +26,18 @@ void init_pos(state *s){
 	s->angle=0;
 }
 
-//DO you really want int for angles  ??
 int clean_angle(int angle) {
 	while (angle < 0) {
 		angle = angle + 360;
 	}
 	return angle % 360;
 }
+
+int computedistance(int * desiredposition){
+	return (int) floor(sqrt(pow(desiredposition[0],2)+pow(desiredposition[1],2)));
+}
+
+int computeangle(int * desiredposition){
+	return (int) floor(atan2(desiredposition[0],desiredposition[1]));
+}
+
