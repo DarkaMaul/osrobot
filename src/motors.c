@@ -106,6 +106,7 @@ void set_wheels_pos(state *s, int pos){
 void command_wheels(state *s, int cmd){
     ev3_command_motor(s->leftmotor, cmd);
     ev3_command_motor(s->rightmotor, cmd);
+    while (ev3_motor_state(s->leftmotor) & MOTOR_RUNNING);
 }
 
 /*
