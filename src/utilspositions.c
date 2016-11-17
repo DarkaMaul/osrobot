@@ -8,12 +8,13 @@
 #include <stdio.h>
 #include <unistd.h>
 #include <stdarg.h>
+#include <math.h>
 
 #include "main.h"
 #include "config.h"
 #include "logger.h"
 #include "utils.h"
-#include "math.h"
+
 
 void update_pos(state* s, int * pos, int angle) {
 	//s->pos=pos; CAREFUL s->pos is int[2]
