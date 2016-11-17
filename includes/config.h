@@ -12,11 +12,25 @@
 
 //Robot constants
 
+//Motors commands
+#define RUN_FOREVER 0
+#define RUN_TO_ABS_POS 1
+#define RUN_TO_REL_POS 2
+#define RUN_TIMED 3
+#define RUN_DIRECT 4
+#define STOP 5
+#define RESET 6
+
+//Motors stop actions
+#define COAST 0
+#define BRAKE 1
+#define HOLD 2
+
 //Ports of motors
 #define PORT_LEFT_MOTOR "D"
-#define PORT_RIGHT_MOTOR "B"
-#define PORT_GRAB_MOTOR "A"
-#define PORT_SWEEP_MOTOR "D"
+#define PORT_RIGHT_MOTOR "A"
+#define PORT_GRAB_MOTOR "B"
+#define PORT_SWEEP_MOTOR "C"
 
 //Grabing constants
 #define GRAB_POSITION 18
@@ -25,7 +39,7 @@
 
 //Wheel motors constants
 #define MAX_WHEEL_SPEED 1050
-
+#define WHEEL_DIAMETER 2.8
 
 //Positions of of fixed elements
 #define CENTER_POSITION 0
