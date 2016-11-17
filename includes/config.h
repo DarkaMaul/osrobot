@@ -4,9 +4,6 @@
 //Logger configuration
 #define LOGFILE "logs/log.txt"
 
-//Math constant
-#define PI 3.14159265358979323846
-
 //Team constants
 #define TEAM_ID 1
 #define SERVER_ID 255
