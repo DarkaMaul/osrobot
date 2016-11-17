@@ -24,6 +24,13 @@ typedef struct _state
 	ev3_motor_ptr grabmotor;
 	ev3_motor_ptr sweepmotor;
 
+    //Sensors
+    ev3_sensor_ptr sensors;
+    ev3_sensor_ptr color;
+    ev3_sensor_ptr gyro;
+    ev3_sensor_ptr sonar;
+    ev3_sensor_ptr compass;
+
     uint16_t msgId;
 	uint16_t msgAck;
 
@@ -33,7 +40,5 @@ typedef struct _state
     int ally;
 
 } state;
-
-void nice_exit(state *s, int exitState);
 
 #endif
