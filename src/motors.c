@@ -159,6 +159,6 @@ int go_to_pos(state *s,int *desiredposition){
  * TODO
  * Function that will be used to turn the robot to the desired angle
  */
-int turn_to_desired_angle(s){
+int turn_to_desired_angle(int angle){
 	return 0;
 }
