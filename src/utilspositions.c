@@ -33,11 +33,11 @@ int clean_angle(int angle) {
 	return angle % 360;
 }
 
-int computedistance(int * desiredposition){
+int compute_distance(int * desiredposition){
 	return (int) floor(sqrt(pow(desiredposition[0],2)+pow(desiredposition[1],2)));
 }
 
-int computeangle(int * desiredposition){
+int compute_angle(int * desiredposition){
 	return (int) floor(atan2(desiredposition[0],desiredposition[1]));
 }
 

@@ -1,9 +1,3 @@
-/*
- * init.c
- *
- *  Created on: 11 nov. 2016
- *      Author: axel
- */
 #include "motors.h"
 #include <stdio.h>
 #include <stdlib.h>
@@ -12,6 +6,7 @@
 #include "logger.h"
 #include "config.h"
 #include "math.h"
+#include "utils.h"
 
 #define FILENAME "motors.c :"
 
