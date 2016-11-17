@@ -35,6 +35,12 @@
 #define PORT_GRAB_MOTOR "C"
 #define PORT_SWEEP_MOTOR "B"
 
+//Sensor's port
+#define PORT_SENSOR_COLOR 4
+#define PORT_SENSOR_GYRO 2
+#define PORT_SENSOR_COMPASS 1
+#define PORT_SENSOR_SONAR 3
+
 //Grabing constants
 #define GRAB_POSITION 18
 #define MAX_GRABBING_SPEED 1050
