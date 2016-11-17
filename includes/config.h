@@ -42,7 +42,7 @@
 
 //Wheel motors constants
 #define MAX_WHEEL_SPEED 1050
-#define WHEEL_DIAMETER 2.8
+#define WHEEL_DIAMETER 5.6
 
 //Positions of of fixed elements
 #define CENTER_POSITION 0
