@@ -19,3 +19,6 @@ int clean_angle(int angle);
 int computedistance(int * desiredposition);
 
 int computeangle(int * desiredposition);
+
+#endif
+
