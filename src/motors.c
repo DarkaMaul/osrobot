@@ -2,10 +2,11 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdarg.h>
+#include <math.h>
+
 
 #include "logger.h"
 #include "config.h"
-#include "math.h"
 #include "utils.h"
 
 #define FILENAME "motors.c :"
