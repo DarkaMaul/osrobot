@@ -32,8 +32,8 @@
 //Ports of motors
 #define PORT_LEFT_MOTOR "D"
 #define PORT_RIGHT_MOTOR "A"
-#define PORT_GRAB_MOTOR "B"
-#define PORT_SWEEP_MOTOR "C"
+#define PORT_GRAB_MOTOR "C"
+#define PORT_SWEEP_MOTOR "B"
 
 //Grabing constants
 #define GRAB_POSITION 18
