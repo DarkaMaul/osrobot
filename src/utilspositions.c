@@ -17,7 +17,8 @@
 
 
 void update_pos(state* s, int * pos, int angle) {
-	//s->pos=pos; CAREFUL s->pos is int[2]
+	s->pos[0]=pos[0];
+	s->pos[1]=pos[1];
 	s->angle = clean_angle(angle); //ADD DECLARATIONS TO UTILS.H
 	log_this(s, "\n[UPDATE_POSITION] x=%d y=%d angle=%d\n", s->pos[0], s->pos[1], s->angle);
 }
@@ -42,3 +43,9 @@ int compute_angle(int * desiredposition){
 	return (int) floor(atan2(desiredposition[0],desiredposition[1]));
 }
 
+int * compute_relative_position(int *actualposition,int *desiredposition){
+	int * result=malloc(sizeof(int)*2);
+	result[0]=abs(actualposition[0]-desiredposition[0]);
+	result[1]=abs(actualposition[1]-desiredposition[1]);
+	return result;
+}

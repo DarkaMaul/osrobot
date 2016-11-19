@@ -18,6 +18,7 @@ void init_pos(state *s);
 int clean_angle(int angle);
 int compute_distance(int * desiredposition);
 int compute_angle(int * desiredposition);
+int* compute_relative_position(int *actualposition,int *desiredposition);
 
 #endif
 
