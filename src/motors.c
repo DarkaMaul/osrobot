@@ -199,4 +199,3 @@ int is_running_in_correct_angle(state *s){
 	}
 	return 0;
 }
-*/
