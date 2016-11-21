@@ -154,7 +154,7 @@ int go_to_pos(state *s,int *desiredposition){
     if((s->pos[0]>desiredposition[0])&&(s->pos[1]>desiredposition[1])) angletodest+=180;
     if((s->pos[0]<desiredposition[0])&&(s->pos[1]>desiredposition[1])) angletodest=180-angletodest;
     if((s->pos[0]>desiredposition[0])&&(s->pos[1]<desiredposition[1])) angletodest=365-angletodest;
-    turn_to_desired_angle(s, angletodest);
+    turn(s, angletodest);
     go_straight(s, MAX_WHEEL_SPEED, distancetodest);
     //}
     update_pos(s, desiredposition, angletodest);
@@ -164,14 +164,34 @@ int go_to_pos(state *s,int *desiredposition){
  * TODO
  * Function that will be used to turn the robot to the desired angle
  */
-int turn_to_desired_angle(state *s,int angle){
-	return 0;
+int sign(int a){
+    return a/abs(a);
 }
+
+
+
+int turn(state *s, int angle){
+    log_this(s, "%s : Turning from %d degrees...", __FILE__, angle );
+    int speed = 50;
+    int angle_sign = sign(angle);
+    speed = speed * angle_sign;
+    int goal = s->gyro->val_data[0].s32 + angle;
+    ev3_set_speed_sp(s->leftmotor, -speed);
+    ev3_set_speed_sp(s->rightmotor, speed);
+    command_wheels(s, RUN_FOREVER);
+    while(angle_sign * s->gyro->val_data[0].s32 > angle_sign * goal);
+    command_wheels(s, STOP);
+    log_this(s,"Done\n");
+    return 0;
+}
+
+
+
 
 /**
  * Fonction to correct
  */
-int correct_position(state *s){
+/*int correct_position(state *s){
 	s->gyro->val_data[0].s32;
 	int actualangle=s->gyro->val_data[0].s32;
 	if(!(s->angle-5<actualangle<s->angle+5)){
@@ -179,3 +199,4 @@ int correct_position(state *s){
 	}
 	return 0;
 }
+*/
