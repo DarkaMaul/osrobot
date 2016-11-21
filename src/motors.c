@@ -169,13 +169,13 @@ int turn_to_desired_angle(state *s,int angle){
 }
 
 /**
- * Fonction to correct
+ * Function to correct the position while moving
  */
-int correct_position(state *s){
-	s->gyro->val_data[0].s32;
+int is_running_in_correct_angle(state *s){
 	int actualangle=s->gyro->val_data[0].s32;
-	if(!(s->angle-5<actualangle<s->angle+5)){
-		return turn(s,s->angle);
+	//+- ERROR_M degrees is ok
+	if(!((s->angle-ERROR_MARGIN<actualangle)||(actualangle<s->angle+ERROR_MARGIN))){
+		return 1;
 	}
 	return 0;
 }

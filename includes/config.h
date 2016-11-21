@@ -11,6 +11,7 @@
 #define TEST_SERV_ADDR "127.0.0.1"
 
 //Robot constants
+#define ERROR_MARGIN 5
 
 //Motors commands
 #define RUN_FOREVER 0
