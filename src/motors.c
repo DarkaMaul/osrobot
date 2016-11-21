@@ -29,7 +29,7 @@ void init_motors(state *s){
     ev3_stop_command_motor_by_name(s->grabmotor, "hold");
 
     init_pos(s);
-    log_this(s, "Position initialized to x:%i, y:%i\n", __FILE__,s->pos[0],s->pos[1]);
+    log_this(s, "%s Position initialized to x:%i, y:%i\n", __FILE__,s->pos[0],s->pos[1]);
 }
 
 //Grabbing functions
