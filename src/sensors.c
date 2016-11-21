@@ -15,7 +15,7 @@ int init_sensors(state *s)
     s->color    = ev3_search_sensor_by_port(s->sensors, PORT_SENSOR_COLOR);
     s->sonar    = ev3_search_sensor_by_port(s->sensors, PORT_SENSOR_SONAR);
     //s->compass  = ev3_search_sensor_by_port(s->sensors, PORT_SENSOR_COMPASS);
-    //s->gyro     = ev3_search_sensor_by_port(s->sensors, PORT_SENSOR_GYRO);
+    s->gyro     = ev3_search_sensor_by_port(s->sensors, PORT_SENSOR_GYRO);
 
     //Configure color sensor
     ev3_open_sensor(s->color);
@@ -25,10 +25,12 @@ int init_sensors(state *s)
     ev3_open_sensor(s->sonar);
     ev3_mode_sensor_by_name(s->sonar, "US-DIST-CM");
 
-    //ev3_open_sensor(s->gyro);
+    ev3_open_sensor(s->gyro);
     //ev3_open_sensor(s->compass);
 
     //@TODO Configure gyro
+    //Configure Gyro in angle
+    ev3_mode_sensor_by_name(s->gyro, "GYRO-ANG");
     //@TODO  Configure compass
 
     return 0;
