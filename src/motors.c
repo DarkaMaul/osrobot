@@ -179,7 +179,9 @@ int turn(state *s, int angle){
     ev3_set_speed_sp(s->leftmotor, -speed);
     ev3_set_speed_sp(s->rightmotor, speed);
     command_wheels(s, RUN_FOREVER);
-    while(angle_sign * s->gyro->val_data[0].s32 < angle_sign * goal);
+    while(angle_sign * s->gyro->val_data[0].s32 < angle_sign * goal){
+        ev3_update_sensor_val(s->gyro);
+    }
     command_wheels(s, STOP);
     log_this(s,"Done\n");
     return 0;
