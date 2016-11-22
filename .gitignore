@@ -31,7 +31,15 @@
 
 #Binarys
 bin/*
+test/*
 
 #Gedit temp file
 *~
 /.project
+
+#Private git file
+.gitconfig
+.metadata
+/.cproject
+.settings/
+Debug/

@@ -11,7 +11,7 @@ LDFLAGS = -lm -lbluetooth -pthread
 
 bin/testOsRobot: ev3c.a $(OBJ_FILES)
 	@mkdir -p $(@D)
-	$(CC) $(CFLAGS) -o $@ $(OBJ_FILES) ev3c/lib/ev3c.a
+	$(CC) $(CFLAGS) -o $@ $(OBJ_FILES) ev3c/lib/ev3c.a $(LDFLAGS)
 
 bin/osRobot: ev3c.a $(OBJ_FILES)
 	@mkdir -p $(@D)

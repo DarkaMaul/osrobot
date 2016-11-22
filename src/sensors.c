@@ -1,37 +1,43 @@
 #include <stdio.h>
-#include <unistd.h>
-
 #include "ev3c.h"
-#include "tester.h"
+#include "sensors.h"
+#include "main.h"
+#include "config.h"
 
-/*
-int test_motors()
+/**
+ * Init the sensors
+ * @param  s State structure
+ * @return   0 in case of success, 1 in case of error
+ */
+int init_sensors(state *s)
 {
-	ev3_motor_ptr motors = ev3_load_motors();
-	ev3_motor_ptr motor = motors;
+    s->sensors = ev3_load_sensors();
+    s->color    = ev3_search_sensor_by_port(s->sensors, PORT_SENSOR_COLOR);
+    s->sonar    = ev3_search_sensor_by_port(s->sensors, PORT_SENSOR_SONAR);
+    //s->compass  = ev3_search_sensor_by_port(s->sensors, PORT_SENSOR_COMPASS);
+    s->gyro     = ev3_search_sensor_by_port(s->sensors, PORT_SENSOR_GYRO);
 
-	FILE* fp = fopen("logs/motortest.txt", "w");
+    //Configure color sensor
+    ev3_open_sensor(s->color);
+    ev3_mode_sensor_by_name(s->color, "COL-COLOR");
 
-	while (motor)
-	{
-		ev3_reset_motor(motor);
+    //Configure sonar sensor
+    ev3_open_sensor(s->sonar);
+    ev3_mode_sensor_by_name(s->sonar, "US-DIST-CM");
 
-		ev3_open_motor(motor);
-		ev3_set_speed_sp( motor, -500 );
-		ev3_command_motor_by_name(motor, "run-forever");
-		motor = motor->next;
-		fprintf(fp, "Motor opened\n");
-	}
-	sleep(3);
+    ev3_open_sensor(s->gyro);
+    //ev3_open_sensor(s->compass);
 
-	ev3_delete_motors(motors);
+    //@TODO Configure gyro
+    //Configure Gyro in angle
+    ev3_mode_sensor_by_name(s->gyro, "GYRO-ANG");
+    //@TODO  Configure compass
 
-	fclose(fp);
-
-	return 0;
+    return 0;
 }
 
-int test_sensors(){
+int testSensor()
+{
 	int i;
 	//Loading all sensors
 	ev3_sensor_ptr sensors = ev3_load_sensors();
@@ -93,8 +99,3 @@ int test_sensors(){
 	ev3_delete_sensors(sensors);
 	return 0;
 }
-*/
-
-
-
-

@@ -2,18 +2,43 @@
 #define MAIN_H
 
 #include <stdio.h>
+#include "ev3c.h"
 
 typedef struct _state
 {
-	/* log file fd */
+	//External ressources needed
+	//Log file
 	FILE * logfile_fd;
+
+    //Socket
+    int sock;
+
 	/* Position of the robot */
 	int pos[2];
 	int angle;
 
-    //Bluetooth
-    int sock;
-    int lastAck;
+	/* Motors */
+	ev3_motor_ptr motors;
+	ev3_motor_ptr leftmotor;
+	ev3_motor_ptr rightmotor;
+	ev3_motor_ptr grabmotor;
+	ev3_motor_ptr sweepmotor;
+
+    //Sensors
+    ev3_sensor_ptr sensors;
+    ev3_sensor_ptr color;
+    ev3_sensor_ptr gyro;
+    ev3_sensor_ptr sonar;
+    ev3_sensor_ptr compass;
+
+    uint16_t msgId;
+	uint16_t msgAck;
+
+    /* Game */
+    int role;
+    int side;
+    int ally;
+
 } state;
 
 #endif

@@ -2,21 +2,51 @@
 #include <stdlib.h>
 
 #include "main.h"
+
 #include "logger.h"
 #include "ev3c.h"
+#include "utils.h"
+#include "motors.h"
+#include "init.h"
+//#include "config.h"
 
 state st;
 state* s = &st;
 
 int main(int argc, char *argv[])
 {
-	//Start logger
-	init_logger(s);
+    //Init the LeE
+    init_robot(s);
 
-	//Initialize the robot
-	//Capteurs Moteur "Connexion"
+    //
+    // char buffer[MSG_MAX_LEN];
+    // char messageType = read_from_server(s, buffer);
 
-    testRobot();
+    //Waiting for the game to start. Ignore all messages not directed to our team.
+    /*
+    while (messageType != MSG_START)
+    {
+        if (messageType == NOT_FOR_ME)
+            messageType = read_from_server(s, buffer);
+        else
+            nice_exit(s, EXIT_FAILURE);
+    }
+    */
+
+    // //Try to parse start message to load the game parameters
+    // int returnCode;
+    // if (messageType == MSG_START)
+    // {
+    //     returnCode = load_game_params(s, buffer);
+    //     if (returnCode != 0)
+    //         nice_exit(s, EXIT_FAILURE);
+    // }
+
+
+    //tests dev in progress
+    grab(s,MAX_GRABBING_SPEED);
+    sleep(5);
+    release(s, MAX_GRABBING_SPEED);
 
 	//Initialize the "trip"
 
@@ -24,8 +54,8 @@ int main(int argc, char *argv[])
 
 	//Reset robot
 
-	//Close logger
-	close_logger(s);
+	//Close external ressources
+    nice_exit(s, EXIT_SUCCESS);
 
 	return 0;
 }
