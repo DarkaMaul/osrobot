@@ -1,8 +1,8 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <signal.h>
 
 #include "main.h"
-
 #include "logger.h"
 #include "ev3c.h"
 #include "utils.h"
@@ -15,6 +15,9 @@ state* s = &st;
 
 int main(int argc, char *argv[])
 {
+    //Register signal handler
+    signal(SIGINT, signal_handler);
+
     //Init the LeE
     init_robot(s);
 

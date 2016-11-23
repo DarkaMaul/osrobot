@@ -1,8 +1,22 @@
+#include <signal.h>
+
+#include "init.h"
 #include "main.h"
 #include "sensors.h"
 #include "logger.h"
 #include "motors.h"
 #include "utils.h"
+
+extern state* s;
+
+void signal_handler(int signalNumber)
+{
+    if (signalNumber ==  SIGINT)
+    {
+        log_this(s, "[Init] Recvieved SIGINT.\n");
+        nice_exit(s, EXIT_FAILURE);
+    }
+}
 
 /**
  * Initialize LeE
