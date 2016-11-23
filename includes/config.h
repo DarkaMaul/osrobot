@@ -85,4 +85,8 @@
 #define SIDE_RIGHT 0
 #define SIDE_LEFT 1
 
+//Ball constants
+#define BALL_COLOR_1 5
+#define BALL_COLOR_2 2
+
 #endif

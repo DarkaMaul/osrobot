@@ -36,6 +36,23 @@ int init_sensors(state *s)
     return 0;
 }
 
+/**
+ * Check if the ball is in front of the captor
+ *
+ * @param  s State structure
+ * @return   0 if found || -1 otherwise
+ */
+int is_ball_present(state *s)
+{
+    ev3_update_sensor_val(s->color);
+    int valColor = s->color->val_data[0].s32;
+
+    if (valColor == BALL_COLOR_1 || valColor == BALL_COLOR_2)
+        return 0;
+
+    return -1;
+}
+
 int testSensor()
 {
 	int i;
