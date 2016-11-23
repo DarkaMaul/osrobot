@@ -36,6 +36,7 @@ test/*
 #Gedit temp file
 *~
 /.project
+.clang_complete
 
 #Private git file
 .gitconfig
