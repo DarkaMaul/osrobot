@@ -146,8 +146,8 @@ int wheels_run_distance(state *s, int speed, int distance){
  */
 int go_straight(state *s, int speed, int distance){
     log_this(s, "[%s] : Going straigth for%d cm\n", __FILE__, distance);
-    int nb_of_steps = distance % STEPLENGTH;
-    int remaining_distance = distance - nb_of_steps*STEPLENGTH;
+    int nb_of_steps = distance / STEPLENGTH;
+    int remaining_distance = distance % STEPLENGTH;
     int i;
     for (i=0; i<nb_of_steps; i++){
         wheels_run_distance(s, speed, STEPLENGTH);
