@@ -3,6 +3,7 @@
 #include "sensors.h"
 #include "main.h"
 #include "config.h"
+#include "utils.h"
 
 /**
  * Init the sensors
