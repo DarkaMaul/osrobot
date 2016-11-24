@@ -27,8 +27,8 @@ void init_logger(state *s)
     }
 
     s->logfile_fd = fp;
-    
-    log_this(s, "[Logger] Initialize logger for this session.\n");
+
+    log_this(s, "[Logger] Initialize logger for this session.%s\n", "alexis");
 }
 
 /**
@@ -54,6 +54,6 @@ void log_this(state *s, const char *format, ...)
 {
     va_list args;
     va_start(args, format);
-    fprintf(s->logfile_fd, format, args);
+    vfprintf(s->logfile_fd, format, args);
     va_end(args);
 }
