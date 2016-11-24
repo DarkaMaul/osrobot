@@ -59,7 +59,7 @@ int grab(state *s, int speed)
 int release(state *s, int speed)
 {
     if (ev3_get_position(s->grabmotor) == INIT_GRAB_POSITION){
-        log_this(s, "[%s] Releasing failed already in grabbing position\n", __FILE__);
+        log_this(s, "[%s] Releasing failed already in release position\n", __FILE__);
         return -1;
     }
     ev3_set_speed_sp(s->grabmotor, speed);
@@ -126,6 +126,7 @@ int wheels_run_pos(state *s, int speed, int pos){
     set_wheels_pos(s, pos);
     command_wheels(s, RUN_TO_REL_POS);
     while (ev3_motor_state(s->leftmotor) & MOTOR_RUNNING);
+    //TODO update_pos(s, pos);
     log_this(s, "Done\n");
     return 0;
 }
@@ -153,6 +154,7 @@ int go_straight(state *s, int speed, int distance){
  */
 int go_to_pos(state *s,position desiredposition){
     //while((s->curPos.x!=desiredposition.x)&&(s->curPos.y!=desiredposition.y)){
+	s->wantedPos=desiredposition;
 	position relativeposition=compute_relative_position(s->curPos,desiredposition);
     int distancetodest=compute_distance(relativeposition);
     int angletodest=compute_angle(relativeposition);
@@ -160,10 +162,11 @@ int go_to_pos(state *s,position desiredposition){
     if((s->curPos.x>desiredposition.x)&&(s->curPos.y>desiredposition.y)) angletodest+=180;
     if((s->curPos.x<desiredposition.x)&&(s->curPos.y>desiredposition.y)) angletodest=180-angletodest;
     if((s->curPos.x>desiredposition.x)&&(s->curPos.y<desiredposition.y)) angletodest=365-angletodest;
-    turn(s, angletodest);
+    turn(s, shortest_angle_from_dest(s, angletodest));
+    update_angle(s,angletodest);
     go_straight(s, MAX_WHEEL_SPEED, distancetodest);
     //}
-    update_pos(s, desiredposition, angletodest);
+    update_pos(s, desiredposition);
     return 0;
 }
 /**
