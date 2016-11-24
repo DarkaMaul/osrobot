@@ -31,19 +31,12 @@ int catch_ball(state* s)
     //Run to the ball
     go_straight(s, MAX_WHEEL_SPEED, distanceBall + BALL_CATCH_DISTANCE);
 
-    //Check if the ball is inside the hook
-    if (is_ball_present(s) == BALL_NOT_FOUND)
-    {
-        log_this(s, "[%s] Sadly, the ball is not inside  the hook...\n", __FILE__);
-        return BALL_NOT_FOUND;
-    }
-
     //Close the hook
     grab(s, MAX_GRABBING_SPEED);
 
     int returnValue = is_ball_present(s);
     if(returnValue == BALL_FOUND)
-        log_this(s, "[%s] We're lucky, the ball is still inside the hook!\n", __FILE__);
+        log_this(s, "[%s] We're lucky, the ball is inside the hook!\n", __FILE__);
     else
         log_this(s, "[%s] Damm, we missed it at the very last moment\n", __FILE__);
 
