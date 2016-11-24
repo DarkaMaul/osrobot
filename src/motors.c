@@ -4,7 +4,6 @@
 #include <stdarg.h>
 #include <math.h>
 
-
 #include "logger.h"
 #include "config.h"
 #include "utils.h"
@@ -140,11 +139,16 @@ int wheels_run_distance(state *s, int speed, int distance){
     return wheels_run_pos(s, speed, position);
 }
 
-/*
-* Function to go straight for a certain distance
-*/
-int go_straight(state *s, int speed, int distance){
-    return 0;
+/**
+ * Go straight for a distance in cm
+ * @param  s        State structure
+ * @param  speed    Speed for  the LeE (usually MAX_WHEEL_SPEED)
+ * @param  distance Distance in cm
+ * @return          0 if everything is allright
+ */
+int go_straight(state *s, int speed, int distance)
+{
+    return wheels_run_distance(s, speed, distance);
 }
 
 /*
@@ -188,7 +192,7 @@ int turn(state *s, int angle){
     command_wheels(s, RUN_FOREVER);
     while(angle_sign * current_angle < angle_sign * goal){
         ev3_update_sensor_val(s->gyro);
-        current_angle = s->gyro->val_data[0].s32 ;  
+        current_angle = s->gyro->val_data[0].s32 ;
     }
     command_wheels(s, STOP);
     log_this(s,"Done\n");
