@@ -178,19 +178,23 @@ int sign(int a){
 
 int turn(state *s, int angle){
     log_this(s, "[%s] : Turning from %d degrees...", __FILE__, angle );
-    int speed = 50;
+    int speed = 150;
     int angle_sign = sign(angle);
     speed = speed * angle_sign;
+    ev3_update_sensor_val(s->gyro);
     int current_angle = s->gyro->val_data[0].s32 ;
+    printf("%d\n",current_angle);
     int goal = current_angle + angle;
-    ev3_set_speed_sp(s->leftmotor, -speed);
-    ev3_set_speed_sp(s->rightmotor, speed);
+    ev3_set_speed_sp(s->leftmotor, speed);
+    ev3_set_speed_sp(s->rightmotor, -speed);
     command_wheels(s, RUN_FOREVER);
     while(angle_sign * current_angle < angle_sign * goal){
         ev3_update_sensor_val(s->gyro);
         current_angle = s->gyro->val_data[0].s32 ;  
+        //printf("current: %d goal: %d\n",current_angle,goal);
     }
     command_wheels(s, STOP);
+    printf("%d\n",s->gyro->val_data[0].s32);
     log_this(s,"Done\n");
     return 0;
 }
