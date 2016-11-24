@@ -53,15 +53,22 @@ int is_ball_present(state *s)
     return -1;
 }
 
+/**
+ * Return the distance in cm from the front obstacle
+ * @param  s Structure State
+ * @return   -1 if the value is not trustable || the distance
+ */
 int distance_from_obstacle(state *s)
 {
     ev3_update_sensor_val(s->sonar);
     int valUS = s->sonar->val_data[0].s32;
 
-    if (valUS > US_MAX_DISTANCE || valUS < US_MIN_DISTANCE)
+    if (valUS == US_MAX_RETURN_VAL)
         return -1;
-
-    return valUS;
+    else if (valUS > US_MAX_DISTANCE || valUS < US_MIN_DISTANCE)
+        return -1;
+    else
+        return valUS;
 }
 
 int testSensor()

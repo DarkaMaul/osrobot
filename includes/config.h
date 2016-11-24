@@ -89,7 +89,8 @@
 #define BALL_COLOR_1 5
 #define BALL_COLOR_2 2
 
-#define US_MAX_DISTANCE 120//@TODO
-#define US_MIN_DISTANCE 5//@TODO
+#define US_MAX_DISTANCE 150//@TODO
+#define US_MIN_DISTANCE 15//@TODO
+#define US_MAX_RETURN_VAL 250
 
 #endif
