@@ -7,7 +7,7 @@
 #include "logger.h"
 #include "config.h"
 #include "utils.h"
-
+#include "sensors.h"
 
 void init_motors(state *s){
     s->motors = ev3_load_motors();
@@ -146,7 +146,9 @@ int wheels_run_distance(state *s, int speed, int distance){
  */
 int go_straight(state *s, int speed, int distance){
     log_this(s, "[%s] : Going straigth for%d cm\n", __FILE__, distance);
-    int nb_of_steps = distance / STEPLENGTH;
+    s->angle = gyro_angle(s);
+
+	int nb_of_steps = distance / STEPLENGTH;
 
     int remaining_distance = distance % STEPLENGTH;
 	printf("STP: %d \t RD: %d\n", nb_of_steps, remaining_distance);
@@ -191,8 +193,8 @@ int sign(int a){
 
 
 int turn(state *s, int angle){
-    if (angle<ERROR_MARGIN){
-        log_this(s, "[%s] : The angle is too small. Not turning.\n", __FILE__);
+    if (abs(angle)<ERROR_MARGIN){
+        log_this(s, "[%s] : The angle is too small (%d). Not turning.\n", __FILE__, angle);
         return 1;
     }
     log_this(s, "[%s] : Turning from %d degrees...\n", __FILE__, angle );
@@ -223,7 +225,8 @@ int is_running_in_correct_angle(state *s){
 	int actualangle = gyro_angle(s);
 	//+- ERROR_M degrees is ok
     int angle_diff = s->angle - actualangle;
-	if(! (abs(angle_diff) > ERROR_MARGIN)){
+	log_this(s, "[%s] Angle diff is %d\n", __FILE__, angle_diff);
+	if(abs(angle_diff) > ERROR_MARGIN){
 		return angle_diff;
 	}
 	return 0;

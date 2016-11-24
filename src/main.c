@@ -8,6 +8,8 @@
 #include "utils.h"
 #include "motors.h"
 #include "init.h"
+#include "robot.h"
+#include "sensors.h"
 //#include "config.h"
 
 state st;
@@ -47,9 +49,11 @@ int main(int argc, char *argv[])
 
 
     //tests dev in progress
-    grab(s,MAX_GRABBING_SPEED);
-    sleep(5);
-    release(s, MAX_GRABBING_SPEED);
+    //grab(s,MAX_GRABBING_SPEED);
+    //sleep(5);
+    //release(s, MAX_GRABBING_SPEED);
+
+	go_straight(s, 1000, 200);
 
 	//Initialize the "trip"
 
