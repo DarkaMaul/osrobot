@@ -22,7 +22,6 @@ typedef struct _state
 	/* Position of the robot */
     position curPos;
     position wantedPos;
-	int pos[2];
 	int angle;
 
 	/* Motors */

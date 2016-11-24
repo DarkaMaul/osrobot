@@ -13,12 +13,12 @@ char read_from_server(state *s, char *buffer);
 
 int clean_angle(int angle);
 
-void update_pos(state* s, int * pos, int angle);
+void update_pos(state* s, position pos, int angle);
 void init_pos(state *s);
 int clean_angle(int angle);
-int compute_distance(int * desiredposition);
-int compute_angle(int * desiredposition);
-int* compute_relative_position(int *actualposition,int *desiredposition);
+int compute_distance(position desiredposition);
+int compute_angle(position desiredposition);
+position compute_relative_position(position actualposition,position desiredposition);
 
 #endif
 

@@ -29,7 +29,7 @@ void init_motors(state *s){
     ev3_stop_command_motor_by_name(s->grabmotor, "hold");
 
     init_pos(s);
-    log_this(s, "[%s] Position initialized to x:%d, y:%d\n",__FILE__,s->pos[0],s->pos[1]);
+    log_this(s, "[%s] Position initialized to x:%d, y:%d\n",__FILE__,s->curPos.x,s->curPos.y);
 }
 
 //Grabbing functions
@@ -144,16 +144,15 @@ int go_straight(state *s, int speed, int distance){
  * TODO Function that will be used to go to a specified position
  * First version go straight to the position ignoring obstacles
  */
-int go_to_pos(state *s,int *desiredposition){
-    //while((s->pos[0]!=desiredposition[0])&&(s->pos[1]!=desiredposition[1])){
-	int *relativeposition=compute_relative_position(s->pos,desiredposition);
+int go_to_pos(state *s,position desiredposition){
+    //while((s->curPos.x!=desiredposition.x)&&(s->curPos.y!=desiredposition.y)){
+	position relativeposition=compute_relative_position(s->curPos,desiredposition);
     int distancetodest=compute_distance(relativeposition);
     int angletodest=compute_angle(relativeposition);
-    free(relativeposition);
     angletodest=angletodest-s->angle;
-    if((s->pos[0]>desiredposition[0])&&(s->pos[1]>desiredposition[1])) angletodest+=180;
-    if((s->pos[0]<desiredposition[0])&&(s->pos[1]>desiredposition[1])) angletodest=180-angletodest;
-    if((s->pos[0]>desiredposition[0])&&(s->pos[1]<desiredposition[1])) angletodest=365-angletodest;
+    if((s->curPos.x>desiredposition.x)&&(s->curPos.y>desiredposition.y)) angletodest+=180;
+    if((s->curPos.x<desiredposition.x)&&(s->curPos.y>desiredposition.y)) angletodest=180-angletodest;
+    if((s->curPos.x>desiredposition.x)&&(s->curPos.y<desiredposition.y)) angletodest=365-angletodest;
     turn(s, angletodest);
     go_straight(s, MAX_WHEEL_SPEED, distancetodest);
     //}
