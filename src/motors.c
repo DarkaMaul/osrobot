@@ -23,13 +23,13 @@ void init_motors(state *s){
         ev3_open_motor(motor);
         ev3_reset_motor(motor);
         ev3_set_position(motor, 0);
-        log_this(s, "%s Motor %i on port %c opened, assigned and reseted\n", __FILE__,  motor->motor_nr, motor->port);
+        log_this(s, "%s Motor %d on port %c opened, assigned and reseted\n", __FILE__,  motor->motor_nr, motor->port);
         motor = motor->next;
     }
     ev3_stop_command_motor_by_name(s->grabmotor, "hold");
 
     init_pos(s);
-    log_this(s, "%s Position initialized to x:%i, y:%i\n", __FILE__,s->pos[0],s->pos[1]);
+    log_this(s, "%s Position initialized to x:%d, y:%d\n", __FILE__,s->pos[0],s->pos[1]);
 }
 
 //Grabbing functions
@@ -48,7 +48,7 @@ int grab(state *s, int speed)
     ev3_command_motor_by_name(s->grabmotor, "run-to-abs-pos");
 
     while (ev3_motor_state(s->grabmotor) & MOTOR_RUNNING);
-    //log_this(s, "Motor %i on port %c opened, assigned and reseted\n", motor->motor_nr, motor->port);
+    //log_this(s, "Motor %d on port %c opened, assigned and reseted\n", motor->motor_nr, motor->port);
     return 0;
 }
 
@@ -67,7 +67,7 @@ int release(state *s, int speed)
     ev3_command_motor_by_name(s->grabmotor, "run-to-abs-pos");
 
     while (ev3_motor_state(s->grabmotor) & MOTOR_RUNNING);
-    //log_this(s, "Motor %i on port %c opened, assigned and reseted\n", motor->motor_nr, motor->port);
+    //log_this(s, "Motor %d on port %c opened, assigned and reseted\n", motor->motor_nr, motor->port);
     return 0;
 }
 
