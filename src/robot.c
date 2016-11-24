@@ -11,7 +11,7 @@
  * @param  s State structure
  * @return   BALL_FOUND || BALL_NOT_FOUND
  */
-int catchBall(state* s)
+int catch_ball(state* s)
 {
     log_this(s, "[%s] Trying to catch the ball.\n", __FILE__);
 
