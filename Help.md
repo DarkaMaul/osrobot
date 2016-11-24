@@ -10,5 +10,6 @@ https://github.com/alessandro40/wall-ev3/
 ## Misc
 https://guides.github.com/features/mastering-markdown/
 
-## Sensors 
+## Sensors
 https://www.intorobotics.com/sensors-lego-mindstorms-ev3-features-comparison/
+http://www.ev3dev.org/docs/sensors/#analog-sensors

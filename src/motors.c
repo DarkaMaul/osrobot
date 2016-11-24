@@ -101,7 +101,6 @@ void set_wheels_pos(state *s, int pos){
 void command_wheels(state *s, int cmd){
     ev3_command_motor(s->leftmotor, cmd);
     ev3_command_motor(s->rightmotor, cmd);
-    while (ev3_motor_state(s->leftmotor) & MOTOR_RUNNING);
 }
 
 /*
@@ -112,6 +111,7 @@ int wheels_run_time(state *s, int speed, int time){
     set_wheels_speed(s, speed);
     set_wheels_time(s, time);
     command_wheels(s, RUN_TIMED);
+    while (ev3_motor_state(s->leftmotor) & MOTOR_RUNNING);
     log_this(s, "Done\n");
     return 0;
 }
@@ -125,6 +125,7 @@ int wheels_run_pos(state *s, int speed, int pos){
     set_wheels_speed(s, speed);
     set_wheels_pos(s, pos);
     command_wheels(s, RUN_TO_REL_POS);
+    while (ev3_motor_state(s->leftmotor) & MOTOR_RUNNING);
     log_this(s, "Done\n");
     return 0;
 }
@@ -174,12 +175,14 @@ int turn(state *s, int angle){
     int speed = 50;
     int angle_sign = sign(angle);
     speed = speed * angle_sign;
-    int goal = s->gyro->val_data[0].s32 + angle;
+    int current_angle = s->gyro->val_data[0].s32 ;
+    int goal = current_angle + angle;
     ev3_set_speed_sp(s->leftmotor, -speed);
     ev3_set_speed_sp(s->rightmotor, speed);
     command_wheels(s, RUN_FOREVER);
-    while(angle_sign * s->gyro->val_data[0].s32 < angle_sign * goal){
+    while(angle_sign * current_angle < angle_sign * goal){
         ev3_update_sensor_val(s->gyro);
+        current_angle = s->gyro->val_data[0].s32 ;  
     }
     command_wheels(s, STOP);
     log_this(s,"Done\n");
