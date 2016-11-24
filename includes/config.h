@@ -85,6 +85,10 @@
 #define SIDE_RIGHT 0
 #define SIDE_LEFT 1
 
+#define BALL_CATCH_DISTANCE 3
+#define BALL_FOUND 0
+#define BALL_NOT_FOUND -1
+
 //Ball constants
 #define BALL_COLOR_1 5
 #define BALL_COLOR_2 2
