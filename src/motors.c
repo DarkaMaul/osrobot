@@ -118,7 +118,7 @@ int wheels_run_time(state *s, int speed, int time){
 
 
 /*
- * Function to go a given distance at a given speed
+ * Function to turn both wheels from a given angle
  */
 int wheels_run_pos(state *s, int speed, int pos){
     log_this(s, "[%s] Wheels running to relative position %d...", __FILE__, pos);
@@ -131,15 +131,21 @@ int wheels_run_pos(state *s, int speed, int pos){
 }
 
 /*
- * Function to go straight
+ * Function to go a given distance at a given speed
  */
-int go_straight(state *s, int speed, int distance){
+int wheels_run_distance(state *s, int speed, int distance){
     log_this(s, "[%s] Going Straight for %d cm...", __FILE__, distance);
     // deduce the angle from the given distance :
     int position = (distance*360)/(M_PI*WHEEL_DIAMETER);// wheels have diameter 5.6 cm
     return wheels_run_pos(s, speed, position);
 }
 
+/*
+* Function to go straight for a certain distance
+*/
+int go_straight(state *s, int speed, int distance){
+    return 0;
+}
 
 /*
  * TODO Function that will be used to go to a specified position
@@ -198,8 +204,9 @@ int turn(state *s, int angle){
 int is_running_in_correct_angle(state *s){
 	int actualangle=s->gyro->val_data[0].s32;
 	//+- ERROR_M degrees is ok
-	if(!((s->angle-ERROR_MARGIN<actualangle)||(actualangle<s->angle+ERROR_MARGIN))){
-		return 1;
+    int angle_diff = angle - actualangle;
+	if(! abs(angle_diff) > ERROR_M){
+		return angle_diff;
 	}
 	return 0;
 }
