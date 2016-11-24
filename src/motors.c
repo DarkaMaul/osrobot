@@ -106,12 +106,11 @@ void command_wheels(state *s, int cmd){
  * Function to go for a given time at a given speed
  */
 int wheels_run_time(state *s, int speed, int time){
-    log_this(s, "[%s] Wheels running for %d s ...", __FILE__, time);
+    log_this(s, "[%s] Wheels running for %d s ...\n", __FILE__, time);
     set_wheels_speed(s, speed);
     set_wheels_time(s, time);
     command_wheels(s, RUN_TIMED);
     while (ev3_motor_state(s->leftmotor) & MOTOR_RUNNING);
-    log_this(s, "Done\n");
     return 0;
 }
 
@@ -120,12 +119,11 @@ int wheels_run_time(state *s, int speed, int time){
  * Function to turn both wheels from a given angle
  */
 int wheels_run_pos(state *s, int speed, int pos){
-    log_this(s, "[%s] Wheels running to relative position %d...", __FILE__, pos);
+    log_this(s, "[%s] Wheels running to relative position %d...\n", __FILE__, pos);
     set_wheels_speed(s, speed);
     set_wheels_pos(s, pos);
     command_wheels(s, RUN_TO_REL_POS);
     while (ev3_motor_state(s->leftmotor) & MOTOR_RUNNING);
-    log_this(s, "Done\n");
     return 0;
 }
 
@@ -133,7 +131,7 @@ int wheels_run_pos(state *s, int speed, int pos){
  * Function to go a given distance at a given speed
  */
 int wheels_run_distance(state *s, int speed, int distance){
-    log_this(s, "[%s] Going Straight for %d cm...", __FILE__, distance);
+    log_this(s, "[%s] Going Straight for %d cm...\n", __FILE__, distance);
     // deduce the angle from the given distance :
     int position = (distance*360)/(M_PI*WHEEL_DIAMETER);// wheels have diameter 5.6 cm
     return wheels_run_pos(s, speed, position);
@@ -181,21 +179,21 @@ int sign(int a){
 
 
 int turn(state *s, int angle){
-    log_this(s, "[%s] : Turning from %d degrees...", __FILE__, angle );
-    int speed = 50;
+    log_this(s, "[%s] : Turning from %d degrees...\n", __FILE__, angle );
+    int speed = 150;
     int angle_sign = sign(angle);
     speed = speed * angle_sign;
+    ev3_update_sensor_val(s->gyro);
     int current_angle = s->gyro->val_data[0].s32 ;
     int goal = current_angle + angle;
-    ev3_set_speed_sp(s->leftmotor, -speed);
-    ev3_set_speed_sp(s->rightmotor, speed);
+    ev3_set_speed_sp(s->leftmotor, speed);
+    ev3_set_speed_sp(s->rightmotor, -speed);
     command_wheels(s, RUN_FOREVER);
     while(angle_sign * current_angle < angle_sign * goal){
         ev3_update_sensor_val(s->gyro);
         current_angle = s->gyro->val_data[0].s32 ;
     }
     command_wheels(s, STOP);
-    log_this(s,"Done\n");
     return 0;
 }
 
