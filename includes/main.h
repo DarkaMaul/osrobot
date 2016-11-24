@@ -4,6 +4,12 @@
 #include <stdio.h>
 #include "ev3c.h"
 
+typedef struct _position
+{
+    int x;
+    int y;
+} position;
+
 typedef struct _state
 {
 	//External ressources needed
@@ -14,6 +20,8 @@ typedef struct _state
     int sock;
 
 	/* Position of the robot */
+    position curPos;
+    position wantedPos;
 	int pos[2];
 	int angle;
 
