@@ -38,6 +38,8 @@ typedef struct _state
     ev3_sensor_ptr sonar;
     ev3_sensor_ptr compass;
 
+    int gyro_reference;
+
     uint16_t msgId;
 	uint16_t msgAck;
 
