@@ -204,8 +204,8 @@ int turn(state *s, int angle){
 int is_running_in_correct_angle(state *s){
 	int actualangle=s->gyro->val_data[0].s32;
 	//+- ERROR_M degrees is ok
-    int angle_diff = angle - actualangle;
-	if(! abs(angle_diff) > ERROR_M){
+    int angle_diff = s->angle - actualangle;
+	if(! (abs(angle_diff) > ERROR_MARGIN)){
 		return angle_diff;
 	}
 	return 0;
