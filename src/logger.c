@@ -28,7 +28,7 @@ void init_logger(state *s)
 
     s->logfile_fd = fp;
 
-    log_this(s, "[Logger] Initialize logger for this session.%s\n", "alexis");
+    log_this(s, "[Logger] Initialize logger for this session.\n");
 }
 
 /**
