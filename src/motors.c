@@ -58,7 +58,7 @@ int grab(state *s, int speed)
 int release(state *s, int speed)
 {
     if (ev3_get_position(s->grabmotor) == INIT_GRAB_POSITION){
-        log_this(s, "[%s] Releasing failed already in grabbing position\n", __FILE__);
+        log_this(s, "[%s] Releasing failed already in release position\n", __FILE__);
         return -1;
     }
     ev3_set_speed_sp(s->grabmotor, speed);
@@ -124,6 +124,7 @@ int wheels_run_pos(state *s, int speed, int pos){
     set_wheels_pos(s, pos);
     command_wheels(s, RUN_TO_REL_POS);
     while (ev3_motor_state(s->leftmotor) & MOTOR_RUNNING);
+    //TODO update_pos(s, pos);
     return 0;
 }
 
@@ -131,7 +132,6 @@ int wheels_run_pos(state *s, int speed, int pos){
  * Function to go a given distance at a given speed
  */
 int wheels_run_distance(state *s, int speed, int distance){
-    log_this(s, "[%s] Going Straight for %d cm...\n", __FILE__, distance);
     // deduce the angle from the given distance :
     int position = (distance*360)/(M_PI*WHEEL_DIAMETER);// wheels have diameter 5.6 cm
     return wheels_run_pos(s, speed, position);
@@ -144,8 +144,16 @@ int wheels_run_distance(state *s, int speed, int distance){
  * @param  distance Distance in cm
  * @return          0 if everything is allright
  */
-int go_straight(state *s, int speed, int distance)
-{
+int go_straight(state *s, int speed, int distance){
+    log_this(s, "[%s] : Going straigth for%d cm\n", __FILE__, distance);
+    int nb_of_steps = distance / STEPLENGTH;
+    int remaining_distance = distance % STEPLENGTH;
+    int i;
+    for (i=0; i<nb_of_steps; i++){
+        wheels_run_distance(s, speed, STEPLENGTH);
+        turn(s, is_running_in_correct_angle(s));
+    }
+    wheels_run_distance(s, speed, remaining_distance);
     return wheels_run_distance(s, speed, distance);
 }
 
@@ -155,6 +163,7 @@ int go_straight(state *s, int speed, int distance)
  */
 int go_to_pos(state *s,position desiredposition){
     //while((s->curPos.x!=desiredposition.x)&&(s->curPos.y!=desiredposition.y)){
+	s->wantedPos=desiredposition;
 	position relativeposition=compute_relative_position(s->curPos,desiredposition);
     int distancetodest=compute_distance(relativeposition);
     int angletodest=compute_angle(relativeposition);
@@ -162,10 +171,11 @@ int go_to_pos(state *s,position desiredposition){
     if((s->curPos.x>desiredposition.x)&&(s->curPos.y>desiredposition.y)) angletodest+=180;
     if((s->curPos.x<desiredposition.x)&&(s->curPos.y>desiredposition.y)) angletodest=180-angletodest;
     if((s->curPos.x>desiredposition.x)&&(s->curPos.y<desiredposition.y)) angletodest=365-angletodest;
-    turn(s, angletodest);
+    turn(s, shortest_angle_from_dest(s, angletodest));
+    update_angle(s,angletodest);
     go_straight(s, MAX_WHEEL_SPEED, distancetodest);
     //}
-    update_pos(s, desiredposition, angletodest);
+    update_pos(s, desiredposition);
     return 0;
 }
 /**
@@ -179,6 +189,10 @@ int sign(int a){
 
 
 int turn(state *s, int angle){
+    if (angle<ERROR_MARGIN){
+        log_this(s, "[%s] : The angle is too small. Not turning.\n", __FILE__);
+        return 1;
+    }
     log_this(s, "[%s] : Turning from %d degrees...\n", __FILE__, angle );
     int speed = 150;
     int angle_sign = sign(angle);
@@ -204,7 +218,7 @@ int turn(state *s, int angle){
  * Function to correct the position while moving
  */
 int is_running_in_correct_angle(state *s){
-	int actualangle=s->gyro->val_data[0].s32;
+	int actualangle = gyro_angle(s);
 	//+- ERROR_M degrees is ok
     int angle_diff = s->angle - actualangle;
 	if(! (abs(angle_diff) > ERROR_MARGIN)){

@@ -34,6 +34,8 @@ int init_sensors(state *s)
     ev3_mode_sensor_by_name(s->gyro, "GYRO-ANG");
     //@TODO  Configure compass
 
+    s->gyro_reference = s->gyro->val_data[0].s32;
+
     return 0;
 }
 
@@ -71,6 +73,14 @@ int distance_from_obstacle(state *s)
     else
         return valUS / 10;
 }
+
+/*
+* Returns the angle of the robot, between 0 and 360, 0 being the initial angle of the robot
+*/
+int gyro_angle(state *s){
+    return clean_angle(s->gyro->val_data[0].s32 - s->gyro_reference);
+}
+
 
 int testSensor()
 {

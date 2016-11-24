@@ -16,18 +16,20 @@
 #include "utils.h"
 
 
-void update_pos(state* s, position pos, int angle) {
+void update_pos(state* s, position pos) {
 	s->curPos.x=pos.x;
 	s->curPos.x=pos.y;
-	s->angle = clean_angle(angle); //ADD DECLARATIONS TO UTILS.H
-	log_this(s, "\n[UPDATE_POSITION] x=%d y=%d angle=%d\n", s->curPos.x, s->curPos.x, s->angle);
+	log_this(s, "\n[UPDATE_POSITION] x=%d y=%d ", s->curPos.x, s->curPos.x);
 }
 void init_pos(state *s){
 	s->curPos.x=0;
 	s->curPos.x=0;
 	s->angle=0;
 }
-
+void update_angle(state* s,int angle){
+	s->angle = clean_angle(angle); //ADD DECLARATIONS TO UTILS.H
+	log_this(s, "\n[UPDATE_ANGLE] angle=%d\n",  s->angle);
+}
 int clean_angle(int angle) {
 	while (angle < 0) {
 		angle = angle + 360;
@@ -48,4 +50,9 @@ position compute_relative_position(position actualposition,position desiredposit
 	result.x=abs(actualposition.x-desiredposition.x);
 	result.y=abs(actualposition.y-desiredposition.y);
 	return result;
+}
+
+int shortest_angle_from_dest(state *s,int desiredangle){
+	if(clean_angle(desiredangle+s->angle)>=clean_angle(desiredangle-s->angle)) return desiredangle;
+	return -s->angle+desiredangle;
 }
