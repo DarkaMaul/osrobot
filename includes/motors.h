@@ -19,6 +19,7 @@ void set_wheels_pos(state *s, int pos);
 void command_wheels(state *s, int cmd);
 int wheels_run_time(state *s, int speed, int time);
 int wheels_run_pos(state *s, int speed, int pos);
+int wheels_run_distance(state *s,int speed, int distance);
 int go_to_position(state * s, int speed);
 int go_straight(state *s,int speed, int distance);
 int sign(int a);
