@@ -8,6 +8,7 @@
 #include "logger.h"
 #include "config.h"
 #include "utils.h"
+#define FILENAME "MOTORS"
 
 
 void init_motors(state *s){
@@ -23,13 +24,13 @@ void init_motors(state *s){
         ev3_open_motor(motor);
         ev3_reset_motor(motor);
         ev3_set_position(motor, 0);
-        log_this(s, "%s Motor %d on port %c opened, assigned and reseted\n", __FILE__,  motor->motor_nr, motor->port);
+        log_this(s, " Motor %d on port %c opened, assigned and reseted\n",  motor->motor_nr, motor->port);
         motor = motor->next;
     }
     ev3_stop_command_motor_by_name(s->grabmotor, "hold");
 
     init_pos(s);
-    log_this(s, "%s Position initialized to x:%d, y:%d\n", __FILE__,s->pos[0],s->pos[1]);
+    log_this(s, "[%s] Position initialized to x:%d, y:%d\n",FILENAME,s->pos[0],s->pos[1]);
 }
 
 //Grabbing functions
@@ -40,7 +41,7 @@ void init_motors(state *s){
 int grab(state *s, int speed)
 {
     if (ev3_get_position(s->grabmotor) == GRAB_POSITION){
-        log_this(s, "%s Grabbing failed already in grabbing position\n", __FILE__);
+        log_this(s, "[%s] Grabbing failed already in grabbing position\n", FILENAME);
         return -1;
     }
     ev3_set_speed_sp(s->grabmotor, speed);
@@ -59,7 +60,7 @@ int grab(state *s, int speed)
 int release(state *s, int speed)
 {
     if (ev3_get_position(s->grabmotor) == INIT_GRAB_POSITION){
-        log_this(s, "%s Releasing failed already in grabbing position\n", __FILE__);
+        log_this(s, "[%s] Releasing failed already in grabbing position\n", FILENAME);
         return -1;
     }
     ev3_set_speed_sp(s->grabmotor, speed);
@@ -80,19 +81,19 @@ int release(state *s, int speed)
 void set_wheels_speed(state *s, int speed){
     ev3_set_speed_sp(s->leftmotor, speed);
     ev3_set_speed_sp(s->rightmotor, speed);
-    log_this(s, "%s Wheels' speed set to %d \n", __FILE__, speed);
+    log_this(s, "[%s] Wheels' speed set to %d \n", FILENAME, speed);
 }
 
 void set_wheels_time(state *s, int time){
     ev3_set_time_sp(s->leftmotor, time);
     ev3_set_time_sp(s->rightmotor, time);
-    log_this(s, "%s Wheels' time set to %d \n", __FILE__, time);
+    log_this(s, "[%s] Wheels' time set to %d \n", FILENAME, time);
 }
 
 void set_wheels_pos(state *s, int pos){
     ev3_set_position_sp(s->leftmotor, pos);
     ev3_set_position_sp(s->rightmotor, pos);
-    log_this(s, "%s Wheels' position set to %d \n", __FILE__, pos);
+    log_this(s, "[%s] Wheels' position set to %d \n", FILENAME, pos);
 }
 
 /*
@@ -108,7 +109,7 @@ void command_wheels(state *s, int cmd){
  * Function to go for a given time at a given speed
  */
 int wheels_run_time(state *s, int speed, int time){
-    log_this(s, "%s Wheels running for %d s ...", __FILE__, time);
+    log_this(s, "[%s] Wheels running for %d s ...", FILENAME, time);
     set_wheels_speed(s, speed);
     set_wheels_time(s, time);
     command_wheels(s, RUN_TIMED);
@@ -121,7 +122,7 @@ int wheels_run_time(state *s, int speed, int time){
  * Function to go a given distance at a given speed
  */
 int wheels_run_pos(state *s, int speed, int pos){
-    log_this(s, "%s Wheels running to relative position %d...", __FILE__, pos);
+    log_this(s, "[%s] Wheels running to relative position %d...", FILENAME, pos);
     set_wheels_speed(s, speed);
     set_wheels_pos(s, pos);
     command_wheels(s, RUN_TO_REL_POS);
@@ -133,7 +134,7 @@ int wheels_run_pos(state *s, int speed, int pos){
  * Function to go straight
  */
 int go_straight(state *s, int speed, int distance){
-    log_this(s, "%s Going Straight for %d cm...", __FILE__, distance);
+    log_this(s, "[%s] Going Straight for %d cm...", FILENAME, distance);
     // deduce the angle from the given distance :
     int position = (distance*360)/(M_PI*WHEEL_DIAMETER);// wheels have diameter 5.6 cm
     return wheels_run_pos(s, speed, position);
@@ -171,7 +172,7 @@ int sign(int a){
 
 
 int turn(state *s, int angle){
-    log_this(s, "%s : Turning from %d degrees...", __FILE__, angle );
+    log_this(s, "[%s] : Turning from %d degrees...", FILENAME, angle );
     int speed = 50;
     int angle_sign = sign(angle);
     speed = speed * angle_sign;
