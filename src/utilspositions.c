@@ -24,7 +24,7 @@ void update_pos(state* s, int * pos, int angle) {
 }
 void init_pos(state *s){
 	s->pos[0]=0;
-	s->pos[1]=1;
+	s->pos[1]=0;
 	s->angle=0;
 }
 
