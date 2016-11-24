@@ -48,9 +48,9 @@ int is_ball_present(state *s)
     int valColor = s->color->val_data[0].s32;
 
     if (valColor == BALL_COLOR_1 || valColor == BALL_COLOR_2)
-        return 0;
+        return BALL_FOUND;
 
-    return -1;
+    return BALL_NOT_FOUND;
 }
 
 /**
