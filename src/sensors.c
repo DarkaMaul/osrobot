@@ -68,7 +68,7 @@ int distance_from_obstacle(state *s)
     else if (valUS > US_MAX_DISTANCE || valUS < US_MIN_DISTANCE)
         return -1;
     else
-        return valUS;
+        return valUS / 10;
 }
 
 int testSensor()
