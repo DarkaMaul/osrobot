@@ -147,14 +147,16 @@ int wheels_run_distance(state *s, int speed, int distance){
 int go_straight(state *s, int speed, int distance){
     log_this(s, "[%s] : Going straigth for%d cm\n", __FILE__, distance);
     int nb_of_steps = distance / STEPLENGTH;
+
     int remaining_distance = distance % STEPLENGTH;
+	printf("STP: %d \t RD: %d\n", nb_of_steps, remaining_distance);
     int i;
     for (i=0; i<nb_of_steps; i++){
         wheels_run_distance(s, speed, STEPLENGTH);
         turn(s, is_running_in_correct_angle(s));
     }
     wheels_run_distance(s, speed, remaining_distance);
-    return wheels_run_distance(s, speed, distance);
+    return 0;
 }
 
 /*
