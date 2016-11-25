@@ -48,6 +48,7 @@
 #define MAX_WHEEL_SPEED 1050
 #define WHEEL_DIAMETER 5.6
 #define STEPLENGTH 30
+#define TURNING_SPEED 50
 
 //Positions of of fixed elements
 #define CENTER_POSITION 0

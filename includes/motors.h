@@ -23,6 +23,6 @@ int wheels_run_distance(state *s,int speed, int distance);
 int go_to_position(state * s, int speed);
 int go_straight(state *s,int speed, int distance);
 int sign(int a);
-int turn(state *s,int angle);
+int turn(state *s,int speed,int angle);
 int is_running_in_correct_angle(state *s);
 #endif /* INCLUDES_MOTORS_H_ */

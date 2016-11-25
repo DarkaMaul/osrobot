@@ -76,35 +76,57 @@ int release(state *s, int speed)
 /*
  * Functions to set up both wheels at the same time
  */
+
+/**
+* Set both wheels at the same speed
+* @param s     State of LeE
+* @param speed Speed to set
+*/
 void set_wheels_speed(state *s, int speed){
     ev3_set_speed_sp(s->leftmotor, speed);
     ev3_set_speed_sp(s->rightmotor, speed);
     log_this(s, "[%s] Wheels' speed set to %d \n", __FILE__, speed);
 }
 
+/**
+* Set the same running time for both wheels
+* @param s    State of LeE
+* @param time Time to set in seconds
+*/
 void set_wheels_time(state *s, int time){
     ev3_set_time_sp(s->leftmotor, time);
     ev3_set_time_sp(s->rightmotor, time);
     log_this(s, "[%s] Wheels' time set to %d \n", __FILE__, time);
 }
 
+/**
+* Set the same position goal (absolute angle) for both wheels
+* @param s   State of LeE
+* @param pos Position to set in degrees
+*/
 void set_wheels_pos(state *s, int pos){
     ev3_set_position_sp(s->leftmotor, pos);
     ev3_set_position_sp(s->rightmotor, pos);
     log_this(s, "[%s] Wheels' position set to %d \n", __FILE__, pos);
 }
 
-/*
- * Function to command both wheels at the same time
- */
+/**
+* Command both wheels at the same time
+* @param s   State of LeE
+* @param cmd Command to send to the motors (see the config file for a list of available commands)
+*/
 void command_wheels(state *s, int cmd){
     ev3_command_motor(s->leftmotor, cmd);
     ev3_command_motor(s->rightmotor, cmd);
 }
 
-/*
- * Function to go for a given time at a given speed
- */
+/**
+* Go for a given time at a given speed
+* @param s     State of LeE
+* @param speed Speed of LeE
+* @param time  Running time in seconds
+* @return 0 if everything is alright
+*/
 int wheels_run_time(state *s, int speed, int time){
     log_this(s, "[%s] Wheels running for %d s ...\n", __FILE__, time);
     set_wheels_speed(s, speed);
@@ -115,9 +137,13 @@ int wheels_run_time(state *s, int speed, int time){
 }
 
 
-/*
- * Function to turn both wheels from a given angle
- */
+/**
+* Go to a given position (abolute angle of the motor) at a given speed
+* @param s     State of LeE
+* @param speed Speed of LeE
+* @param pos   Absolute position of the motor to go to in degrees
+* @return 0 if everything is alright
+*/
 int wheels_run_pos(state *s, int speed, int pos){
     log_this(s, "[%s] Wheels running to relative position %d...\n", __FILE__, pos);
     set_wheels_speed(s, speed);
@@ -128,9 +154,13 @@ int wheels_run_pos(state *s, int speed, int pos){
     return 0;
 }
 
-/*
- * Function to go a given distance at a given speed
- */
+/**
+* Go a given distance at a given speed. Note that LeE won't go straigth : To do so you need to use go_straight.
+* @param s        State of LeE
+* @param speed    Speed of LeE
+* @param distance Distance to run in cm
+* @return the result of wheels_run_pos (0 if everything is alright)
+*/
 int wheels_run_distance(state *s, int speed, int distance){
     // deduce the angle from the given distance :
     int position = (distance*360)/(M_PI*WHEEL_DIAMETER);// wheels have diameter 5.6 cm
@@ -147,17 +177,19 @@ int wheels_run_distance(state *s, int speed, int distance){
 int go_straight(state *s, int speed, int distance){
     log_this(s, "[%s] : Going straigth for%d cm\n", __FILE__, distance);
     s->angle = gyro_angle(s);
-
+    // We divide the wanted distance in steps od STEPLENGTH 
 	int nb_of_steps = distance / STEPLENGTH;
-
     int remaining_distance = distance % STEPLENGTH;
 	printf("STP: %d \t RD: %d\n", nb_of_steps, remaining_distance);
     int i;
+    // After each step we correct the direction of the robot
     for (i=0; i<nb_of_steps; i++){
         wheels_run_distance(s, speed, STEPLENGTH);
-        turn(s, is_running_in_correct_angle(s));
+        turn(s, TURNING_SPEED, is_running_in_correct_angle(s));
     }
+    // We then go for the remaining distance and correct the angle again
     wheels_run_distance(s, speed, remaining_distance);
+    turn(s, TURNING_SEED, is_running_in_correct_angle(s));
     return 0;
 }
 
@@ -175,39 +207,48 @@ int go_to_pos(state *s,position desiredposition){
     if((s->curPos.x>desiredposition.x)&&(s->curPos.y>desiredposition.y)) angletodest+=180;
     if((s->curPos.x<desiredposition.x)&&(s->curPos.y>desiredposition.y)) angletodest=180-angletodest;
     if((s->curPos.x>desiredposition.x)&&(s->curPos.y<desiredposition.y)) angletodest=365-angletodest;
-    turn(s, shortest_angle_from_dest(s, angletodest));
+    turn(s, TURNING_SPEED, shortest_angle_from_dest(s, angletodest));
     update_angle(s,angletodest);
     go_straight(s, MAX_WHEEL_SPEED, distancetodest);
     //}
     update_pos(s, desiredposition);
     return 0;
 }
+
 /**
- * TODO
- * Function that will be used to turn the robot to the desired angle
- */
+* Gives the sign of an int (may already be implemented in math.h, TOCHECK)
+* @param a The integer whose sign we want
+* @return the sign of a
+*/
 int sign(int a){
     return a/abs(a);
 }
 
 
-
-int turn(state *s, int angle){
+//TODO check if it turns the right way
+/**
+* Turn from a given angle at a given speed
+* @param s State of LeE
+* @param speed Turning speed of LeE
+* @param angle Angle to turn in degrees and clockwise
+* @return 0 if eveything is alright, 1 if the angle is too small for the gyro
+*/
+int turn(state *s, int speed, int angle){
     if (abs(angle)<ERROR_MARGIN){
         log_this(s, "[%s] : The angle is too small (%d). Not turning.\n", __FILE__, angle);
         return 1;
     }
-    log_this(s, "[%s] : Turning from %d degrees...\n", __FILE__, angle );
-    int speed = 150;
+    log_this(s, "[%s] : Turning from %d degrees...111\n", __FILE__, angle );
     int angle_sign = sign(angle);
     speed = speed * angle_sign;
-    ev3_update_sensor_val(s->gyro);
-    int current_angle = s->gyro->val_data[0].s32 ;
+    ev3_update_sensor_val(s->gyro);     // We make sure that the gyro is updated
+    int current_angle = s->gyro->val_data[0].s32 ; // We use the raw data of the gyro, not the clean one
     int goal = current_angle + angle;
     ev3_set_speed_sp(s->leftmotor, speed);
     ev3_set_speed_sp(s->rightmotor, -speed);
     command_wheels(s, RUN_FOREVER);
-    while(angle_sign * current_angle < angle_sign * goal){
+    // While we haven't reach the desired angle, we keep turning in the right direction
+    while(angle_sign * current_angle < angle_sign * goal){ 
         ev3_update_sensor_val(s->gyro);
         current_angle = s->gyro->val_data[0].s32 ;
     }
@@ -220,6 +261,8 @@ int turn(state *s, int angle){
 
 /**
  * Function to correct the position while moving
+ * @param s State of LeE
+ * @return the difference between the actual angle and the wanted angle, 0 if this difference is smaller than the error margin
  */
 int is_running_in_correct_angle(state *s){
 	int actualangle = gyro_angle(s);
