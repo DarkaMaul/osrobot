@@ -54,7 +54,6 @@ int main(int argc, char *argv[])
     //release(s, MAX_GRABBING_SPEED);
 
 	go_straight(s, 1000, 200);
-
 	//Initialize the "trip"
 
 	//ACTION
