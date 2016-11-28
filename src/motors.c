@@ -154,7 +154,6 @@ int wheels_run_pos(state *s, int speed, int pos){
     set_wheels_pos(s, pos);
     command_wheels(s, RUN_TO_REL_POS);
     while (ev3_motor_state(s->leftmotor) & MOTOR_RUNNING);
-    //TODO update_pos(s, pos);
     return 0;
 }
 
@@ -168,6 +167,8 @@ int wheels_run_pos(state *s, int speed, int pos){
 int wheels_run_distance(state *s, int speed, int distance){
     // deduce the angle from the given distance :
     int position = (distance*360)/(M_PI*WHEEL_DIAMETER);// wheels have diameter 5.6 cm
+    //Approximation that the angle should remains the same
+    update_pos(s, compute_position_from_distance_and_angle(s, distance));
     return wheels_run_pos(s, speed, position);
 }
 
@@ -218,6 +219,20 @@ int go_to_pos(state *s,position desiredposition){
     //}
     update_pos(s, desiredposition);
     return 0;
+}
+
+int go_to_pos_enhanced(state *s, position desiredposition){
+	s->wantedPos=desiredposition;
+	position relativeposition=compute_relative_position(s->curPos,desiredposition);
+	int distancetodest=compute_distance(relativeposition);
+	int angletodest=compute_angle(relativeposition);
+	angletodest=-M_PI+s->angle-angletodest;
+	turn(s, TURNING_SPEED, shortest_angle_from_dest(s, angletodest));
+	update_angle(s,angletodest);
+	go_straight(s, MAX_WHEEL_SPEED, distancetodest);
+	//}
+	update_pos(s, desiredposition);
+	return 0;
 }
 
 /**
