@@ -1,3 +1,4 @@
+#include <stdbool.h>
 #include <stdlib.h>
 #include <stdio.h>
 #include <unistd.h>
@@ -174,4 +175,59 @@ int send_message(state *s, int messageType, int destination, ...)
     log_this(s, "[Utils] Message of type %d with id %u sended to %d\n", messageType, s->msgId, destination);
 
     return 0;
+}
+
+/**
+ * Parse the START message to load the game parameters
+ * @param  s      State structure
+ * @param  buffer Raw message
+ * @return        0 in case of success | -1 otherwise
+ */
+int load_game_params(state *s, char *buffer)
+{
+    s->role =  s->side = s->ally = -1;
+
+    if (buffer[5] == ROLE_FIRST || buffer[5] == ROLE_SECOND)
+        s->role = buffer[5];
+
+    if (buffer[6] == SIDE_RIGHT || buffer[6] == SIDE_LEFT)
+        s->side = buffer[6];
+
+    if (buffer[7] > 0 && buffer[7] < 254)
+        s->ally = buffer[7];
+
+    if (!s->role || s->side || s->ally)
+    {
+        log_this(s, "[Utils] Error while defining game constants in load_game_params(%d, %d, %d).\n", buffer[5], buffer[6], buffer[7]);
+        return -1;
+    }
+
+    return 0;
+}
+
+/**
+ * Check if in arena
+ * @param  s              Structure state
+ * @param  testedPosition Tested position
+ * @return                bool
+ */
+bool is_in_arena(state *s, position testedPosition)
+{
+    if (s->type == SMALL_ARENA)
+    {
+        if(testedPosition.x > 0 && testedPosition.x < SMALL_ARENA_MAX_X
+           && testedPosition.y > 0 && testedPosition.y < SMALL_ARENA_MAX_Y)
+           return true;
+
+    } else if (s->type == BIG_ARENA)
+    {
+        if (testedPosition.y > 0 && testedPosition.y < BIG_ARENA_MAX_Y)
+        {
+            if ((s->side == SIDE_RIGHT && testedPosition.x > 0 && testedPosition.x < BIG_ARENA_MAX_X)
+               || (s->side == SIDE_LEFT && testedPosition.x > -BIG_ARENA_MAX_X && testedPosition.x < 0))
+               return true;
+        }
+    }
+
+    return false;
 }

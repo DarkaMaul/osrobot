@@ -44,6 +44,7 @@ typedef struct _state
 	uint16_t msgAck;
 
     /* Game */
+    int type;
     int role;
     int side;
     int ally;
