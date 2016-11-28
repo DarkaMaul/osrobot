@@ -245,6 +245,7 @@ int turn(state *s, int speed, int angle){
     ev3_update_sensor_val(s->gyro);     // We make sure that the gyro is updated
     int current_angle = s->gyro->val_data[0].s32 ; // We use the raw data of the gyro, not the clean one
     int goal = current_angle + angle;
+    printf("Goal: %d\t Current:%d\n", goal, current_angle);
     ev3_set_speed_sp(s->leftmotor, speed);
     ev3_set_speed_sp(s->rightmotor, -speed);
     command_wheels(s, RUN_FOREVER);
@@ -252,6 +253,8 @@ int turn(state *s, int speed, int angle){
     while(angle_sign * current_angle < angle_sign * goal){
         ev3_update_sensor_val(s->gyro);
         current_angle = s->gyro->val_data[0].s32 ;
+        printf("Current: %d\n", current_angle);
+        sleep(1);
     }
     command_wheels(s, STOP);
     return 0;
