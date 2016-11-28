@@ -53,7 +53,9 @@ int main(int argc, char *argv[])
     //sleep(5);
     //release(s, MAX_GRABBING_SPEED);
 
-	go_straight(s, 1000, 200);
+	//go_straight(s, 1000, 200);
+    position desiredposition={20,20};
+    go_to_pos_enhanced(s, desiredposition);
 	//Initialize the "trip"
 
 	//ACTION
