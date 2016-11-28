@@ -12,6 +12,7 @@
 
 //Robot constants
 #define ERROR_MARGIN 1
+#define WHEELS_TO_END 110
 
 //Motors commands
 #define RUN_FOREVER 0
