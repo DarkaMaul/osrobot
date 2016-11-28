@@ -226,6 +226,7 @@ int go_to_pos_enhanced(state *s, position desiredposition){
 	position relativeposition=compute_relative_position(s->curPos,desiredposition);
 	int distancetodest=compute_distance(relativeposition);
 	int angletodest=compute_angle(relativeposition);
+	log_this(s, "[%s] Angle relative to dest to turn %d...\n", __FILE__, angletodest);
 	angletodest=-(M_PI/2)-s->angle+angletodest;
     log_this(s, "[%s] Angle to dest to turn %d...\n", __FILE__, angletodest);
     log_this(s, "[%s] Shortest angle to dest to turn %d...\n", __FILE__, shortest_angle_from_dest(s, angletodest));
