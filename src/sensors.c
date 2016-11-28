@@ -76,7 +76,7 @@ int distance_from_obstacle(state *s)
 
 /*
 * Returns the angle of the robot, between 0 and 360, 0 being the initial angle of the robot
-*/
+*/  
 int gyro_angle(state *s)
 {
     ev3_update_sensor_val(s->gyro);

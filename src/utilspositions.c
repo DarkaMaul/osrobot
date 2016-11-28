@@ -30,6 +30,17 @@ void update_angle(state* s,int angle){
 	s->angle = clean_angle(angle); //ADD DECLARATIONS TO UTILS.H
 	log_this(s, "\n[UPDATE_ANGLE] angle=%d\n",  s->angle);
 }
+
+int clean_angle_2(int angle)
+{
+    while (angle < -180)
+        angle += 360;
+    while (angle > 180)
+        angle -= 360;
+
+    return angle;
+}
+
 int clean_angle(int angle) {
 	while (angle < 0) {
 		angle = angle + 360;

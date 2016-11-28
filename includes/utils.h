@@ -22,5 +22,6 @@ int compute_angle(position desiredposition);
 position compute_relative_position(position actualposition,position desiredposition);
 int shortest_angle_from_dest(state *s,int desiredangle);
 
-#endif
+int clean_angle_2(int angle);
 
+#endif
