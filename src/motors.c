@@ -189,7 +189,7 @@ int go_straight(state *s, int speed, int distance){
     }
     // We then go for the remaining distance and correct the angle again
     wheels_run_distance(s, speed, remaining_distance);
-    turn(s, TURNING_SEED, is_running_in_correct_angle(s));
+    turn(s, TURNING_SPEED, is_running_in_correct_angle(s));
     return 0;
 }
 
