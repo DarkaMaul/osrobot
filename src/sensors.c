@@ -35,7 +35,7 @@ int init_sensors(state *s)
     ev3_mode_sensor_by_name(s->compass, "COMPASS");
 
     s->gyro_reference = s->gyro->val_data[0].s32;
-
+    s->compass_reference = s->compass->val_data[0].s32;
     printf("Initial value of the compass : %d \n", compass_angle(s));
 
     return 0;
@@ -92,8 +92,8 @@ int compass_angle(state *s)
 //TODO Test if the initial value of the compass is 0
     ev3_update_sensor_val(s->compass);
     int angle = s->compass->val_data[0].s32;
-    printf("Angle:%d\t%d\n", angle, clean_angle(angle));
-    return clean_angle(angle);
+    printf("Angle:%d\t%d\n", angle, clean_angle(angle - s->compass_reference));
+    return clean_angle(angle - s->compass_reference);
 }
 
 int testSensor()
