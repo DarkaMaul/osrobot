@@ -46,6 +46,9 @@ int init_robot(state *s)
         return 1;
     }
 
+    //Init position
+    init_pos(s);
+
     return 0;
 }
 
