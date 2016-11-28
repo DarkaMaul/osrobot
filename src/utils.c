@@ -1,4 +1,3 @@
-#include <stdbool.h>
 #include <stdlib.h>
 #include <stdio.h>
 #include <unistd.h>
@@ -211,13 +210,13 @@ int load_game_params(state *s, char *buffer)
  * @param  testedPosition Tested position
  * @return                bool
  */
-bool is_in_arena(state *s, position testedPosition)
+int is_in_arena(state *s, position testedPosition)
 {
     if (s->type == SMALL_ARENA)
     {
         if(testedPosition.x > 0 && testedPosition.x < SMALL_ARENA_MAX_X
            && testedPosition.y > 0 && testedPosition.y < SMALL_ARENA_MAX_Y)
-           return true;
+           return 0;
 
     } else if (s->type == BIG_ARENA)
     {
@@ -225,9 +224,9 @@ bool is_in_arena(state *s, position testedPosition)
         {
             if ((s->side == SIDE_RIGHT && testedPosition.x > 0 && testedPosition.x < BIG_ARENA_MAX_X)
                || (s->side == SIDE_LEFT && testedPosition.x > -BIG_ARENA_MAX_X && testedPosition.x < 0))
-               return true;
+               return 0;
         }
     }
 
-    return false;
+    return -1;
 }
