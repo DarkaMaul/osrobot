@@ -58,8 +58,8 @@ int compute_angle(position desiredposition){
 
 position compute_position_from_distance_and_angle(state *s, int distancetopos){
 	position relpos;
-	relpos.x=s->curPos.x+distancetopos*cos(convert_to_radians(s->angle));
-	relpos.y=s->curPos.x+distancetopos*sin(convert_to_radians(s->angle));
+	relpos.x=s->curPos.x+distancetopos*cos(convert_to_radians((M_PI)/2-s->angle));
+	relpos.y=s->curPos.x+distancetopos*sin(convert_to_radians((M_PI)/2-s->angle));
 	return relpos;
 }
 
