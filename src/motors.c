@@ -178,6 +178,7 @@ int wheels_run_distance(state *s, int speed, int distance){
 int go_straight(state *s, int speed, int distance){
     log_this(s, "[%s] : Going straigth for%d cm\n", __FILE__, distance);
     s->angle = gyro_angle(s);
+
     // We divide the wanted distance in steps od STEPLENGTH
 	int nb_of_steps = distance / STEPLENGTH;
     int remaining_distance = distance % STEPLENGTH;
@@ -282,7 +283,8 @@ int turn(state *s, int speed, int angle){
 int is_running_in_correct_angle(state *s){
 	int actualangle = gyro_angle(s);
 	//+- ERROR_M degrees is ok
-    int angle_diff = s->angle - actualangle;
+    int angle_diff = clean_angle_2(s->angle - actualangle);
+    printf("Is running: %d\t%d\n", actualangle, angle_diff);
 	log_this(s, "[%s] Angle diff is %d\n", __FILE__, angle_diff);
 	if(abs(angle_diff) > ERROR_MARGIN){
 		return angle_diff;

@@ -23,5 +23,6 @@ position compute_relative_position(position actualposition,position desiredposit
 int shortest_angle_from_dest(state *s,int desiredangle);
 position compute_position_from_distance_and_angle(state *s, int distancetopos);
 
-#endif
+int clean_angle_2(int angle);
 
+#endif
