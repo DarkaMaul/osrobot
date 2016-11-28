@@ -13,7 +13,7 @@ char read_from_server(state *s, char *buffer);
 
 int load_game_params(state *s, char *buffer);
 
-bool is_in_arena(state *s, position testedPosition);
+int is_in_arena(state *s, position testedPosition);
 
 int clean_angle(int angle);
 
