@@ -21,8 +21,12 @@ int wheels_run_time(state *s, int speed, int time);
 int wheels_run_pos(state *s, int speed, int pos);
 int wheels_run_distance(state *s,int speed, int distance);
 int go_to_position(state * s, int speed);
-int go_straight(state *s,int speed, int distance);
 int sign(int a);
+int go_straight(state *s,int speed, int distance);
 int turn(state *s,int speed,int angle);
 int is_running_in_correct_angle(state *s);
+int go_straight_compass(state *s,int speed, int distance);
+int turn_compass(state *s,int speed,int angle);
+int is_running_in_correct_angle_compass(state *s);
+
 #endif /* INCLUDES_MOTORS_H_ */
