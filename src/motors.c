@@ -177,7 +177,7 @@ int wheels_run_distance(state *s, int speed, int distance){
 int go_straight(state *s, int speed, int distance){
     log_this(s, "[%s] : Going straigth for%d cm\n", __FILE__, distance);
     s->angle = gyro_angle(s);
-    // We divide the wanted distance in steps od STEPLENGTH 
+    // We divide the wanted distance in steps od STEPLENGTH
 	int nb_of_steps = distance / STEPLENGTH;
     int remaining_distance = distance % STEPLENGTH;
 	printf("STP: %d \t RD: %d\n", nb_of_steps, remaining_distance);
@@ -238,7 +238,7 @@ int turn(state *s, int speed, int angle){
         log_this(s, "[%s] : The angle is too small (%d). Not turning.\n", __FILE__, angle);
         return 1;
     }
-    log_this(s, "[%s] : Turning from %d degrees...111\n", __FILE__, angle );
+    log_this(s, "[%s] : Turning from %d degrees.\n", __FILE__, angle );
     int angle_sign = sign(angle);
     speed = speed * angle_sign;
     ev3_update_sensor_val(s->gyro);     // We make sure that the gyro is updated
@@ -248,7 +248,7 @@ int turn(state *s, int speed, int angle){
     ev3_set_speed_sp(s->rightmotor, -speed);
     command_wheels(s, RUN_FOREVER);
     // While we haven't reach the desired angle, we keep turning in the right direction
-    while(angle_sign * current_angle < angle_sign * goal){ 
+    while(angle_sign * current_angle < angle_sign * goal){
         ev3_update_sensor_val(s->gyro);
         current_angle = s->gyro->val_data[0].s32 ;
     }
