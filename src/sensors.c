@@ -34,8 +34,12 @@ int init_sensors(state *s)
     ev3_open_sensor(s->compass);
     ev3_mode_sensor_by_name(s->compass, "COMPASS");
 
+    ev3_update_sensor_val(s->gyro);
     s->gyro_reference = s->gyro->val_data[0].s32;
+
+    ev3_update_sensor_val(s->compass);
     s->compass_reference = s->compass->val_data[0].s32;
+    printf("%d\n",s->compass_reference);
     printf("Initial value of the compass : %d \n", compass_angle(s));
 
     return 0;
