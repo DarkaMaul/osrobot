@@ -14,7 +14,7 @@ void init_motors(state *s){
     s->leftmotor=ev3_search_motor_by_port(s->motors, *PORT_LEFT_MOTOR);
     s->rightmotor=ev3_search_motor_by_port(s->motors, *PORT_RIGHT_MOTOR);
     s->grabmotor=ev3_search_motor_by_port(s->motors, *PORT_GRAB_MOTOR);
-    s->sweepmotor=ev3_search_motor_by_port(s->motors, *PORT_SWEEP_MOTOR);
+    //s->sweepmotor=ev3_search_motor_by_port(s->motors, *PORT_SWEEP_MOTOR);
     ev3_motor_ptr motor = s->motors;
     //Just in case reset all motors
     while (motor)
@@ -27,8 +27,12 @@ void init_motors(state *s){
     }
     ev3_stop_command_motor_by_name(s->grabmotor, "hold");
 
-    init_pos(s);
-    log_this(s, "[%s] Position initialized to x:%d, y:%d\n",__FILE__,s->curPos.x,s->curPos.y);
+    //Ramp smoothly to max speed
+    ev3_set_ramp_up_sp(s->rightmotor, 500);
+    ev3_set_ramp_up_sp(s->leftmotor, 500);
+    ev3_set_ramp_down_sp(s->rightmotor, 1000);
+    ev3_set_ramp_down_sp(s->leftmotor, 1000);
+
 }
 
 //Grabbing functions
