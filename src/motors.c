@@ -222,7 +222,7 @@ int go_to_pos_enhanced(state *s, position desiredposition){
 	position relativeposition=compute_relative_position(s->curPos,desiredposition);
 	int distancetodest=compute_distance(relativeposition);
 	int angletodest=compute_angle(relativeposition);
-	angletodest=-M_PI+s->angle-angletodest;
+	angletodest=-(M_PI/2)+s->angle-angletodest;
 	turn(s, TURNING_SPEED, shortest_angle_from_dest(s, angletodest));
 	update_angle(s,angletodest);
 	go_straight(s, MAX_WHEEL_SPEED, distancetodest);
