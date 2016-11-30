@@ -203,36 +203,22 @@ int go_straight(state *s, int speed, int distance){
  * TODO Function that will be used to go to a specified position
  * First version go straight to the position ignoring obstacles
  */
-int go_to_pos(state *s,position desiredposition){
-    //while((s->curPos.x!=desiredposition.x)&&(s->curPos.y!=desiredposition.y)){
-	s->wantedPos=desiredposition;
-	position relativeposition=compute_relative_position(s->curPos,desiredposition);
-    int distancetodest=compute_distance(relativeposition);
-    int angletodest=compute_angle(relativeposition);
-    angletodest=angletodest-s->angle;
-    if((s->curPos.x>desiredposition.x)&&(s->curPos.y>desiredposition.y)) angletodest+=180;
-    if((s->curPos.x<desiredposition.x)&&(s->curPos.y>desiredposition.y)) angletodest=180-angletodest;
-    if((s->curPos.x>desiredposition.x)&&(s->curPos.y<desiredposition.y)) angletodest=365-angletodest;
-    turn(s, TURNING_SPEED, shortest_angle_from_dest(s, angletodest));
-    update_angle(s,angletodest);
-    go_straight(s, MAX_WHEEL_SPEED, distancetodest);
-    //}
-    update_pos(s, desiredposition);
-    return 0;
-}
-
-int go_to_pos_enhanced(state *s, position desiredposition){
+int go_to_pos(state *s, position desiredposition){
 	s->wantedPos=desiredposition;
 	position relativeposition=compute_relative_position(s->curPos,desiredposition);
 	int distancetodest=compute_distance(relativeposition);
-	int angletodest=compute_angle(relativeposition);
-	log_this(s, "[%s] Angle relative to dest to turn %d...\n", __FILE__, angletodest);
-	angletodest=-(M_PI/2)-s->angle+angletodest;
-    log_this(s, "[%s] Angle to dest to turn %d...\n", __FILE__, angletodest);
-    log_this(s, "[%s] Shortest angle to dest to turn %d...\n", __FILE__, shortest_angle_from_dest(s, angletodest));
-	turn(s, TURNING_SPEED, shortest_angle_from_dest(s, angletodest));
+	log_this(s, "[%s] Distance relative from destination %d...\n", __FILE__, distancetodest);
+	int absoluteangle=compute_angle(relativeposition);
+	log_this(s, "[%s] Angle absolute to destination (trigonometric wise) to turn %d...\n", __FILE__, absoluteangle);
+	//log_this(s, "[%s] Current angle of the robot %d...\n", __FILE__, s->angle);
+	int relativeangle;
+	if(s->angle>=0) relativeangle=absoluteangle-s->angle;
+	else relativeangle=absoluteangle+s->angle;
+    log_this(s, "[%s]Relative angle in trigonometric way to turn %d...\n", __FILE__, relativeangle);
+    //need to be clockwise for the turn function so send - relative angle to the function
+	turn(s, TURNING_SPEED, -relativeangle);
 
-	update_angle(s,angletodest);
+	update_angle(s,absoluteangle);
 	go_straight(s, MAX_WHEEL_SPEED, distancetodest);
 	update_pos(s, desiredposition);
 	return 0;
