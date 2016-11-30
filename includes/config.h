@@ -12,6 +12,7 @@
 
 //Robot constants
 #define ERROR_MARGIN 1
+#define WHEELS_TO_END 110
 
 //Motors commands
 #define RUN_FOREVER 0
@@ -86,6 +87,46 @@
 #define ROLE_SECOND 1
 #define SIDE_RIGHT 0
 #define SIDE_LEFT 1
+
+//Field config
+#define SMALL_ARENA 0
+#define BIG_ARENA 1
+
+#define SMALL_ARENA_MAX_X 120
+#define SMALL_ARENA_MAX_Y 200
+
+#define BIG_ARENA_MAX_X 120
+#define BIG_ARENA_MAX_Y 400
+
+//Small_FirstRunner_Startingposition_Point0_X
+#define S_FR_S_0_X 70
+#define S_FR_S_0_Y 10
+#define S_FR_S_1_X 70
+#define S_FR_S_1_Y 50
+#define S_FR_S_2_X 110
+#define S_FR_S_2_Y 50
+#define S_FR_S_3_X 110
+#define S_FR_S_3_Y 10
+
+//Small_BallArena_Point0_X
+#define S_BA_0_X 110
+#define S_BA_0_Y 90
+#define S_BA_1_X 110
+#define S_BA_1_Y 110
+#define S_BA_2_X 130
+#define S_BA_2_Y 110
+#define S_BA_3_X 130
+#define S_BA_3_Y 90
+
+//Small_FirstRunner_Endingposition_Point0_X
+#define S_FR_E_0_X 10
+#define S_FR_E_0_Y 140
+#define S_FR_E_1_X 10
+#define S_FR_E_1_Y 190
+#define S_FR_E_2_X 50
+#define S_FR_E_2_Y 190
+#define S_FR_E_3_X 50
+#define S_FR_E_3_Y 140
 
 #define BALL_CATCH_DISTANCE 3
 #define BALL_FOUND 0

@@ -39,11 +39,13 @@ typedef struct _state
     ev3_sensor_ptr compass;
 
     int gyro_reference;
+    int compass_reference;
 
     uint16_t msgId;
 	uint16_t msgAck;
 
     /* Game */
+    int type;
     int role;
     int side;
     int ally;
