@@ -250,11 +250,12 @@ int go_to_pos(state *s, position desiredposition){
 */
 int turn(state *s, int speed, int angle){
     if (abs(angle)<ERROR_MARGIN){
-        log_this(s, "[%s] : The angle is too small (%d). Not turning.\n", __FILE__, angle);
+        log_this(s, "[%s:turn] : The angle is too small (%d). Not turning.\n", __FILE__, angle);
         return 1;
     }
-    log_this(s, "[%s] : Turning from %d degrees.\n", __FILE__, angle );
+    log_this(s, "[%s:turn] : Turning from %d degrees.\n", __FILE__, angle );
     int starting_angle = gyro_angle(s);
+    log_this(s, "[%s:turn] : Starting angle = %d\n", __FILE__, starting_angle);
     int angle_sign = sign(angle);
     speed = speed * angle_sign;
     ev3_update_sensor_val(s->gyro);     // We make sure that the gyro is updated
@@ -270,6 +271,7 @@ int turn(state *s, int speed, int angle){
     }
     command_wheels(s, STOP);
     int new_angle =gyro_angle(s);
+    log_this(s, "[%s:turn] : New angle = %d\n", __FILE__, new_angle);
     turn(s,speed,clean_angle(starting_angle-new_angle));
     return 0;
 }
