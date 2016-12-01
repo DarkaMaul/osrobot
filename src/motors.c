@@ -248,10 +248,6 @@ int go_to_pos(state *s, position desiredposition){
 * @return 0 if eveything is alright, 1 if the angle is too small for the gyro
 */
 int turn(state *s, int speed, int angle){
-    if (abs(angle)<ERROR_MARGIN){
-        log_this(s, "[%s:turn] : The angle is too small (%d). Not turning.\n", __FILE__, angle);
-        return 1;
-    }
     int starting_angle = gyro_angle(s);
     log_this(s, "[%s:turn] : Starting angle = %d\n", __FILE__, starting_angle);
     turn_imprecise(s,speed,angle);
@@ -273,6 +269,10 @@ int turn(state *s, int speed, int angle){
 * @return 0 if eveything is alright, 1 if the angle is too small for the gyro
 */
 int turn_imprecise(state *s, int speed, int angle){
+    if (abs(angle)<ERROR_MARGIN){
+        log_this(s, "[%s:turn] : The angle is too small (%d). Not turning.\n", __FILE__, angle);
+        return 1;
+    }
     log_this(s, "[%s:turn] : Turning from %d degrees.\n", __FILE__, angle );
     int angle_sign = sign(angle);
     speed = speed * angle_sign;
