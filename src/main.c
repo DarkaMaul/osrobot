@@ -10,6 +10,8 @@
 #include "init.h"
 #include "robot.h"
 #include "sensors.h"
+#include "first_runner.h"
+
 //#include "config.h"
 
 state st;
