@@ -190,7 +190,7 @@ int wheels_run_distance(state *s, int speed, int distance){
  */
 int go_straight(state *s, int speed, int distance){
     log_this(s, "[%s] : Going straigth for%d cm\n", __FILE__, distance);
-    s->angle = gyro_angle(s);
+    update_angle(s,gyro_angle(s));
 
     // We divide the wanted distance in steps od STEPLENGTH
 	int nb_of_steps = distance / STEPLENGTH;
