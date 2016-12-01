@@ -279,7 +279,7 @@ int turn(state *s, int speed, int angle){
 int is_running_in_correct_angle(state *s){
 	int actualangle = gyro_angle(s);
 	//+- ERROR_M degrees is ok
-    int angle_diff = clean_angle_2(s->angle - actualangle);
+    int angle_diff = clean_angle(s->angle - actualangle);
     printf("Is running: %d\t%d\n", actualangle, angle_diff);
 	log_this(s, "[%s] Angle diff is %d\n", __FILE__, angle_diff);
 	if(abs(angle_diff) > ERROR_MARGIN){
@@ -330,7 +330,7 @@ int turn_compass(state *s, int speed, int angle){
 int is_running_in_correct_angle_compass(state *s){
 	int actualangle = compass_angle(s);
 	//+- ERROR_M degrees is ok
-    int angle_diff = clean_angle_2(s->angle - actualangle);
+    int angle_diff = clean_angle(s->angle - actualangle);
     printf("Is running: %d\t%d\n", actualangle, angle_diff);
 	log_this(s, "[%s] Angle diff is %d\n", __FILE__, angle_diff);
 	if(abs(angle_diff) > ERROR_MARGIN){

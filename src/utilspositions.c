@@ -50,7 +50,7 @@ void update_angle(state* s,int angle){
  * Put angle between -180 and 180
  * @param  angle angle to 'clean'
  */
-int clean_angle_2(int angle)
+int clean_angle(int angle)
 {
     while (angle < -180)
         angle += 360;
@@ -60,16 +60,6 @@ int clean_angle_2(int angle)
     return angle;
 }
 
-/**
- * Put angle between 0 and 360
- * @param  angle to clean
- */
-int clean_angle(int angle) {
-	while (angle < 0) {
-		angle = angle + 360;
-	}
-	return angle % 360;
-}
 
 /**
  * Calculate distance with coordinates

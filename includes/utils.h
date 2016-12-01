@@ -15,8 +15,6 @@ int load_game_params(state *s, char *buffer);
 
 int is_in_arena(state *s, position testedPosition);
 
-int clean_angle(int angle);
-
 void update_pos(state* s, position pos);
 void update_angle(state* s, int angle);
 void init_pos(state *s);
@@ -30,6 +28,5 @@ double convert_to_radians(double deg);
 double convert_to_degrees(double deg);
 int sign(int a);
 
-int clean_angle_2(int angle);
 
 #endif
