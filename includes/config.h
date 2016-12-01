@@ -11,7 +11,7 @@
 #define TEST_SERV_ADDR "127.0.0.1"
 
 //Robot constants
-#define ERROR_MARGIN 1
+#define ERROR_MARGIN 3
 #define WHEELS_TO_END 110
 
 //Motors commands
@@ -49,7 +49,7 @@
 #define MAX_WHEEL_SPEED 1050
 #define WHEEL_DIAMETER 5.6
 #define STEPLENGTH 70
-#define TURNING_SPEED 50
+#define TURNING_SPEED 30
 
 //Positions of of fixed elements
 #define CENTER_POSITION 0
