@@ -2,6 +2,8 @@
 #include "config.h"
 #include "first_runner.h"
 #include "motors.h"
+#include "utils.h"
+
 
 int first_runner_small_stadium(state *s)
 {
