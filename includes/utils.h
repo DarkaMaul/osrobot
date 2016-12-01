@@ -28,7 +28,7 @@ int shortest_angle_from_dest(state *s,int desiredangle);
 position compute_position_from_distance_and_angle(state *s, int distancetopos);
 double convert_to_radians(double deg);
 double convert_to_degrees(double deg);
-
+int sign(int a);
 
 int clean_angle_2(int angle);
 

@@ -9,6 +9,10 @@
 #include "utils.h"
 #include "sensors.h"
 
+/**
+ * Init all the motors of the robot
+ * @param  s        State structure
+ */
 void init_motors(state *s){
     s->motors = ev3_load_motors();
     s->leftmotor=ev3_search_motor_by_port(s->motors, *PORT_LEFT_MOTOR);
@@ -34,11 +38,13 @@ void init_motors(state *s){
     ev3_set_ramp_down_sp(s->leftmotor, 1000);
 
 }
-
-//Grabbing functions
+//Grab control functions
 
 /**
  * Function which can be used to grab the ball at a specified speed
+ * @param  s        State structure
+ * @param  speed    Speed for LeE (usually MAX_WHEEL_SPEED)
+ * @return          0 if everything is allright -1 else
  */
 int grab(state *s, int speed)
 {
@@ -57,7 +63,10 @@ int grab(state *s, int speed)
 
 
 /**
- * Function which can be used to grab the ball at a specified speed
+ * Function which can be used to release the ball at a specified speed
+ * @param  s        State structure
+ * @param  speed    Speed for LeE (usually MAX_WHEEL_SPEED)
+ * @return          0 if everything is allright -1 else
  */
 int release(state *s, int speed)
 {
@@ -203,6 +212,12 @@ int go_straight(state *s, int speed, int distance){
  * TODO Function that will be used to go to a specified position
  * First version go straight to the position ignoring obstacles
  */
+/**
+ * Function to go to a specified position
+ * @param  s        State structure
+ * @param  position    Desired x,y position to go
+ * @return          0 if everything is allright
+ */
 int go_to_pos(state *s, position desiredposition){
 	s->wantedPos=desiredposition;
 	position relativeposition=compute_relative_position(s->curPos,desiredposition);
@@ -222,15 +237,6 @@ int go_to_pos(state *s, position desiredposition){
 	go_straight(s, MAX_WHEEL_SPEED, distancetodest);
 	update_pos(s, desiredposition);
 	return 0;
-}
-
-/**
-* Gives the sign of an int (may already be implemented in math.h, TOCHECK)
-* @param a The integer whose sign we want
-* @return the sign of a
-*/
-int sign(int a){
-    return a/abs(a);
 }
 
 
