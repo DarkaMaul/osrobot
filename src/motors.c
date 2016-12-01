@@ -254,6 +254,7 @@ int turn(state *s, int speed, int angle){
         return 1;
     }
     log_this(s, "[%s] : Turning from %d degrees.\n", __FILE__, angle );
+    int starting_angle = gyro_angle(s);
     int angle_sign = sign(angle);
     speed = speed * angle_sign;
     ev3_update_sensor_val(s->gyro);     // We make sure that the gyro is updated
@@ -268,6 +269,8 @@ int turn(state *s, int speed, int angle){
         current_angle = s->gyro->val_data[0].s32 ;
     }
     command_wheels(s, STOP);
+    int new_angle =gyro_angle(s);
+    turn(s,speed,clean_angle(starting_angle-new_angle));
     return 0;
 }
 
