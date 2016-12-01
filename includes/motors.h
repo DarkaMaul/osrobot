@@ -23,6 +23,7 @@ int wheels_run_distance(state *s,int speed, int distance);
 int go_to_pos(state * s, position desiredposition);
 int go_straight(state *s,int speed, int distance);
 int turn(state *s,int speed,int angle);
+int turn_imprecise(state *s,int speed,int angle);
 int is_running_in_correct_angle(state *s);
 int go_straight_compass(state *s,int speed, int distance);
 int turn_compass(state *s,int speed,int angle);
