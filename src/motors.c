@@ -220,6 +220,9 @@ int go_straight(state *s, int speed, int distance){
  */
 int go_to_pos(state *s, position desiredposition){
 	s->wantedPos=desiredposition;
+	log_this(s, "[%s] Go to pos departure destination  x=%d y=%d...\n", __FILE__, s->curPos.x,s->curPos.y);
+	log_this(s, "[%s] Go to pos desired destination  x=%d y=%d...\n", __FILE__, desiredposition.x,desiredposition.y);
+
 	position relativeposition=compute_relative_position(s->curPos,desiredposition);
 	int distancetodest=compute_distance(relativeposition);
 	log_this(s, "[%s] Distance relative from destination %d...\n", __FILE__, distancetodest);
@@ -231,7 +234,7 @@ int go_to_pos(state *s, position desiredposition){
 	else relativeangle=absoluteangle+s->angle;
     log_this(s, "[%s]Relative angle in trigonometric way to turn %d...\n", __FILE__, relativeangle);
     //need to be clockwise for the turn function so send - relative angle to the function
-	turn(s, TURNING_SPEED, -relativeangle);
+    turn(s, TURNING_SPEED, clean_angle(-relativeangle));
 
 	update_angle(s,absoluteangle);
 	go_straight(s, MAX_WHEEL_SPEED, distancetodest);
