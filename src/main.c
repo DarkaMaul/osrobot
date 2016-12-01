@@ -54,15 +54,16 @@ int main(int argc, char *argv[])
     //release(s, MAX_GRABBING_SPEED);
 
 	//go_straight(s, 1000, 200);
-    position desiredposition={2,2};
-    go_to_pos(s, desiredposition);
-    sleep(3);
-    desiredposition.x=1;
-    desiredposition.y=1;
-    go_to_pos(s, desiredposition);
+//    position desiredposition={2,2};
+//    go_to_pos(s, desiredposition);
+//    sleep(3);
+//    desiredposition.x=1;
+//    desiredposition.y=1;
+//    go_to_pos(s, desiredposition);
 	//Initialize the "trip"
 
 	//ACTION
+    first_runner_small_stadium(s);
 
 	//Reset robot
 
