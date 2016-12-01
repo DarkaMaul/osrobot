@@ -272,7 +272,9 @@ int turn(state *s, int speed, int angle){
     command_wheels(s, STOP);
     int new_angle =gyro_angle(s);
     log_this(s, "[%s:turn] : New angle = %d\n", __FILE__, new_angle);
-    turn(s,speed,clean_angle(starting_angle-new_angle));
+    int angle_diff = starting_angle-new_angle;
+    log_this(s, "[%s:turn] : Angle difference = %d\n", __FILE__, angle_diff);
+    turn(s,speed,clean_angle(angle_diff));
     return 0;
 }
 
