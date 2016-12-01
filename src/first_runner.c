@@ -3,6 +3,8 @@
 #include "first_runner.h"
 #include "motors.h"
 #include "utils.h"
+#include "robot.h"
+
 
 
 int first_runner_small_stadium(state *s)
