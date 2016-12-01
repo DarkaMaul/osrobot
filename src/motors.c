@@ -240,7 +240,6 @@ int go_to_pos(state *s, position desiredposition){
 }
 
 
-//TODO check if it turns the right way
 /**
 * Turn from a given angle at a given speed
 * @param s State of LeE
@@ -253,9 +252,28 @@ int turn(state *s, int speed, int angle){
         log_this(s, "[%s:turn] : The angle is too small (%d). Not turning.\n", __FILE__, angle);
         return 1;
     }
-    log_this(s, "[%s:turn] : Turning from %d degrees.\n", __FILE__, angle );
     int starting_angle = gyro_angle(s);
     log_this(s, "[%s:turn] : Starting angle = %d\n", __FILE__, starting_angle);
+    turn_imprecise(s,speed,angle);
+    int new_angle =gyro_angle(s);
+    log_this(s, "[%s:turn] : New angle = %d\n", __FILE__, new_angle);
+    int angle_diff = starting_angle-new_angle;
+    log_this(s, "[%s:turn] : Angle difference = %d\n", __FILE__, angle_diff);
+    turn_imprecise(s,speed,clean_angle(angle_diff));
+    new_angle = gyro_angle(s);
+    log_this(s, "[%s:turn] : New angle = %d\n", __FILE__, new_angle);
+    return 0;
+}
+
+/**
+* Turn from a given angle at a given speed, with poteentially a small error. The function turn() calls this one twice to correct this potential error.
+* @param s State of LeE
+* @param speed Turning speed of LeE
+* @param angle Angle to turn in degrees and clockwise
+* @return 0 if eveything is alright, 1 if the angle is too small for the gyro
+*/
+int turn_imprecise(state *s, int speed, int angle){
+    log_this(s, "[%s:turn] : Turning from %d degrees.\n", __FILE__, angle );
     int angle_sign = sign(angle);
     speed = speed * angle_sign;
     ev3_update_sensor_val(s->gyro);     // We make sure that the gyro is updated
@@ -270,14 +288,9 @@ int turn(state *s, int speed, int angle){
         current_angle = s->gyro->val_data[0].s32 ;
     }
     command_wheels(s, STOP);
-    usleep(10000);
-    int new_angle =gyro_angle(s);
-    log_this(s, "[%s:turn] : New angle = %d\n", __FILE__, new_angle);
-    int angle_diff = starting_angle-new_angle;
-    log_this(s, "[%s:turn] : Angle difference = %d\n", __FILE__, angle_diff);
-    turn(s,angle_sign*speed,clean_angle(angle_diff));
     return 0;
 }
+
 
 /**
  * Function to correct the position while moving
