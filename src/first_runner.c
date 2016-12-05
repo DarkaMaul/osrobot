@@ -34,7 +34,7 @@ int first_runner_small_stadium(state *s)
 	//Go to ending position
 	position endingposition;
 	endingposition.x=170;
-	endingposition.x=170;
+	endingposition.y=170;
 	go_to_pos(s, endingposition);
 
 	//Send ok signal bluetooth for other team
