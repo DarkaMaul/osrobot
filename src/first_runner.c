@@ -21,8 +21,8 @@ int first_runner_small_stadium(state *s)
 
     //Go to center
 	position releaseballposition;
-	releaseballposition.x = (S_BA_3_X +  S_BA_0_X) / 2;
-	releaseballposition.y = (S_BA_3_Y + S_BA_2_Y) /2 ;
+	releaseballposition.x = S_BA_0_X + (S_BA_3_X -  S_BA_0_X) / 2;
+	releaseballposition.y = S_BA_3_Y + (S_BA_2_Y - S_BA_3_Y) /2 ;
 	go_to_pos(s, releaseballposition);
 
 	release(s, MAX_GRABBING_SPEED);
