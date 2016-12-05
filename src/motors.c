@@ -225,16 +225,19 @@ int go_to_pos(state *s, position desiredposition){
 
 	position relativeposition=compute_relative_position(s->curPos,desiredposition);
 	int distancetodest=compute_distance(relativeposition);
-	log_this(s, "[%s] Distance relative from destination %d...\n", __FILE__, distancetodest);
+	log_this(s, "[%s] Distance relative to destination %d...\n", __FILE__, distancetodest);
 	int absoluteangle=compute_angle(relativeposition);
-	log_this(s, "[%s] Angle absolute to destination (trigonometric wise) to turn %d...\n", __FILE__, absoluteangle);
+	log_this(s, "[%s] Absolute angle to destination (trigonometric wise) to turn %d...\n", __FILE__, absoluteangle);
 	//log_this(s, "[%s] Current angle of the robot %d...\n", __FILE__, s->angle);
 	int relativeangle;
 	if(s->angle>=0) relativeangle=absoluteangle-s->angle;
 	else relativeangle=absoluteangle+s->angle;
-    log_this(s, "[%s]Relative angle in trigonometric way to turn %d...\n", __FILE__, relativeangle);
+    log_this(s, "[%s] Relative angle to destination (trigonometric wise) to turn %d...\n", __FILE__, relativeangle);
+    int relativeAngleToTurnClockWise=clean_angle(-relativeangle);
+    log_this(s, "[%s] Relative angle to destination (ClockWise) to turn sent to turn %d...\n", __FILE__, relativeAngleToTurnClockWise);
+
     //need to be clockwise for the turn function so send - relative angle to the function
-    turn(s, TURNING_SPEED, clean_angle(-relativeangle));
+    turn(s, TURNING_SPEED, relativeAngleToTurnClockWise);
 
 	update_angle(s,absoluteangle);
 	go_straight(s, MAX_WHEEL_SPEED, distancetodest);
