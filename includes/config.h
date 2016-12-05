@@ -12,7 +12,7 @@
 
 //Robot constants
 #define ERROR_MARGIN 3
-#define WHEELS_TO_END 110
+#define WHEELS_TO_END 11
 
 //Motors commands
 #define RUN_FOREVER 0
@@ -118,15 +118,25 @@
 #define S_BA_3_X 130
 #define S_BA_3_Y 90
 
+//Small_SecondRunner_Startingposition_Point0_X
+#define S_SR_S_0_X 10
+#define S_SR_S_0_Y 140
+#define S_SR_S_1_X 10
+#define S_SR_S_1_Y 190
+#define S_SR_S_2_X 50
+#define S_SR_S_2_Y 190
+#define S_SR_S_3_X 50
+#define S_SR_S_3_Y 140
+
 //Small_FirstRunner_Endingposition_Point0_X
-#define S_FR_E_0_X 10
-#define S_FR_E_0_Y 140
-#define S_FR_E_1_X 10
+#define S_FR_E_0_X 70
+#define S_FR_E_0_Y 150
+#define S_FR_E_1_X 70
 #define S_FR_E_1_Y 190
-#define S_FR_E_2_X 50
+#define S_FR_E_2_X 110
 #define S_FR_E_2_Y 190
-#define S_FR_E_3_X 50
-#define S_FR_E_3_Y 140
+#define S_FR_E_3_X 110
+#define S_FR_E_3_Y 150
 
 #define BALL_CATCH_DISTANCE 3
 #define BALL_FOUND 0

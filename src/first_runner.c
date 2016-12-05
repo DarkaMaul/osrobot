@@ -6,7 +6,6 @@
 #include "robot.h"
 
 
-
 int first_runner_small_stadium(state *s)
 {
     //Init the Game
@@ -21,11 +20,12 @@ int first_runner_small_stadium(state *s)
 	//catch the ball in front of the robot at the begining
 	catch_ball(s);
 
-    //Go to center //TODO by Alexis put the right positions
+    //Go to center
 	position releaseballposition;
-	releaseballposition.x = 60;
-	releaseballposition.y = 100;
+	releaseballposition.x = (S_BA_3_X +  S_BA_0_X) / 2;
+	releaseballposition.y = (S_BA_3_Y + S_BA_2_Y) /2 ;
 	go_to_pos(s, releaseballposition);
+
 	release(s, MAX_GRABBING_SPEED);
 
 	//Go back a little
@@ -33,8 +33,9 @@ int first_runner_small_stadium(state *s)
 
 	//Go to ending position
 	position endingposition;
-	endingposition.x=170;
-	endingposition.x=170;
+	endingposition.x=S_FR_E_0_X;
+	endingposition.y= (S_FR_E_0_Y + S_FR_E_1_Y) / 2;
+
 	go_to_pos(s, endingposition);
 
 	//Send ok signal bluetooth for other team
