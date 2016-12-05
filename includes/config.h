@@ -109,13 +109,13 @@
 #define S_FR_S_3_Y 10
 
 //Small_BallArena_Point0_X
-#define S_BA_0_X 110
+#define S_BA_0_X 50
 #define S_BA_0_Y 90
-#define S_BA_1_X 110
+#define S_BA_1_X 50
 #define S_BA_1_Y 110
-#define S_BA_2_X 130
+#define S_BA_2_X 70
 #define S_BA_2_Y 110
-#define S_BA_3_X 130
+#define S_BA_3_X 70
 #define S_BA_3_Y 90
 
 //Small_SecondRunner_Startingposition_Point0_X
