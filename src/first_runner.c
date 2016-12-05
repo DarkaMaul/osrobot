@@ -5,7 +5,6 @@
 #include "utils.h"
 #include "robot.h"
 
-
 int first_runner_small_stadium(state *s)
 {
     //Init the Game
@@ -18,7 +17,7 @@ int first_runner_small_stadium(state *s)
 	update_angle(s, 90);
 
 	//catch the ball in front of the robot at the begining
-	catch_ball(s);
+    //catch_ball(s);
 
     //Go to center
 	position releaseballposition;

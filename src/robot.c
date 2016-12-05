@@ -14,10 +14,11 @@
 int catch_ball(state* s)
 {
     log_this(s, "[%s] Trying to catch the ball.\n", __FILE__);
-
+    /*
+    	Already in release position
     //First release the hook
-    release(s, MAX_GRABBING_SPEED);
-
+    //release(s, MAX_GRABBING_SPEED);
+	*/
     //Then check if the ball is  really there
     int distanceBall = distance_from_obstacle(s);
 
