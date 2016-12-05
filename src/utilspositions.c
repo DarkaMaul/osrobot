@@ -21,9 +21,9 @@
  * @param  position    New position of LeE
  */
 void update_pos(state* s, position pos) {
-	s->curPos.x=pos.x;
+    log_this(s, "\n[UPDATE_POSITION] x=%d y=%d from (%d,%d)\n", pos.x, pos.y, s->curPos.x, s->curPos.y);
+    s->curPos.x=pos.x;
 	s->curPos.y=pos.y;
-	log_this(s, "\n[UPDATE_POSITION] x=%d y=%d ", s->curPos.x, s->curPos.y);
 }
 
 /**
@@ -59,7 +59,6 @@ int clean_angle(int angle)
 
     return angle;
 }
-
 
 /**
  * Calculate distance with coordinates
