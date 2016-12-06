@@ -11,7 +11,7 @@
 #define TEST_SERV_ADDR "127.0.0.1"
 
 //Robot constants
-#define ERROR_MARGIN 3
+#define ERROR_MARGIN 1
 #define ERROR_DISTANCE_MARGIN 5
 #define WHEELS_TO_END 11
 
