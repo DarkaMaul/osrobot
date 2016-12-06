@@ -250,9 +250,7 @@ int go_to_pos_incomplete(state *s, position desiredposition){
     //need to be clockwise for the turn function so send - relative angle to the function
     turn(s, TURNING_SPEED, relativeAngleToTurnClockWise);
 
-	//update_angle(s,absoluteangle);
 	go_straight(s, MAX_WHEEL_SPEED, distancetodest);
-	//update_pos(s, desiredposition);
 	return 0;
 }
 
