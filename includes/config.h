@@ -118,15 +118,25 @@
 #define S_BA_3_X 70
 #define S_BA_3_Y 90
 
+//Small_SecondRunner_EndPosition_Point0_X
+#define S_SR_E_0_X 10
+#define S_SR_E_0_Y 10
+#define S_SR_E_1_X 10
+#define S_SR_E_1_Y 50
+#define S_SR_E_2_X 50
+#define S_SR_E_2_Y 50
+#define S_SR_E_3_X 50
+#define S_SR_E_3_Y 10
+
 //Small_SecondRunner_Startingposition_Point0_X
 #define S_SR_S_0_X 10
-#define S_SR_S_0_Y 140
+#define S_SR_S_0_Y 150
 #define S_SR_S_1_X 10
 #define S_SR_S_1_Y 190
 #define S_SR_S_2_X 50
 #define S_SR_S_2_Y 190
 #define S_SR_S_3_X 50
-#define S_SR_S_3_Y 140
+#define S_SR_S_3_Y 150
 
 //Small_FirstRunner_Endingposition_Point0_X
 #define S_FR_E_0_X 70
@@ -141,6 +151,10 @@
 #define BALL_CATCH_DISTANCE 3
 #define BALL_FOUND 0
 #define BALL_NOT_FOUND -1
+
+//Sweeping
+#define MAX_SWEEP_ANGLE 45
+#define SWEEP_STATE 5
 
 //Ball constants
 #define BALL_COLOR_1 5

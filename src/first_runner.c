@@ -23,8 +23,8 @@ int first_runner_small_stadium(state *s)
 
     //Go to center
 	position releaseballposition = {
-        .x = S_BA_0_X + (S_BA_3_X -  S_BA_0_X) / 2,
-        .y = S_BA_3_Y + (S_BA_2_Y - S_BA_3_Y) /2 
+        .x = S_BA_0_X,
+        .y = S_BA_0_Y 
     };
 
 	go_to_pos(s, releaseballposition);
@@ -47,7 +47,36 @@ int first_runner_small_stadium(state *s)
     return 0;
 }
 
-int second_runner()
+int second_runner_small_stadium()
 {
+    position initPosition = {
+        .x = S_SR_E_2_X,
+        .y = S_SR_E_2_Y + (S_SR_E_2_Y - S_SR_E_3_Y) / 2
+    };
+    
+    update_pos(s, initPosition);
+    
+    position checkBallPosition = {
+        .x = S_BA_1_X,
+        .y = S_BA_1_Y
+    };
+   
+    go_to_pos(s, checkBallPosition);
+    
+    int distanceToBall = distance_from_obstacle(s);
+    int sweep = 0;
+    while(distanceToBall == -1)
+    {
+        //Positive for clockwise turn
+        if (abs(sweep * SWEEP_ANGLE) < MAX_SWEEP_ANGLE) 
+            turn(s, TURNING_SPEED, -SWEEP_ANGLE);
+        else
+            turn(s, TURNING_SPEED, SWEEP_ANGLE);
+        
+        sleep(1);
+        distanceToBall = distance_from_obstacle(s);
+        sweep++;
+    }
+
     return 0;
 }
