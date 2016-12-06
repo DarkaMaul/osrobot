@@ -4,6 +4,7 @@
 #include "motors.h"
 #include "utils.h"
 #include "robot.h"
+#include "sensors.h"
 
 int first_runner_small_stadium(state *s)
 {
@@ -47,7 +48,7 @@ int first_runner_small_stadium(state *s)
     return 0;
 }
 
-int second_runner_small_stadium()
+int second_runner_small_stadium(state *s)
 {
     position initPosition = {
         .x = S_SR_E_2_X,

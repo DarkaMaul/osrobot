@@ -4,6 +4,7 @@
 #include "main.h"
 #include "config.h"
 #include "utils.h"
+#include "sensors.h"
 
 /**
  * Init the sensors

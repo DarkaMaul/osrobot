@@ -155,7 +155,7 @@
 
 //Sweeping
 #define MAX_SWEEP_ANGLE 45
-#define SWEEP_STATE 5
+#define SWEEP_ANGLE 5
 
 //Ball constants
 #define BALL_COLOR_1 5
