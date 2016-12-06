@@ -199,7 +199,7 @@ int go_straight(state *s, int speed, int distance){
     {
 	int currentDistance = (distance > STEPLENGTH) ? STEPLENGTH : distance;
 	wheels_run_distance(s, speed, currentDistance);
-//	turn(s, TURNING_SPEED, is_running_in_correct_angle(s));
+	turn(s, TURNING_SPEED, is_running_in_correct_angle(s));
 	distance -= currentDistance;
 
     } while (distance > 0);
