@@ -217,7 +217,7 @@ int go_straight(state *s, int speed, int distance){
 int go_to_pos(state *s, position desiredposition){
 	s->wantedPos=desiredposition;
 	go_to_pos_incomplete(s, s->wantedPos);
-	int pos_distance_diff = compute_distance(s->wantedPos);
+	int pos_distance_diff = compute_distance(compute_relative_position(s->curPos,s->wantedPos));
 	if(pos_distance_diff>ERROR_DISTANCE_MARGIN){
 		log_this(s, "[%s] Go to pos has finished with a significant distance error: err=%d... correct position\n", __FILE__,pos_distance_diff);
 		go_to_pos_incomplete(s, desiredposition);
