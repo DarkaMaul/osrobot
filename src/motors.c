@@ -241,7 +241,7 @@ int go_to_pos(state *s, position desiredposition){
 
 	//update_angle(s,absoluteangle);
 	go_straight(s, MAX_WHEEL_SPEED, distancetodest);
-	update_pos(s, desiredposition);
+	//update_pos(s, desiredposition);
 	return 0;
 }
 
