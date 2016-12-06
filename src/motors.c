@@ -193,18 +193,17 @@ int go_straight(state *s, int speed, int distance){
     update_angle(s,gyro_angle(s));
 
     // We divide the wanted distance in steps od STEPLENGTH
-	int nb_of_steps = distance / STEPLENGTH;
-    int remaining_distance = distance % STEPLENGTH;
-	printf("STP: %d \t RD: %d\n", nb_of_steps, remaining_distance);
-    int i;
+	printf("STP: %d \t RD: %d\n", distance / STEPLENGTH, distance % STEPLENGTH);
     // After each step we correct the direction of the robot
-    for (i=0; i<nb_of_steps; i++){
-        wheels_run_distance(s, speed, STEPLENGTH);
-        turn(s, TURNING_SPEED, is_running_in_correct_angle(s));
-    }
-    // We then go for the remaining distance and correct the angle again
-    wheels_run_distance(s, speed, remaining_distance);
-    turn(s, TURNING_SPEED, is_running_in_correct_angle(s));
+    do
+    {
+	int currentDistance = (distance > STEPLENGTH) ? STEPLENGTH : distance;
+	wheels_run_distance(s, speed, currentDistance);
+//	turn(s, TURNING_SPEED, is_running_in_correct_angle(s));
+	distance -= currentDistance;
+
+    } while (distance > 0);
+
     return 0;
 }
 
