@@ -30,10 +30,11 @@ void update_pos(state* s, position pos) {
  * Initialize position and angle to predefined values
  * @param  s        State structure
  */
-void init_pos(state *s){
+void init_pos(state *s)
+{
 	s->curPos.x=0;
 	s->curPos.x=0;
-	s->angle=0;
+	s->angle=90;
 }
 
 /**
