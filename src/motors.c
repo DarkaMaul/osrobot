@@ -208,10 +208,7 @@ int go_straight(state *s, int speed, int distance){
     return 0;
 }
 
-/*
- * TODO Function that will be used to go to a specified position
- * First version go straight to the position ignoring obstacles
- */
+
 /**
  * Function to go to a specified position
  * @param  s        State structure
@@ -220,9 +217,24 @@ int go_straight(state *s, int speed, int distance){
  */
 int go_to_pos(state *s, position desiredposition){
 	s->wantedPos=desiredposition;
+	go_to_pos_incomplete(s, s->wantedPos);
+	int pos_distance_diff = compute_distance(s->wantedPos);
+	if(pos_distance_diff>ERROR_DISTANCE_MARGIN){
+		log_this(s, "[%s] Go to pos has finished with a significant distance error: err=%d... correct position\n", __FILE__,pos_distance_diff);
+		go_to_pos_incomplete(s, desiredposition);
+	}
+	return 0;
+}
+
+/**
+ * Function to go to a specified position
+ * @param  s        State structure
+ * @param  position    Desired x,y position to go
+ * @return          0 if everything is allright
+ */
+int go_to_pos_incomplete(state *s, position desiredposition){
 	log_this(s, "[%s] Go to pos departure destination  x=%d y=%d...\n", __FILE__, s->curPos.x,s->curPos.y);
 	log_this(s, "[%s] Go to pos desired destination  x=%d y=%d...\n", __FILE__, desiredposition.x,desiredposition.y);
-
 	position relativeposition=compute_relative_position(s->curPos,desiredposition);
 	int distancetodest=compute_distance(relativeposition);
 	log_this(s, "[%s] Distance relative to destination %d...\n", __FILE__, distancetodest);
