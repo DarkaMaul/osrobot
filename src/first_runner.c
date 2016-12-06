@@ -25,7 +25,7 @@ int first_runner_small_stadium(state *s)
     //Go to center
 	position releaseballposition = {
         .x = S_BA_0_X,
-        .y = S_BA_0_Y 
+        .y = S_BA_0_Y - WHEELS_TO_END 
     };
 
 	go_to_pos(s, releaseballposition);
@@ -33,7 +33,7 @@ int first_runner_small_stadium(state *s)
 	release(s, MAX_GRABBING_SPEED);
 
 	//Go back a little
-	go_straight(s, MAX_WHEEL_SPEED, -30);
+	go_straight(s, MAX_WHEEL_SPEED, -15);
 
 	//Go to ending position
 	position endingposition = {
