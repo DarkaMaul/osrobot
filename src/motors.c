@@ -238,12 +238,12 @@ int go_to_pos_incomplete(state *s, position desiredposition){
 	int distancetodest=compute_distance(relativeposition);
 	log_this(s, "[%s] Distance relative to destination %d...\n", __FILE__, distancetodest);
 	int absoluteangle= -compute_angle(relativeposition);
-	log_this(s, "[%s] Absolute angle to destination (clock wise) to turn %d...\n", __FILE__, absoluteangle);
+	log_this(s, "[%s] Absolute angle to destination (clockwise) to turn %d...\n", __FILE__, absoluteangle);
 	int relativeangle;
 	relativeangle=absoluteangle-s->angle;
-    log_this(s, "[%s] Relative angle to destination (clock wise) to turn %d...\n", __FILE__, relativeangle);
+    log_this(s, "[%s] Relative angle to destination (clockwise) to turn %d...\n", __FILE__, relativeangle);
     int relativeAngleToTurnClockWise=clean_angle(relativeangle);
-    log_this(s, "[%s] Relative cleaned angle to destination (ClockWise) to turn sent to turn %d...\n", __FILE__, relativeAngleToTurnClockWise);
+    log_this(s, "[%s] Relative cleaned angle to destination (clockwise) sent to turn function: %d...\n", __FILE__, relativeAngleToTurnClockWise);
 
     //need to be clockwise for the turn function so send - relative angle to the function
     turn(s, TURNING_SPEED, relativeAngleToTurnClockWise);
