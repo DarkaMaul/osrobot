@@ -26,7 +26,6 @@ void update_pos(state* s, position pos) {
 	s->curPos.y=pos.y;
 }
 
-// Since the angle is update with gyro_angle, which is clockwise, s->angle should be initialized to -90 instead of 90
 /**
  * Initialize position and angle to predefined values
  * @param  s        State structure
@@ -35,7 +34,7 @@ void init_pos(state *s)
 {
 	s->curPos.x=0;
 	s->curPos.x=0;
-	s->angle=90;
+	s->angle=-90;
 }
 
 /**

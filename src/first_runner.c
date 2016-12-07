@@ -16,9 +16,6 @@ int first_runner_small_stadium(state *s)
 
     update_pos(s, init);
 
-    //TODO Maybe to put it by default at 90
-	update_angle(s, 90);
-
 	//catch the ball in front of the robot at the begining
     //catch_ball(s);
 

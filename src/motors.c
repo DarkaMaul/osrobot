@@ -240,7 +240,6 @@ int go_to_pos_incomplete(state *s, position desiredposition){
 	log_this(s, "[%s] Distance relative to destination %d...\n", __FILE__, distancetodest);
 	int absoluteangle=compute_angle(relativeposition);
 	log_this(s, "[%s] Absolute angle to destination (trigonometric wise) to turn %d...\n", __FILE__, absoluteangle);
-	//log_this(s, "[%s] Current angle of the robot %d...\n", __FILE__, s->angle);
 	int relativeangle;
 	if(s->angle>=0) relativeangle=absoluteangle-s->angle;
 	else relativeangle=absoluteangle+s->angle;
