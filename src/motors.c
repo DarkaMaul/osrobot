@@ -209,7 +209,7 @@ int go_straight(state *s, int speed, int distance){
 
 
 /**
- * Function to go to a specified position
+ * Function to use to go to a specified position
  * @param  s        State structure
  * @param  position    Desired x,y position to go
  * @return          0 if everything is allright
@@ -225,9 +225,8 @@ int go_to_pos(state *s, position desiredposition){
 	return 0;
 }
 
-// TODO clean the program to use only clockwise angles. Don't forget to change compute_angle too.
 /**
- * Function to go to a specified position
+ * Implementation of the function of go to position
  * @param  s        State structure
  * @param  position    Desired x,y position to go
  * @return          0 if everything is allright
@@ -238,14 +237,13 @@ int go_to_pos_incomplete(state *s, position desiredposition){
 	position relativeposition=compute_relative_position(s->curPos,desiredposition);
 	int distancetodest=compute_distance(relativeposition);
 	log_this(s, "[%s] Distance relative to destination %d...\n", __FILE__, distancetodest);
-	int absoluteangle=compute_angle(relativeposition);
-	log_this(s, "[%s] Absolute angle to destination (trigonometric wise) to turn %d...\n", __FILE__, absoluteangle);
+	int absoluteangle= -compute_angle(relativeposition);
+	log_this(s, "[%s] Absolute angle to destination (clock wise) to turn %d...\n", __FILE__, absoluteangle);
 	int relativeangle;
-	if(s->angle>=0) relativeangle=absoluteangle-s->angle;
-	else relativeangle=absoluteangle+s->angle;
-    log_this(s, "[%s] Relative angle to destination (trigonometric wise) to turn %d...\n", __FILE__, relativeangle);
-    int relativeAngleToTurnClockWise=clean_angle(-relativeangle);
-    log_this(s, "[%s] Relative angle to destination (ClockWise) to turn sent to turn %d...\n", __FILE__, relativeAngleToTurnClockWise);
+	relativeangle=absoluteangle-s->angle;
+    log_this(s, "[%s] Relative angle to destination (clock wise) to turn %d...\n", __FILE__, relativeangle);
+    int relativeAngleToTurnClockWise=clean_angle(relativeangle);
+    log_this(s, "[%s] Relative cleaned angle to destination (ClockWise) to turn sent to turn %d...\n", __FILE__, relativeAngleToTurnClockWise);
 
     //need to be clockwise for the turn function so send - relative angle to the function
     turn(s, TURNING_SPEED, relativeAngleToTurnClockWise);
