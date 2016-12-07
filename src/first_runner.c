@@ -6,6 +6,26 @@
 #include "robot.h"
 #include "sensors.h"
 
+//TODO proposition of better way of ordering things to be stored in s and initialized at the beginning
+//
+typedef struct _mainpositions
+{
+    position s_fr_init;
+    position s_fr_releaseball;
+    position s_fr_ending;
+} mainpos;
+
+mainpos init_main_positions(){
+	mainpos positions;
+	position init={.x = S_FR_S_0_X,.y = S_FR_S_0_Y +  WHEELS_TO_END};
+	position releaseballposition = {.x = S_BA_0_X,.y = S_BA_0_Y - WHEELS_TO_END};
+	position endingposition = {.x = S_FR_E_0_X,.y = (S_FR_E_0_Y + S_FR_E_1_Y) / 2};
+	positions.s_fr_init=init;
+	positions.s_fr_releaseball=releaseballposition;
+	positions.s_fr_ending=endingposition;
+	return positions;
+}
+
 int first_runner_small_stadium(state *s)
 {
     //Init the Game
@@ -78,3 +98,29 @@ int second_runner_small_stadium(state *s)
 
     return 0;
 }
+
+//Small arena test 1 13 December
+int test_one(state *s)
+{
+    //Init the Game
+    mainpos positions=init_main_positions();
+    update_pos(s, positions.s_fr_init);
+
+	//Go to ending position
+	go_to_pos(s, positions.s_fr_ending);
+    return 0;
+}
+
+//Small arena test 2 13 December
+int test_two(state *s)
+{
+    //Init the Game
+    mainpos positions=init_main_positions();
+    update_pos(s, positions.s_fr_init);
+
+    //Go to center
+    go_to_pos(s, positions.s_fr_releaseball);
+    return 0;
+}
+
+
