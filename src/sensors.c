@@ -36,7 +36,7 @@ int init_sensors(state *s)
     ev3_mode_sensor_by_name(s->compass, "COMPASS");
 
     ev3_update_sensor_val(s->gyro);
-    s->gyro_reference = s->gyro->val_data[0].s32;
+    s->gyro_reference = s->gyro->val_data[0].s32 + 90; // The 90 is just to get an angle relative to the x axis
 
     ev3_update_sensor_val(s->compass);
     s->compass_reference = s->compass->val_data[0].s32;
@@ -81,6 +81,7 @@ int distance_from_obstacle(state *s)
         return valUS / 10;
 }
 
+
 /*
 * Returns the angle of the robot, between 0 and 360, 0 being the initial angle of the robot
 */  
@@ -89,7 +90,7 @@ int gyro_angle(state *s)
     ev3_update_sensor_val(s->gyro);
     int angle = s->gyro->val_data[0].s32;
     printf("Angle:%d\t%d\n", angle, clean_angle(angle - s->gyro_reference));
-    return clean_angle(angle - s->gyro_reference - 90);
+    return clean_angle(angle - s->gyro_reference);
 }
 
 int compass_angle(state *s)

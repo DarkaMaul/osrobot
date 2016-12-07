@@ -225,6 +225,7 @@ int go_to_pos(state *s, position desiredposition){
 	return 0;
 }
 
+// TODO clean the program to use only clockwise angles. Don't forget to change compute_angle too.
 /**
  * Function to go to a specified position
  * @param  s        State structure
