@@ -18,8 +18,8 @@ typedef struct _mainpositions
 mainpos init_main_positions(){
 	mainpos positions;
 	position init={.x = S_FR_S_0_X,.y = S_FR_S_0_Y +  WHEELS_TO_END};
-	position releaseballposition = {.x = S_BA_0_X,.y = S_BA_0_Y - WHEELS_TO_END};
-	position endingposition = {.x = S_FR_E_0_X,.y = (S_FR_E_0_Y + S_FR_E_1_Y) / 2};
+	position releaseballposition = {.x = S_BA_0_X,.y = S_BA_0_Y - WHEELS_TO_END/2};
+	position endingposition = {.x = S_FR_E_0_X,.y = (S_FR_E_0_Y + S_FR_E_1_Y) / 1.5};
 	positions.s_fr_init=init;
 	positions.s_fr_releaseball=releaseballposition;
 	positions.s_fr_ending=endingposition;
@@ -63,6 +63,8 @@ int first_runner_small_stadium(state *s)
 
 	//Send ok signal bluetooth for other team
     send_message(s, MSG_NEXT, s->ally);
+
+	turn(s, TURNING_SPEED, 180);
     return 0;
 }
 
