@@ -121,7 +121,7 @@ int test_two(state *s)
     //By default we are in realeasing position so just close the clamps when starting
     grab(s, MAX_GRABBING_SPEED);
 	//time to put the ball inside the hooks
-	sleep(3)
+	sleep(3);
 
     //Go to center
     go_to_pos(s, positions.s_fr_releaseball);
