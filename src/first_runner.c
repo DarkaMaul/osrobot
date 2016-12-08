@@ -139,15 +139,11 @@ int test_five(state *s)
     //Init the Game
     mainpos positions=init_main_positions();
     update_pos(s, positions.s_fr_init);
-    //By default we are in realeasing position so just close the clamps when starting
-    grab(s, MAX_GRABBING_SPEED);
 
     //Go to center
     go_to_pos(s, positions.s_fr_releaseball);
 	catch_ball(s);
 
-    //release ball
-    release(s, MAX_GRABBING_SPEED);
     return 0;
 }
 
