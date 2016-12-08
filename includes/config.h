@@ -42,9 +42,9 @@
 #define PORT_SENSOR_SONAR 3
 
 //Grabing constants
-#define GRAB_POSITION 18
+#define GRAB_POSITION 25
 #define MAX_GRABBING_SPEED 1050
-#define INIT_GRAB_POSITION 0
+#define INIT_GRAB_POSITION -10
 
 //Wheel motors constants
 #define MAX_WHEEL_SPEED 1050
