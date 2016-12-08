@@ -69,6 +69,27 @@ int main(int argc, char *argv[])
 
 	//Reset robot
 
+	//13 December
+    if(argc == 2){
+    	switch(atoi(argv[1])){
+			case 1:
+				test_one(s);
+				break;
+			case 2:
+				test_two(s);
+				break;
+			case 3:
+				//test_three(s);
+				break;
+			case 4:
+				//test_four(s);
+				break;
+			case 5:
+				//test_five(s);
+				break;
+		}
+	}
+
 	//Close external ressources
     nice_exit(s, EXIT_SUCCESS);
 
