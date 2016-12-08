@@ -38,7 +38,8 @@ int first_runner_small_stadium(state *s)
 
 	//catch the ball in front of the robot at the begining
     //catch_ball(s);
-
+	grab(s, MAX_GRABBING_SPEED);
+	
     //Go to center
 	position releaseballposition = {
         .x = S_BA_0_X,

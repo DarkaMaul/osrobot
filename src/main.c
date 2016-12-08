@@ -65,7 +65,7 @@ int main(int argc, char *argv[])
 	//Initialize the "trip"
 
 	//ACTION
-    first_runner_small_stadium(s);
+
 
 	//Reset robot
 
@@ -86,6 +86,9 @@ int main(int argc, char *argv[])
 				break;
 			case 5:
 				//test_five(s);
+				break;
+			default:
+				first_runner_small_stadium(s);
 				break;
 		}
 	}
