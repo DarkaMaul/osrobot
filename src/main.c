@@ -85,7 +85,7 @@ int main(int argc, char *argv[])
 				//test_four(s);
 				break;
 			case 5:
-				//test_five(s);
+				test_five(s);
 				break;
 			default:
 				first_runner_small_stadium(s);
