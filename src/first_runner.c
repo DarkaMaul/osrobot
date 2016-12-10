@@ -151,7 +151,7 @@ int test_five(state *s)
     update_pos(s, positions.s_fr_init);
 
     //Go to center
-    go_to_pos(s, positions.s_fr_releaseball);
+//    go_to_pos(s, positions.s_fr_releaseball);
 	catch_ball(s);
 
     return 0;
@@ -191,11 +191,11 @@ int test_three(state *s)
     update_pos(s, positions.l_fr_init);
 
 	//Go to ending position
-    log_this(s, "\n[%s:test3] Dodging first obstacle\n\n");
+    log_this(s, "\n[%s:test3] Dodging first obstacle\n\n" ,__FILE__);
 	go_to_pos(s, positions.l_fr_dodgefirst);
-    log_this(s, "\n[%s:test3] Dodging second obstacle\n\n");
+    log_this(s, "\n[%s:test3] Dodging second obstacle\n\n" ,__FILE__);
 	go_to_pos(s, positions.l_fr_dodgesecond);
-    log_this(s, "\n[%s:test3] Going to the end\n\n");
+    log_this(s, "\n[%s:test3] Going to the end\n\n",__FILE__);
 	go_to_pos(s, positions.l_fr_ending);
     return 0;
 }
@@ -207,17 +207,17 @@ int test_four(state *s)
     large_pos positions=init_large_positions();
     update_pos(s, positions.l_fr_init);
     //By default we are in realeasing position so just close the clamps when starting
-    log_this(s, "\n[%s:test4] Grabbing the ball \n\n");
+    log_this(s, "\n[%s:test4] Grabbing the ball \n\n",__FILE__);
     grab(s, MAX_GRABBING_SPEED);
     //Dodge first obstacle
-    log_this(s, "\n[%s:test4] Dodging first obstacle \n\n");
+    log_this(s, "\n[%s:test4] Dodging first obstacle \n\n",__FILE__);
 	go_to_pos(s, positions.l_fr_dodgefirst);
     //Go to center
-    log_this(s, "\n[%s:test3] Going to the center\n\n");
+    log_this(s, "\n[%s:test3] Going to the center\n\n",__FILE__);
     go_to_pos(s, positions.l_fr_releaseball);
 
     //release ball
-    log_this(s, "\n[%s:test3] Releasing the ball\n\n");
+    log_this(s, "\n[%s:test3] Releasing the ball\n\n",__FILE__);
     release(s, MAX_GRABBING_SPEED);
     return 0;
 }

@@ -79,10 +79,10 @@ int main(int argc, char *argv[])
 				test_two(s);
 				break;
 			case 3:
-				//test_three(s);
+				test_three(s);
 				break;
 			case 4:
-				//test_four(s);
+				test_four(s);
 				break;
 			case 5:
 				test_five(s);
