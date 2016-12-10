@@ -158,3 +158,69 @@ int test_five(state *s)
 }
 
 
+///////////////// LARGE ARENA //////////////////
+typedef struct _large_positions 
+{
+    position l_fr_init;
+    position l_fr_dodgefirst;
+    position l_fr_releaseball;
+    position l_fr_dodgesecond;
+    position l_fr_ending;
+}large_pos;
+
+large_pos init_large_positions(){
+    large_pos large_pos;
+    position init = {.x = L_FR_S_0_X + 10, .y = L_FR_S_0_Y + WHEELS_TO_END};
+    position dodgefirst = {.x = L_FR_S_0_X + 70, .y = L_FR_S_0_Y + WHEELS_TO_END + 140};
+    position center = {.x = L_BA_0_X, .y = L_BA_0_Y - WHEELS_TO_END};
+    position dodgesecond = {.x = L_FR_E_0_X + 70, .y = L_FR_E_0_Y + WHEELS_TO_END - 140};
+    position ending = {.x = L_FR_E_0_X, .y = L_FR_E_0_Y + WHEELS_TO_END};
+    large_pos.l_fr_init = init;
+    large_pos.l_fr_dodgefirst = dodgefirst;
+    large_pos.l_fr_releaseball = center;
+    large_pos.l_fr_dodgesecond = dodgesecond;
+    large_pos.l_fr_ending = ending;
+    return large_pos;
+}
+
+//Large arena test 3 13 December
+int test_three(state *s)
+{
+    //Init the Game
+    large_pos positions=init_large_positions();
+    update_pos(s, positions.l_fr_init);
+
+	//Go to ending position
+    log_this(s, "\n[%s:test3] Dodging first obstacle\n\n");
+	go_to_pos(s, positions.l_fr_dodgefirst);
+    log_this(s, "\n[%s:test3] Dodging second obstacle\n\n");
+	go_to_pos(s, positions.l_fr_dodgesecond);
+    log_this(s, "\n[%s:test3] Going to the end\n\n");
+	go_to_pos(s, positions.l_fr_ending);
+    return 0;
+}
+
+//Large arena test 4 13 December
+int test_four(state *s)
+{
+    //Init the Game
+    large_pos positions=init_large_positions();
+    update_pos(s, positions.l_fr_init);
+    //By default we are in realeasing position so just close the clamps when starting
+    log_this(s, "\n[%s:test4] Grabbing the ball \n\n");
+    grab(s, MAX_GRABBING_SPEED);
+    //Dodge first obstacle
+    log_this(s, "\n[%s:test4] Dodging first obstacle \n\n");
+	go_to_pos(s, positions.l_fr_dodgefirst);
+    //Go to center
+    log_this(s, "\n[%s:test3] Going to the center\n\n");
+    go_to_pos(s, positions.l_fr_releaseball);
+
+    //release ball
+    log_this(s, "\n[%s:test3] Releasing the ball\n\n");
+    release(s, MAX_GRABBING_SPEED);
+    return 0;
+}
+
+
+

@@ -150,6 +150,39 @@
 #define S_FR_E_3_X 110
 #define S_FR_E_3_Y 150
 
+// The following coordinates are for the right side of the arena. For the Left side, just invert the X's.
+//Large_Ballarea_Point0_X
+#define L_BA_0_X 50
+#define L_BA_0_Y 190
+#define L_BA_1_X 50
+#define L_BA_1_Y 210
+#define L_BA_2_X 70
+#define L_BA_2_Y 210
+#define L_BA_3_X 70
+#define L_BA_3_Y 190
+
+//Large_FirstRunner_Startingposition_Point0_X
+#define L_FR_S_0_X 10
+#define L_FR_S_0_Y 10
+#define L_FR_S_1_X 10
+#define L_FR_S_1_Y 50
+#define L_FR_S_2_X 50
+#define L_FR_S_2_Y 50
+#define L_FR_S_3_X 50
+#define L_FR_S_3_Y 10
+
+
+//Large_FirstRunner_Endingposition_Point0_X
+#define L_FR_E_0_X 10
+#define L_FR_E_0_Y 350
+#define L_FR_E_1_X 10
+#define L_FR_E_1_Y 390
+#define L_FR_E_2_X 50
+#define L_FR_E_2_Y 390
+#define L_FR_E_3_X 50
+#define L_FR_E_3_Y 350
+
+
 #define BALL_CATCH_DISTANCE 3
 #define BALL_FOUND 0
 #define BALL_NOT_FOUND -1
