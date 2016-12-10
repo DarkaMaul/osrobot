@@ -5,6 +5,7 @@
 #include "utils.h"
 #include "robot.h"
 #include "sensors.h"
+#include "logger.h"
 
 //TODO proposition of better way of ordering things to be stored in s and initialized at the beginning
 //
@@ -18,8 +19,8 @@ typedef struct _mainpositions
 mainpos init_main_positions(){
 	mainpos positions;
 	position init={.x = S_FR_S_0_X,.y = S_FR_S_0_Y +  WHEELS_TO_END};
-	position releaseballposition = {.x = S_BA_0_X + 10,.y = S_BA_0_Y - WHEELS_TO_END + 5};
-	position endingposition = {.x = S_FR_E_0_X,.y = (S_FR_E_0_Y + S_FR_E_1_Y)};
+	position releaseballposition = {.x = S_BA_0_X - 5,.y = S_BA_0_Y - WHEELS_TO_END + 5};
+	position endingposition = {.x = S_FR_E_0_X,.y = ( S_FR_E_0_Y + WHEELS_TO_END) + 15};
 	positions.s_fr_init=init;
 	positions.s_fr_releaseball=releaseballposition;
 	positions.s_fr_ending=endingposition;
@@ -38,25 +39,32 @@ int first_runner_small_stadium(state *s)
 
 	//catch the ball in front of the robot at the begining
     //catch_ball(s);
+    log_this(s, "\n\nGrabing the ball.\n\n");
 	grab(s, MAX_GRABBING_SPEED);
 	
     //Go to center
+    log_this(s, "\n\nGoing to the center.\n\n");
 	position releaseballposition = {
-        .x = S_BA_0_X,
-        .y = S_BA_0_Y - WHEELS_TO_END 
+        .x = S_BA_0_X - 5,
+        .y = S_BA_0_Y - WHEELS_TO_END + 5 
     };
 
 	go_to_pos(s, releaseballposition);
 
-	release(s, MAX_GRABBING_SPEED);
+    log_this(s, "\n\nReleasing the ball.\n\n");
 
+	release(s, RELEASING_SPEED);
+
+
+    log_this(s, "\n\nGoing back little.\n\n");
 	//Go back a little
-	go_straight(s, MAX_WHEEL_SPEED, -25);
+	go_straight(s, MAX_WHEEL_SPEED, -20);
 
+    log_this(s, "\n\nGoing to the end.\n\n");
 	//Go to ending position
 	position endingposition = {
-        .x = S_FR_E_0_X,
-        .y = (S_FR_E_0_Y + S_FR_E_1_Y) / 2
+        .x = S_FR_E_0_X ,
+        .y = (S_FR_E_0_Y + S_FR_E_1_Y) / 2 + 5
     };
 
 	go_to_pos(s, endingposition);
@@ -64,7 +72,8 @@ int first_runner_small_stadium(state *s)
 	//Send ok signal bluetooth for other team
     send_message(s, MSG_NEXT, s->ally);
 
-	turn(s, TURNING_SPEED, 180);
+    log_this(s, "\n\nTurning around.\n\n");
+	turn(s, 70, 180);
     return 0;
 }
 
@@ -111,6 +120,7 @@ int test_one(state *s)
 
 	//Go to ending position
 	go_to_pos(s, positions.s_fr_ending);
+    turn(s, 70, 180);
     return 0;
 }
 

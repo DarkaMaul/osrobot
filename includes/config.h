@@ -11,7 +11,7 @@
 #define TEST_SERV_ADDR "127.0.0.1"
 
 //Robot constants
-#define ERROR_MARGIN 1
+#define ERROR_MARGIN 2
 #define ERROR_DISTANCE_MARGIN 5
 #define WHEELS_TO_END 11
 
@@ -42,16 +42,16 @@
 #define PORT_SENSOR_SONAR 3
 
 //Grabing constants
-#define GRAB_POSITION 20
-#define MAX_GRABBING_SPEED 1050
-#define INIT_GRAB_POSITION -10
+#define GRAB_POSITION 23
+#define MAX_GRABBING_SPEED 550
+#define RELEASING_SPEED 75
+#define INIT_GRAB_POSITION -15
 
 //Wheel motors constants
 #define MAX_WHEEL_SPEED 1050
 #define WHEEL_DIAMETER 5.6
-#define STEPLENGTH 70
-#define TURNING_SPEED 300
-#define CORRECT_TURNING_SPEED 30
+#define STEPLENGTH 60
+#define TURNING_SPEED 30
 
 //Positions of of fixed elements
 #define CENTER_POSITION 0

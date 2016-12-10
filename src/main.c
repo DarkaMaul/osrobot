@@ -92,7 +92,6 @@ int main(int argc, char *argv[])
 				break;
 		}
 	}
-
 	//Close external ressources
     nice_exit(s, EXIT_SUCCESS);
 

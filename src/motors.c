@@ -29,7 +29,7 @@ void init_motors(state *s){
         log_this(s, " Motor %d on port %c opened, assigned and reseted\n",  motor->motor_nr, motor->port);
         motor = motor->next;
     }
-    ev3_stop_command_motor_by_name(s->grabmotor, "hold");
+    //ev3_stop_command_motor_by_name(s->grabmotor, "hold");
 
     //Ramp smoothly to max speed
     ev3_set_ramp_up_sp(s->rightmotor, 500);
@@ -75,9 +75,8 @@ int release(state *s, int speed)
         return -1;
     }
     ev3_set_speed_sp(s->grabmotor, speed);
-    ev3_set_position_sp(s->grabmotor, INIT_GRAB_POSITION);
+    ev3_set_position_sp(s->grabmotor, -7);
     ev3_command_motor_by_name(s->grabmotor, "run-to-abs-pos");
-
     while (ev3_motor_state(s->grabmotor) & MOTOR_RUNNING);
     //log_this(s, "Motor %d on port %c opened, assigned and reseted\n", motor->motor_nr, motor->port);
     return 0;
@@ -189,15 +188,15 @@ int wheels_run_distance(state *s, int speed, int distance){
  * @return          0 if everything is allright
  */
 int go_straight(state *s, int speed, int distance){
-    log_this(s, "[%s] : Going straigth for%d cm\n", __FILE__, distance);
+    log_this(s, "\n[%s] : Going straigth for%d cm\n", __FILE__, distance);
     update_angle(s,gyro_angle(s));
 
     // We divide the wanted distance in steps od STEPLENGTH
-	printf("STP: %d \t RD: %d\n", distance / STEPLENGTH, distance % STEPLENGTH);
     // After each step we correct the direction of the robot
     do
     {
 	int currentDistance = (distance > STEPLENGTH) ? STEPLENGTH : distance;
+    log_this(s, "[go_straight] Next step : %d\n", currentDistance);
 	wheels_run_distance(s, speed, currentDistance);
 	turn(s, TURNING_SPEED, is_running_in_correct_angle(s));
 	distance -= currentDistance;
@@ -301,6 +300,7 @@ int turn_imprecise(state *s, int speed, int angle){
         current_angle = s->gyro->val_data[0].s32 ;
     }
     command_wheels(s, STOP);
+    usleep(500000);
     return 0;
 }
 
@@ -315,7 +315,7 @@ int is_running_in_correct_angle(state *s){
 	//+- ERROR_M degrees is ok
     int angle_diff = clean_angle(s->angle - actualangle);
     printf("Is running: %d\t%d\n", actualangle, angle_diff);
-	log_this(s, "[%s] Angle diff is %d\n", __FILE__, angle_diff);
+	log_this(s, "[%s is_running_correct_angle] Angle diff is %d\n", __FILE__, angle_diff);
 	if(abs(angle_diff) > ERROR_MARGIN){
 		return angle_diff;
 	}
