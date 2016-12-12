@@ -11,7 +11,8 @@
 #define TEST_SERV_ADDR "127.0.0.1"
 
 //Robot constants
-#define ERROR_MARGIN 3
+#define ERROR_MARGIN 2
+#define ERROR_DISTANCE_MARGIN 5
 #define WHEELS_TO_END 11
 
 //Motors commands
@@ -41,14 +42,15 @@
 #define PORT_SENSOR_SONAR 3
 
 //Grabing constants
-#define GRAB_POSITION 18
-#define MAX_GRABBING_SPEED 1050
-#define INIT_GRAB_POSITION 0
+#define GRAB_POSITION 23
+#define MAX_GRABBING_SPEED 550
+#define RELEASING_SPEED 75
+#define INIT_GRAB_POSITION -15
 
 //Wheel motors constants
 #define MAX_WHEEL_SPEED 1050
 #define WHEEL_DIAMETER 5.6
-#define STEPLENGTH 70
+#define STEPLENGTH 60
 #define TURNING_SPEED 30
 
 //Positions of of fixed elements
@@ -118,15 +120,25 @@
 #define S_BA_3_X 70
 #define S_BA_3_Y 90
 
+//Small_SecondRunner_EndPosition_Point0_X
+#define S_SR_E_0_X 10
+#define S_SR_E_0_Y 10
+#define S_SR_E_1_X 10
+#define S_SR_E_1_Y 50
+#define S_SR_E_2_X 50
+#define S_SR_E_2_Y 50
+#define S_SR_E_3_X 50
+#define S_SR_E_3_Y 10
+
 //Small_SecondRunner_Startingposition_Point0_X
 #define S_SR_S_0_X 10
-#define S_SR_S_0_Y 140
+#define S_SR_S_0_Y 150
 #define S_SR_S_1_X 10
 #define S_SR_S_1_Y 190
 #define S_SR_S_2_X 50
 #define S_SR_S_2_Y 190
 #define S_SR_S_3_X 50
-#define S_SR_S_3_Y 140
+#define S_SR_S_3_Y 150
 
 //Small_FirstRunner_Endingposition_Point0_X
 #define S_FR_E_0_X 70
@@ -138,9 +150,46 @@
 #define S_FR_E_3_X 110
 #define S_FR_E_3_Y 150
 
+// The following coordinates are for the right side of the arena. For the Left side, just invert the X's.
+//Large_Ballarea_Point0_X
+#define L_BA_0_X 50
+#define L_BA_0_Y 190
+#define L_BA_1_X 50
+#define L_BA_1_Y 210
+#define L_BA_2_X 70
+#define L_BA_2_Y 210
+#define L_BA_3_X 70
+#define L_BA_3_Y 190
+
+//Large_FirstRunner_Startingposition_Point0_X
+#define L_FR_S_0_X 10
+#define L_FR_S_0_Y 10
+#define L_FR_S_1_X 10
+#define L_FR_S_1_Y 50
+#define L_FR_S_2_X 50
+#define L_FR_S_2_Y 50
+#define L_FR_S_3_X 50
+#define L_FR_S_3_Y 10
+
+
+//Large_FirstRunner_Endingposition_Point0_X
+#define L_FR_E_0_X 10
+#define L_FR_E_0_Y 350
+#define L_FR_E_1_X 10
+#define L_FR_E_1_Y 390
+#define L_FR_E_2_X 50
+#define L_FR_E_2_Y 390
+#define L_FR_E_3_X 50
+#define L_FR_E_3_Y 350
+
+
 #define BALL_CATCH_DISTANCE 3
 #define BALL_FOUND 0
 #define BALL_NOT_FOUND -1
+
+//Sweeping
+#define MAX_SWEEP_ANGLE 45
+#define SWEEP_ANGLE 5
 
 //Ball constants
 #define BALL_COLOR_1 5

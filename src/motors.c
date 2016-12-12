@@ -29,7 +29,7 @@ void init_motors(state *s){
         log_this(s, " Motor %d on port %c opened, assigned and reseted\n",  motor->motor_nr, motor->port);
         motor = motor->next;
     }
-    ev3_stop_command_motor_by_name(s->grabmotor, "hold");
+    //ev3_stop_command_motor_by_name(s->grabmotor, "hold");
 
     //Ramp smoothly to max speed
     ev3_set_ramp_up_sp(s->rightmotor, 500);
@@ -75,9 +75,8 @@ int release(state *s, int speed)
         return -1;
     }
     ev3_set_speed_sp(s->grabmotor, speed);
-    ev3_set_position_sp(s->grabmotor, INIT_GRAB_POSITION);
+    ev3_set_position_sp(s->grabmotor, -7);
     ev3_command_motor_by_name(s->grabmotor, "run-to-abs-pos");
-
     while (ev3_motor_state(s->grabmotor) & MOTOR_RUNNING);
     //log_this(s, "Motor %d on port %c opened, assigned and reseted\n", motor->motor_nr, motor->port);
     return 0;
@@ -189,59 +188,66 @@ int wheels_run_distance(state *s, int speed, int distance){
  * @return          0 if everything is allright
  */
 int go_straight(state *s, int speed, int distance){
-    log_this(s, "[%s] : Going straigth for%d cm\n", __FILE__, distance);
+    log_this(s, "\n[%s] : Going straigth for%d cm\n", __FILE__, distance);
     update_angle(s,gyro_angle(s));
 
     // We divide the wanted distance in steps od STEPLENGTH
-	int nb_of_steps = distance / STEPLENGTH;
-    int remaining_distance = distance % STEPLENGTH;
-	printf("STP: %d \t RD: %d\n", nb_of_steps, remaining_distance);
-    int i;
     // After each step we correct the direction of the robot
-    for (i=0; i<nb_of_steps; i++){
-        wheels_run_distance(s, speed, STEPLENGTH);
-        turn(s, TURNING_SPEED, is_running_in_correct_angle(s));
-    }
-    // We then go for the remaining distance and correct the angle again
-    wheels_run_distance(s, speed, remaining_distance);
-    turn(s, TURNING_SPEED, is_running_in_correct_angle(s));
+    do
+    {
+	int currentDistance = (distance > STEPLENGTH) ? STEPLENGTH : distance;
+    log_this(s, "[go_straight] Next step : %d\n", currentDistance);
+	wheels_run_distance(s, speed, currentDistance);
+	turn(s, TURNING_SPEED, is_running_in_correct_angle(s));
+	distance -= currentDistance;
+
+    } while (distance > 0);
+
     return 0;
 }
 
-/*
- * TODO Function that will be used to go to a specified position
- * First version go straight to the position ignoring obstacles
- */
+
 /**
- * Function to go to a specified position
+ * Function to use to go to a specified position
  * @param  s        State structure
  * @param  position    Desired x,y position to go
  * @return          0 if everything is allright
  */
 int go_to_pos(state *s, position desiredposition){
 	s->wantedPos=desiredposition;
+	go_to_pos_incomplete(s, s->wantedPos);
+	int pos_distance_diff = compute_distance(compute_relative_position(s->curPos,s->wantedPos));
+	if(pos_distance_diff>ERROR_DISTANCE_MARGIN){
+		log_this(s, "[%s] Go to pos has finished with a significant distance error: err=%d... correct position\n", __FILE__,pos_distance_diff);
+		go_to_pos_incomplete(s, desiredposition);
+	}
+	return 0;
+}
+
+/**
+ * Implementation of the function of go to position
+ * @param  s        State structure
+ * @param  position    Desired x,y position to go
+ * @return          0 if everything is allright
+ */
+int go_to_pos_incomplete(state *s, position desiredposition){
 	log_this(s, "[%s] Go to pos departure destination  x=%d y=%d...\n", __FILE__, s->curPos.x,s->curPos.y);
 	log_this(s, "[%s] Go to pos desired destination  x=%d y=%d...\n", __FILE__, desiredposition.x,desiredposition.y);
-
 	position relativeposition=compute_relative_position(s->curPos,desiredposition);
 	int distancetodest=compute_distance(relativeposition);
 	log_this(s, "[%s] Distance relative to destination %d...\n", __FILE__, distancetodest);
-	int absoluteangle=compute_angle(relativeposition);
-	log_this(s, "[%s] Absolute angle to destination (trigonometric wise) to turn %d...\n", __FILE__, absoluteangle);
-	//log_this(s, "[%s] Current angle of the robot %d...\n", __FILE__, s->angle);
+	int absoluteangle= -compute_angle(relativeposition);
+	log_this(s, "[%s] Absolute angle to destination (clockwise) to turn %d...\n", __FILE__, absoluteangle);
 	int relativeangle;
-	if(s->angle>=0) relativeangle=absoluteangle-s->angle;
-	else relativeangle=absoluteangle+s->angle;
-    log_this(s, "[%s] Relative angle to destination (trigonometric wise) to turn %d...\n", __FILE__, relativeangle);
-    int relativeAngleToTurnClockWise=clean_angle(-relativeangle);
-    log_this(s, "[%s] Relative angle to destination (ClockWise) to turn sent to turn %d...\n", __FILE__, relativeAngleToTurnClockWise);
+	relativeangle=absoluteangle-s->angle;
+    log_this(s, "[%s] Relative angle to destination (clockwise) to turn %d...\n", __FILE__, relativeangle);
+    int relativeAngleToTurnClockWise=clean_angle(relativeangle);
+    log_this(s, "[%s] Relative cleaned angle to destination (clockwise) sent to turn function: %d...\n", __FILE__, relativeAngleToTurnClockWise);
 
     //need to be clockwise for the turn function so send - relative angle to the function
     turn(s, TURNING_SPEED, relativeAngleToTurnClockWise);
 
-	//update_angle(s,absoluteangle);
 	go_straight(s, MAX_WHEEL_SPEED, distancetodest);
-	update_pos(s, desiredposition);
 	return 0;
 }
 
@@ -294,6 +300,7 @@ int turn_imprecise(state *s, int speed, int angle){
         current_angle = s->gyro->val_data[0].s32 ;
     }
     command_wheels(s, STOP);
+    usleep(500000);
     return 0;
 }
 
@@ -308,7 +315,7 @@ int is_running_in_correct_angle(state *s){
 	//+- ERROR_M degrees is ok
     int angle_diff = clean_angle(s->angle - actualangle);
     printf("Is running: %d\t%d\n", actualangle, angle_diff);
-	log_this(s, "[%s] Angle diff is %d\n", __FILE__, angle_diff);
+	log_this(s, "[%s is_running_correct_angle] Angle diff is %d\n", __FILE__, angle_diff);
 	if(abs(angle_diff) > ERROR_MARGIN){
 		return angle_diff;
 	}
