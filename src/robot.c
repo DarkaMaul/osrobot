@@ -43,9 +43,12 @@ int catch_ball(state* s)
 
     return returnValue;
 }
-
+/**
+ * Function to look for the ball while moving (or not)
+ * @param s State of LeE
+ * @return 0 if ball is found 1 otherwise
+ */
 int look_for_ball(state *s){
-
 	int distanceToBall = distance_from_obstacle(s);
 	int sweep= 0;
 	while(distanceToBall == -1)
