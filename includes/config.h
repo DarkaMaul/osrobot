@@ -44,7 +44,7 @@
 //Grabing constants
 #define GRAB_POSITION 23
 #define MAX_GRABBING_SPEED 550
-#define RELEASING_SPEED 75
+#define RELEASING_SPEED 100
 #define INIT_GRAB_POSITION -15
 
 //Wheel motors constants

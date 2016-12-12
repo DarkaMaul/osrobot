@@ -171,10 +171,10 @@ typedef struct _large_positions
 large_pos init_large_positions(){
     large_pos large_pos;
     position init = {.x = L_FR_S_0_X + 10, .y = L_FR_S_0_Y + WHEELS_TO_END};
-    position dodgefirst = {.x = L_FR_S_0_X + 70, .y = L_FR_S_0_Y + WHEELS_TO_END + 140};
-    position center = {.x = L_BA_0_X, .y = L_BA_0_Y - WHEELS_TO_END};
-    position dodgesecond = {.x = L_FR_E_0_X + 70, .y = L_FR_E_0_Y + WHEELS_TO_END - 140};
-    position ending = {.x = L_FR_E_0_X, .y = L_FR_E_0_Y + WHEELS_TO_END};
+    position dodgefirst = {.x = L_FR_S_0_X + 70, .y = L_FR_S_0_Y + WHEELS_TO_END + 155};
+    position center = {.x = L_BA_0_X + WHEELS_TO_END/2, .y = L_BA_0_Y - WHEELS_TO_END+20};
+    position dodgesecond = {.x = L_FR_E_0_X , .y = L_FR_E_0_Y + WHEELS_TO_END - 130};
+    position ending = {.x = L_FR_E_0_X, .y = L_FR_E_0_Y + WHEELS_TO_END + 20};
     large_pos.l_fr_init = init;
     large_pos.l_fr_dodgefirst = dodgefirst;
     large_pos.l_fr_releaseball = center;
@@ -197,6 +197,7 @@ int test_three(state *s)
 	go_to_pos(s, positions.l_fr_dodgesecond);
     log_this(s, "\n[%s:test3] Going to the end\n\n",__FILE__);
 	go_to_pos(s, positions.l_fr_ending);
+    turn(s,100,180);
     return 0;
 }
 
