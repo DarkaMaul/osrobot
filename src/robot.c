@@ -43,3 +43,22 @@ int catch_ball(state* s)
 
     return returnValue;
 }
+
+int look_for_ball(state *s){
+
+	int distanceToBall = distance_from_obstacle(s);
+	int sweep= 0;
+	while(distanceToBall == -1)
+	{
+		//Positive for clockwise turn
+		if (abs(sweep * SWEEP_ANGLE) < MAX_SWEEP_ANGLE)
+			turn(s, TURNING_SPEED, -SWEEP_ANGLE);
+		else
+			turn(s, TURNING_SPEED, SWEEP_ANGLE);
+
+		sleep(1);
+		distanceToBall = distance_from_obstacle(s);
+		sweep++;
+	}
+	return 0;
+}
