@@ -47,8 +47,6 @@
 #define RELEASING_SPEED 100
 #define INIT_GRAB_POSITION -15
 
-//Sweep
-#define MAX_SWEEP_ANGLE 90
 
 //Wheel motors constants
 #define MAX_WHEEL_SPEED 1050
