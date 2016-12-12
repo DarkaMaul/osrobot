@@ -182,7 +182,6 @@ int send_message(state *s, int messageType, unsigned char destination, ...)
             break;
 
         case MSG_BALL:
-            printf("Test\n");
             message[5] = va_arg(argumentList, int);
             position[0] = (int16_t) va_arg(argumentList, int);
             position[1] = (int16_t) va_arg(argumentList, int);
