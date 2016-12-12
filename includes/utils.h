@@ -8,10 +8,12 @@ int init_bluetooth();
 int init_inet(state *s);
 void close_inet(state *s);
 
-int send_message(state *s, int messageType, ...);
+int send_message(state *s, unsigned char messageType, ...);
 char read_from_server(state *s, char *buffer);
-
+int read_message_from_server(state *s, char *buffer);
 int load_game_params(state *s, char *buffer);
+
+int send_position(state *s);
 
 int is_in_arena(state *s, position testedPosition);
 

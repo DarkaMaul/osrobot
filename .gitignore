@@ -44,3 +44,6 @@ test/*
 /.cproject
 .settings/
 Debug/
+
+#GDB
+.gdb_history

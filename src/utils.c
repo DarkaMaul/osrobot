@@ -46,7 +46,7 @@ int init_bluetooth()
  */
 int read_from_server(state *s, char *buffer)
 {
-    int readedBytes = read(s->sock, buffer, MSG_MAX_LEN);
+    int readedBytes = read(s->sock, buffer, (size_t) MSG_MAX_LEN);
 
     if (readedBytes <= 0)
     {
@@ -56,6 +56,29 @@ int read_from_server(state *s, char *buffer)
 
     return readedBytes;
 }
+
+int read_message_from_server(state *s, char *buffer)
+{
+    int readedBytes = read_from_server(s, buffer);
+
+    if (readedBytes <= 0)
+        return readedBytes;
+
+    if (buffer[HEADER_SRC] != (char) SERVER_ID && buffer[HEADER_SRC] != (unsigned char) s->ally + 1)
+    {
+        log_this(s, "[%s] Message not coming from server.\n", __FILE__);
+        return -1;
+    }
+
+    if (buffer[HEADER_DEST] != (char) TEAM_ID)
+    {
+        log_this(s, "[%s] Message recieved but not for me.\n", __FILE__);
+        return -1;
+    }
+
+    return readedBytes;
+}
+
 
 /**
  * Init the inet connexion
@@ -107,7 +130,7 @@ void close_inet(state *s)
  *
  * @return             0 if everything is OK || -1 if not
  */
-int send_message(state *s, int messageType, int destination, ...)
+int send_message(state *s, int messageType, unsigned char destination, ...)
 {
 
     va_list argumentList;
@@ -121,7 +144,6 @@ int send_message(state *s, int messageType, int destination, ...)
     message[2] = TEAM_ID;
     message[3] = destination;
     message[4] = messageType;
-
     unsigned int ackId;
     int statusCode;
     uint16_t position[2];
@@ -150,13 +172,25 @@ int send_message(state *s, int messageType, int destination, ...)
             break;
 
         case MSG_POSITION:
-            position[0] = (uint16_t) va_arg(argumentList, int);
-            position[1] = (uint16_t) va_arg(argumentList, int);
+            position[0] = (int16_t) va_arg(argumentList, int);
+            position[1] = (int16_t) va_arg(argumentList, int);
 
-            *((uint16_t *) (message+5)) = position[0];
-            *((uint16_t *) (message+7)) = position[1];
+            *((int16_t *) (message+5)) = position[0];
+            *((int16_t *) (message+7)) = position[1];
 
             messageLength = MSG_POSITION_LEN;
+            break;
+
+        case MSG_BALL:
+            printf("Test\n");
+            message[5] = va_arg(argumentList, int);
+            position[0] = (int16_t) va_arg(argumentList, int);
+            position[1] = (int16_t) va_arg(argumentList, int);
+
+            *((int16_t *) (message+6)) = position[0];
+            *((int16_t *) (message+8)) = position[1];
+            messageLength = MSG_BALL_LEN;
+            printf("We did it boys \n");
             break;
 
         default:
@@ -177,6 +211,16 @@ int send_message(state *s, int messageType, int destination, ...)
 }
 
 /**
+ * Send the position of LeE
+ * @param  s State structure
+ * @return   0 if everythingis OK || -1 if not
+ */
+int send_position(state *s)
+{
+    return send_message(s, MSG_POSITION, SERVER_ID, s->curPos.x, s->curPos.y);
+}
+
+/**
  * Parse the START message to load the game parameters
  * @param  s      State structure
  * @param  buffer Raw message
@@ -184,20 +228,22 @@ int send_message(state *s, int messageType, int destination, ...)
  */
 int load_game_params(state *s, char *buffer)
 {
-    s->role =  s->side = s->ally = -1;
+    s->role = -1;
+    s->side = -1;
+    s->ally = -1;
 
-    if (buffer[5] == ROLE_FIRST || buffer[5] == ROLE_SECOND)
-        s->role = buffer[5];
+    if ((unsigned char) buffer[5] == ROLE_FIRST || (unsigned char) buffer[5] == ROLE_SECOND)
+        s->role = (unsigned char) buffer[5];
 
-    if (buffer[6] == SIDE_RIGHT || buffer[6] == SIDE_LEFT)
-        s->side = buffer[6];
+    if ((unsigned char) buffer[6] == SIDE_RIGHT || (unsigned char) buffer[6] == SIDE_LEFT)
+        s->side = (unsigned char) buffer[6];
 
-    if (buffer[7] > 0 && buffer[7] < 254)
-        s->ally = buffer[7];
+    if ((unsigned char) buffer[7] >= 0 && (unsigned char) buffer[7] < 254)
+        s->ally = (unsigned char) buffer[7];
 
-    if (!s->role || s->side || s->ally)
+    if (s->role == -1 || s->side == -1 || s->ally == -1)
     {
-        log_this(s, "[Utils] Error while defining game constants in load_game_params(%d, %d, %d).\n", buffer[5], buffer[6], buffer[7]);
+        log_this(s, "[Utils] Error while defining game constants in load_game_params(%c, %c, %c).\n", (unsigned char) buffer[5], (unsigned char) buffer[6], (unsigned char) buffer[7]);
         return -1;
     }
 
