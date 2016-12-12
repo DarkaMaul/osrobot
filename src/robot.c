@@ -39,7 +39,7 @@ int catch_ball(state* s)
     if(returnValue == BALL_FOUND)
         log_this(s, "[%s] We're lucky, the ball is inside the hook!\n", __FILE__);
     else
-        log_this(s, "[%s] Damm, we missed it at the very last moment\n", __FILE__);
+        log_this(s, "[%s] Damn, we missed it at the very last moment\n", __FILE__);
 
     return returnValue;
 }
