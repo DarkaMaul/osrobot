@@ -11,3 +11,4 @@ Optimal accuracy: ~0.1-4 cm
 * ID de l'allié pas bonne (il manque 1)
 * Message ball pas implémenté
 * Impossible d'envoyer des coordonnées négatives sur le Fake client
+* Log ne  marche pas ?
