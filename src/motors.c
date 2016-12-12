@@ -18,7 +18,7 @@ void init_motors(state *s){
     s->leftmotor=ev3_search_motor_by_port(s->motors, *PORT_LEFT_MOTOR);
     s->rightmotor=ev3_search_motor_by_port(s->motors, *PORT_RIGHT_MOTOR);
     s->grabmotor=ev3_search_motor_by_port(s->motors, *PORT_GRAB_MOTOR);
-    //s->sweepmotor=ev3_search_motor_by_port(s->motors, *PORT_SWEEP_MOTOR);
+    s->sweepmotor=ev3_search_motor_by_port(s->motors, *PORT_SWEEP_MOTOR);
     ev3_motor_ptr motor = s->motors;
     //Just in case reset all motors
     while (motor)
@@ -81,7 +81,6 @@ int release(state *s, int speed)
     //log_this(s, "Motor %d on port %c opened, assigned and reseted\n", motor->motor_nr, motor->port);
     return 0;
 }
-
 
 //Wheels control functions
 
@@ -397,5 +396,31 @@ int go_straight_compass(state *s, int speed, int distance){
     // We then go for the remaining distance and correct the angle again
     wheels_run_distance(s, speed, remaining_distance);
     turn_compass(s, TURNING_SPEED, is_running_in_correct_angle_compass(s));
+    return 0;
+}
+
+//Sweep motor
+
+
+/**
+ * Function which can be used to make the motor sweep at a specified speed at a specified angle
+ * @param  s        State structure
+ * @param  speed    Speed for Sweep motor (usually MAX_SWEEP_SPEED)
+ * @param  angle    Speed for LeE (usually MAX_SWEEP_SPEED)
+ * @return          0 if everything is allright -1 else
+ */
+int sweep(state *s, int speed, int angle)
+{
+	int cur_angle_sweep=ev3_get_position(s->sweepmotor);
+    if (abs(cur_angle_sweep+angle) >= MAX_SWEEP_ANGLE){
+        log_this(s, "[%s] Sweep failed current sweep angle + desired angle exceed limit (%d(actual) --> %d(desired)) \n", __FILE__, cur_angle_sweep,cur_angle_sweep+ angle);
+        return -1;
+    }
+    ev3_set_speed_sp(s->sweepmotor, speed);
+    ev3_set_position_sp(s->sweepmotor+angle, cur_angle_sweep+angle);
+    ev3_command_motor_by_name(s->sweepmotor, "run-to-abs-pos");
+
+    while (ev3_motor_state(s->sweepmotor) & MOTOR_RUNNING);
+    //log_this(s, "Motor %d on port %c opened, assigned and reseted\n", motor->motor_nr, motor->port);
     return 0;
 }
