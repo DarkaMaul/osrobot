@@ -93,40 +93,6 @@ int first_runner_small_stadium(state *s)
     return 0;
 }
 
-int second_runner_small_stadium(state *s)
-{
-    position initPosition = {
-        .x = S_SR_E_2_X,
-        .y = S_SR_E_2_Y + (S_SR_E_2_Y - S_SR_E_3_Y) / 2
-    };
-    
-    update_pos(s, initPosition);
-    
-    position checkBallPosition = {
-        .x = S_BA_1_X,
-        .y = S_BA_1_Y
-    };
-   
-    go_to_pos(s, checkBallPosition);
-    
-    int distanceToBall = distance_from_obstacle(s);
-    int sweep = 0;
-    while(distanceToBall == -1)
-    {
-        //Positive for clockwise turn
-        if (abs(sweep * SWEEP_ANGLE) < MAX_SWEEP_ANGLE) 
-            turn(s, TURNING_SPEED, -SWEEP_ANGLE);
-        else
-            turn(s, TURNING_SPEED, SWEEP_ANGLE);
-        
-        sleep(1);
-        distanceToBall = distance_from_obstacle(s);
-        sweep++;
-    }
-
-    return 0;
-}
-
 //Small arena test 1 13 December
 int test_one(state *s)
 {
