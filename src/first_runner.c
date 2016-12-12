@@ -14,16 +14,32 @@ typedef struct _mainpositions
     position s_fr_init;
     position s_fr_releaseball;
     position s_fr_ending;
+    position l_fr_init;
+    position l_fr_dodgefirst;
+    position l_fr_releaseball;
+    position l_fr_dodgesecond;
+    position l_fr_ending;
 } mainpos;
 
 mainpos init_main_positions(){
 	mainpos positions;
-	position init={.x = S_FR_S_0_X,.y = S_FR_S_0_Y +  WHEELS_TO_END};
-	position releaseballposition = {.x = S_BA_0_X - 5,.y = S_BA_0_Y - WHEELS_TO_END + 5};
-	position endingposition = {.x = S_FR_E_0_X,.y = ( S_FR_E_0_Y + WHEELS_TO_END) + 15};
-	positions.s_fr_init=init;
-	positions.s_fr_releaseball=releaseballposition;
-	positions.s_fr_ending=endingposition;
+	position s_fr_init={.x = S_FR_S_0_X,.y = S_FR_S_0_Y +  WHEELS_TO_END};
+	position s_fr_releaseballposition = {.x = S_BA_0_X - 5,.y = S_BA_0_Y - WHEELS_TO_END + 5};
+	position s_fr_endingposition = {.x = S_FR_E_0_X,.y = ( S_FR_E_0_Y + WHEELS_TO_END) + 15}; //{.x = S_FR_E_1_X,.y = S_FR_E_1_Y}
+	position l_fr_init = {.x = L_FR_S_0_X + 10, .y = L_FR_S_0_Y + WHEELS_TO_END}; // {.x = L_FR_S_0_X + WHEELS_TO_END, .y = L_FR_S_0_Y + WHEELS_TO_END}
+	position l_fr_dodgefirst = {.x = L_FR_S_0_X + 70, .y = L_FR_S_0_Y + WHEELS_TO_END + 155}; //{.x = (L_O1_2_X + BIG_ARENA_MAX_X)/2, .y = L_O1_2_Y + L_FR_S_0_Y}
+	position l_fr_center = {.x = L_BA_0_X + WHEELS_TO_END/2, .y = L_BA_0_Y - WHEELS_TO_END+20}; // {.x = L_BA_0_X + L_FR_0_X/2, .y = L_BA_0_Y + L_FR_S_Y}
+	position l_fr_dodgesecond = {.x = L_FR_E_0_X , .y = L_FR_E_0_Y + WHEELS_TO_END - 130}; // {.x = L_FR_E_0_X , .y = L_02_0_Y}
+	position l_fr_ending = {.x = L_FR_E_0_X, .y = L_FR_E_0_Y + WHEELS_TO_END + 20}; //{.x = L_FR_E_1_X, .y = L_FR_E_1_Y};
+
+	positions.s_fr_init=s_fr_init;
+	positions.s_fr_releaseball=s_fr_releaseballposition;
+	positions.s_fr_ending=s_fr_endingposition;
+	positions.l_fr_init = l_fr_init;
+	positions.l_fr_dodgefirst = l_fr_dodgefirst;
+	positions.l_fr_releaseball = l_fr_center;
+	positions.l_fr_dodgesecond = l_fr_dodgesecond;
+	positions.l_fr_ending = l_fr_ending;
 	return positions;
 }
 
@@ -77,40 +93,6 @@ int first_runner_small_stadium(state *s)
     return 0;
 }
 
-int second_runner_small_stadium(state *s)
-{
-    position initPosition = {
-        .x = S_SR_E_2_X,
-        .y = S_SR_E_2_Y + (S_SR_E_2_Y - S_SR_E_3_Y) / 2
-    };
-    
-    update_pos(s, initPosition);
-    
-    position checkBallPosition = {
-        .x = S_BA_1_X,
-        .y = S_BA_1_Y
-    };
-   
-    go_to_pos(s, checkBallPosition);
-    
-    int distanceToBall = distance_from_obstacle(s);
-    int sweep = 0;
-    while(distanceToBall == -1)
-    {
-        //Positive for clockwise turn
-        if (abs(sweep * SWEEP_ANGLE) < MAX_SWEEP_ANGLE) 
-            turn(s, TURNING_SPEED, -SWEEP_ANGLE);
-        else
-            turn(s, TURNING_SPEED, SWEEP_ANGLE);
-        
-        sleep(1);
-        distanceToBall = distance_from_obstacle(s);
-        sweep++;
-    }
-
-    return 0;
-}
-
 //Small arena test 1 13 December
 int test_one(state *s)
 {
@@ -159,35 +141,12 @@ int test_five(state *s)
 
 
 ///////////////// LARGE ARENA //////////////////
-typedef struct _large_positions 
-{
-    position l_fr_init;
-    position l_fr_dodgefirst;
-    position l_fr_releaseball;
-    position l_fr_dodgesecond;
-    position l_fr_ending;
-}large_pos;
-
-large_pos init_large_positions(){
-    large_pos large_pos;
-    position init = {.x = L_FR_S_0_X + 10, .y = L_FR_S_0_Y + WHEELS_TO_END};
-    position dodgefirst = {.x = L_FR_S_0_X + 70, .y = L_FR_S_0_Y + WHEELS_TO_END + 140};
-    position center = {.x = L_BA_0_X, .y = L_BA_0_Y - WHEELS_TO_END};
-    position dodgesecond = {.x = L_FR_E_0_X + 70, .y = L_FR_E_0_Y + WHEELS_TO_END - 140};
-    position ending = {.x = L_FR_E_0_X, .y = L_FR_E_0_Y + WHEELS_TO_END};
-    large_pos.l_fr_init = init;
-    large_pos.l_fr_dodgefirst = dodgefirst;
-    large_pos.l_fr_releaseball = center;
-    large_pos.l_fr_dodgesecond = dodgesecond;
-    large_pos.l_fr_ending = ending;
-    return large_pos;
-}
 
 //Large arena test 3 13 December
 int test_three(state *s)
 {
     //Init the Game
-    large_pos positions=init_large_positions();
+    mainpos positions=init_main_positions();
     update_pos(s, positions.l_fr_init);
 
 	//Go to ending position
@@ -197,6 +156,7 @@ int test_three(state *s)
 	go_to_pos(s, positions.l_fr_dodgesecond);
     log_this(s, "\n[%s:test3] Going to the end\n\n",__FILE__);
 	go_to_pos(s, positions.l_fr_ending);
+    turn(s,100,180);
     return 0;
 }
 
@@ -204,7 +164,7 @@ int test_three(state *s)
 int test_four(state *s)
 {
     //Init the Game
-    large_pos positions=init_large_positions();
+    mainpos positions=init_main_positions();
     update_pos(s, positions.l_fr_init);
     //By default we are in realeasing position so just close the clamps when starting
     log_this(s, "\n[%s:test4] Grabbing the ball \n\n",__FILE__);

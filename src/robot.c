@@ -39,7 +39,26 @@ int catch_ball(state* s)
     if(returnValue == BALL_FOUND)
         log_this(s, "[%s] We're lucky, the ball is inside the hook!\n", __FILE__);
     else
-        log_this(s, "[%s] Damm, we missed it at the very last moment\n", __FILE__);
+        log_this(s, "[%s] Damn, we missed it at the very last moment\n", __FILE__);
 
     return returnValue;
+}
+
+int look_for_ball(state *s){
+
+	int distanceToBall = distance_from_obstacle(s);
+	int sweep= 0;
+	while(distanceToBall == -1)
+	{
+		//Positive for clockwise turn
+		if (abs(sweep * SWEEP_ANGLE) < MAX_SWEEP_ANGLE)
+			turn(s, TURNING_SPEED, -SWEEP_ANGLE);
+		else
+			turn(s, TURNING_SPEED, SWEEP_ANGLE);
+
+		sleep(1);
+		distanceToBall = distance_from_obstacle(s);
+		sweep++;
+	}
+	return 0;
 }

@@ -44,7 +44,7 @@
 //Grabing constants
 #define GRAB_POSITION 23
 #define MAX_GRABBING_SPEED 550
-#define RELEASING_SPEED 75
+#define RELEASING_SPEED 100
 #define INIT_GRAB_POSITION -15
 
 //Wheel motors constants
@@ -156,6 +156,26 @@
 #define S_FR_E_3_Y 150
 
 // The following coordinates are for the right side of the arena. For the Left side, just invert the X's.
+#define OBSTACLE_WIDTH 15
+
+//Large_Obstacle1(first one)_Point0_X 
+#define L_O1_0_X 0 
+#define L_O1_0_Y 150
+#define L_O1_1_X 0
+#define L_O1_1_Y 165
+#define L_O1_2_X 60
+#define L_O1_2_Y 165
+#define L_O1_3_X 60
+#define L_O1_3_Y 150
+#define L_O2_0_X 60
+#define L_O2_0_Y 250
+#define L_O2_1_X 60
+#define L_O2_1_Y 265
+#define L_O2_2_X 120
+#define L_O2_2_Y 265
+#define L_O2_3_X 120
+#define L_O2_3_Y 250
+
 //Large_Ballarea_Point0_X
 #define L_BA_0_X 50
 #define L_BA_0_Y 190
@@ -175,7 +195,6 @@
 #define L_FR_S_2_Y 50
 #define L_FR_S_3_X 50
 #define L_FR_S_3_Y 10
-
 
 //Large_FirstRunner_Endingposition_Point0_X
 #define L_FR_E_0_X 10
