@@ -417,7 +417,7 @@ int sweep(state *s, int speed, int angle)
         return -1;
     }
     ev3_set_speed_sp(s->sweepmotor, speed);
-    ev3_set_position_sp(s->sweepmotor+angle, cur_angle_sweep+angle);
+    ev3_set_position_sp(s->sweepmotor, cur_angle_sweep+angle);
     ev3_command_motor_by_name(s->sweepmotor, "run-to-abs-pos");
 
     while (ev3_motor_state(s->sweepmotor) & MOTOR_RUNNING);
