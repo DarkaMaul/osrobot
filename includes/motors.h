@@ -29,5 +29,7 @@ int is_running_in_correct_angle(state *s);
 int go_straight_compass(state *s,int speed, int distance);
 int turn_compass(state *s,int speed,int angle);
 int is_running_in_correct_angle_compass(state *s);
+int sweep(state *s, int speed, int angle);
+
 
 #endif /* INCLUDES_MOTORS_H_ */
