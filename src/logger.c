@@ -56,4 +56,5 @@ void log_this(state *s, const char *format, ...)
     va_start(args, format);
     vfprintf(s->logfile_fd, format, args);
     va_end(args);
+    fflush(s->logfile_fd);
 }
