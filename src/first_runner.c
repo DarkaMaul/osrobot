@@ -187,16 +187,16 @@ int test_six(state *s)
 {
     log_this(s, "[%s:test6] Test 6\n", __FILE__);
     int distanceToBall = distance_from_obstacle(s);
-    while (distanceToBall == -1 || distanceToBall > 40)
+    while (distanceToBall == -1 || distanceToBall > 50)
     {
         turn(s, TURNING_SPEED, 5);
         sleep(1);
         distanceToBall = distance_from_obstacle(s);
     }
-
-    log_this(s, "[%s:test6] Found  ball at %d\n", distanceToBall);
+    turn(s, TURNING_SPEED,5);
+    log_this(s, "[%s:test6] Found  ball at %d\n",__FILE__, distanceToBall);
     catch_ball(s);
 
-    log_this(s, "[%s:test6] Ball catched!\n");
+    log_this(s, "[%s:test6] Ball catched!\n",__FILE__);
     return 0;
 }
