@@ -208,7 +208,7 @@
 #define L_FR_E_3_Y 350
 
 
-#define BALL_CATCH_DISTANCE 3
+#define BALL_CATCH_DISTANCE 0
 #define BALL_FOUND 0
 #define BALL_NOT_FOUND -1
 

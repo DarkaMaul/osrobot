@@ -25,12 +25,12 @@ mainpos init_main_positions(){
 	mainpos positions;
 	position s_fr_init={.x = S_FR_S_0_X,.y = S_FR_S_0_Y +  WHEELS_TO_END};
 	position s_fr_releaseballposition = {.x = S_BA_0_X - 5,.y = S_BA_0_Y - WHEELS_TO_END + 5};
-	position s_fr_endingposition = {.x = S_FR_E_0_X,.y = ( S_FR_E_0_Y + WHEELS_TO_END) + 15}; //{.x = S_FR_E_1_X,.y = S_FR_E_1_Y}
-	position l_fr_init = {.x = L_FR_S_0_X + 10, .y = L_FR_S_0_Y + WHEELS_TO_END}; // {.x = L_FR_S_0_X + WHEELS_TO_END, .y = L_FR_S_0_Y + WHEELS_TO_END}
-	position l_fr_dodgefirst = {.x = L_FR_S_0_X + 70, .y = L_FR_S_0_Y + WHEELS_TO_END + 155}; //{.x = (L_O1_2_X + BIG_ARENA_MAX_X)/2, .y = L_O1_2_Y + L_FR_S_0_Y}
-	position l_fr_center = {.x = L_BA_0_X + WHEELS_TO_END/2, .y = L_BA_0_Y - WHEELS_TO_END+20}; // {.x = L_BA_0_X + L_FR_0_X/2, .y = L_BA_0_Y + L_FR_S_Y}
-	position l_fr_dodgesecond = {.x = L_FR_E_0_X , .y = L_FR_E_0_Y + WHEELS_TO_END - 130}; // {.x = L_FR_E_0_X , .y = L_02_0_Y}
-	position l_fr_ending = {.x = L_FR_E_0_X, .y = L_FR_E_0_Y + WHEELS_TO_END + 20}; //{.x = L_FR_E_1_X, .y = L_FR_E_1_Y};
+	position s_fr_endingposition = {.x = S_FR_E_1_X,.y = S_FR_E_1_Y};
+	position l_fr_init = {.x = L_FR_S_0_X + WHEELS_TO_END, .y = L_FR_S_0_Y + WHEELS_TO_END};
+	position l_fr_dodgefirst = {.x = (L_O1_2_X + BIG_ARENA_MAX_X)/2, .y = L_O1_2_Y + L_FR_S_0_Y};
+	position l_fr_center = {.x = L_BA_0_X + L_FR_S_0_X/2, .y = L_BA_0_Y + L_FR_S_0_Y};
+	position l_fr_dodgesecond = {.x = L_FR_E_0_X , .y = L_O2_0_Y};
+	position l_fr_ending = {.x = L_FR_E_1_X, .y = L_FR_E_1_Y};
 
 	positions.s_fr_init=s_fr_init;
 	positions.s_fr_releaseball=s_fr_releaseballposition;
@@ -188,6 +188,7 @@ int test_six(state *s)
     printf("Test 6\n");
     int distanceToBall = distance_from_obstacle(s);
     printf("Distance to ball (0): %d\n", distanceToBall);
+
     int i;
     for (i = 0; i < 13; i++)
     {
@@ -205,6 +206,8 @@ int test_six(state *s)
         if (distanceToBall != -1 && distanceToBall < 50)
             break;
     }
+
+    catch_ball(s);
 
     return 0;
 }
