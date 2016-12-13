@@ -237,7 +237,7 @@ int load_game_params(state *s, char *buffer)
     if ((unsigned char) buffer[6] == SIDE_RIGHT || (unsigned char) buffer[6] == SIDE_LEFT)
         s->side = (unsigned char) buffer[6];
 
-    if ((unsigned char) buffer[7] >= 0 && (unsigned char) buffer[7] < 254)
+    if ((unsigned char) buffer[7] >= 2 && (unsigned char) buffer[7] < 254)
         s->ally = (unsigned char) buffer[7];
 
     if (s->role == -1 || s->side == -1 || s->ally == -1)

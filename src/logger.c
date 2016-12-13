@@ -54,7 +54,7 @@ void log_this(state *s, const char *format, ...)
 {
     va_list args;
     va_start(args, format);
+    printf("%p\n", (void *) s->logfile_fd);
     vfprintf(s->logfile_fd, format, args);
-    vprintf(format,args);
     va_end(args);
 }
