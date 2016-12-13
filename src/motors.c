@@ -74,11 +74,13 @@ int release(state *s, int speed)
         log_this(s, "[%s] Releasing failed already in release position\n", __FILE__);
         return -1;
     }
+    ev3_set_ramp_up_sp(s->grabmotor, 6000);
     ev3_set_speed_sp(s->grabmotor, speed);
     ev3_set_position_sp(s->grabmotor, -7);
     ev3_command_motor_by_name(s->grabmotor, "run-to-abs-pos");
     while (ev3_motor_state(s->grabmotor) & MOTOR_RUNNING);
     //log_this(s, "Motor %d on port %c opened, assigned and reseted\n", motor->motor_nr, motor->port);
+    ev3_set_ramp_up_sp(s->grabmotor, 0);
     return 0;
 }
 
@@ -299,7 +301,7 @@ int turn_imprecise(state *s, int speed, int angle){
         current_angle = s->gyro->val_data[0].s32 ;
     }
     command_wheels(s, STOP);
-    usleep(500000);
+    usleep(50000);
     return 0;
 }
 

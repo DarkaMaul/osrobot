@@ -53,7 +53,7 @@ int main(int argc, char *argv[])
     //tests dev in progress
     //grab(s,MAX_GRABBING_SPEED);
     //sleep(5);
-    //release(s, MAX_GRABBING_SPEED);
+    //release(s, RELEASING_SPEED);
 
 	//go_straight(s, 1000, 200);
 //    position desiredposition={2,2};
@@ -93,7 +93,7 @@ int main(int argc, char *argv[])
 		}
 	}
 	//Close external ressources
+    
     nice_exit(s, EXIT_SUCCESS);
-
 	return 0;
 }

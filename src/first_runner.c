@@ -119,9 +119,9 @@ int test_two(state *s)
 
     //Go to center
     go_to_pos(s, positions.s_fr_releaseball);
-
+    sleep(2);
     //release ball
-    release(s, MAX_GRABBING_SPEED);
+    release(s, RELEASING_SPEED);
     return 0;
 }
 
@@ -177,6 +177,7 @@ int test_four(state *s)
     go_to_pos(s, positions.l_fr_releaseball);
 
     //release ball
+    usleep(100000);
     log_this(s, "\n[%s:test3] Releasing the ball\n\n",__FILE__);
     release(s, MAX_GRABBING_SPEED);
     return 0;
