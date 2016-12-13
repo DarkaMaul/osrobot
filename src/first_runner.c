@@ -194,9 +194,9 @@ int test_six(state *s)
         distanceToBall = distance_from_obstacle(s);
     }
     turn(s, TURNING_SPEED,5);
-    log_this(s, "[%s:test6] Found  ball at %d\n",__FILE__, distanceToBall);
+    log_this(s, "[%s:test6] Found  ball at %d\n", __FILE__, distanceToBall);
     catch_ball(s);
 
-    log_this(s, "[%s:test6] Ball catched!\n",__FILE__);
+    log_this(s, "[%s:test6] Ball catched!\n", __FILE__);
     return 0;
 }
