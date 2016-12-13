@@ -27,7 +27,7 @@ void test_bluetooth(state *s)
                     {
                         printf("Ally: %u\n", s->ally);
                         printf("Send NEXT...");
-                        result = send_message(s, MSG_NEXT, s->ally + 1);
+                        result = send_message(s, MSG_NEXT, s->ally);
                         printf(".... %d\n", result);
                     }
                     break;
@@ -37,7 +37,7 @@ void test_bluetooth(state *s)
                     s->curPos.x = -100;
                     s->curPos.y = 243;
                     result = send_position(s);
-                    result = send_message(s, MSG_BALL, s->ally + 1, PICK_BALL, -252, 1224);
+                    result = send_message(s, MSG_BALL, s->ally, PICK_BALL, -252, 1224);
                     printf("Send ball: %d\n", result);
                     break;
 

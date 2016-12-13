@@ -48,7 +48,7 @@ int first_runner_small_stadium(state *s)
     //Init the Game
 	position init = {
         .x = S_FR_S_0_X,
-        .y = S_FR_S_0_Y +  WHEELS_TO_END		
+        .y = S_FR_S_0_Y +  WHEELS_TO_END
     };
 
     update_pos(s, init);
@@ -57,12 +57,12 @@ int first_runner_small_stadium(state *s)
     //catch_ball(s);
     log_this(s, "\n\nGrabing the ball.\n\n");
 	grab(s, MAX_GRABBING_SPEED);
-	
+
     //Go to center
     log_this(s, "\n\nGoing to the center.\n\n");
 	position releaseballposition = {
         .x = S_BA_0_X - 5,
-        .y = S_BA_0_Y - WHEELS_TO_END + 5 
+        .y = S_BA_0_Y - WHEELS_TO_END + 5
     };
 
 	go_to_pos(s, releaseballposition);
@@ -182,5 +182,20 @@ int test_four(state *s)
     return 0;
 }
 
+int test_six(state *s)
+{
+    log_this(s, "[%s:test6] Test 6\n", __FILE__);
+    int distanceToBall = distance_from_obstacle(s);
+    while (distanceToBall == -1 || distanceToBall > 40)
+    {
+        turn(s, TURNING_SPEED, 5);
+        sleep(1);
+        distanceToBall = distance_from_obstacle(s);
+    }
 
+    log_this(s, "[%s:test6] Found  ball at %d\n", distanceToBall);
+    catch_ball(s);
 
+    log_this(s, "[%s:test6] Ball catched!\n");
+    return 0;
+}

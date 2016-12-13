@@ -23,8 +23,8 @@ int main(int argc, char *argv[])
     signal(SIGINT, signal_handler);
 
     //Init the LeE
-    init_robot(s);
-
+    //init_robot(s);
+    //init_inet(s);
     //
     // char buffer[MSG_MAX_LEN];
     // char messageType = read_from_server(s, buffer);
@@ -87,6 +87,13 @@ int main(int argc, char *argv[])
 			case 5:
 				test_five(s);
 				break;
+            case 6:
+                test_six(s);
+                break;
+            case 7:
+                test_bluetooth(s);
+                break;
+
 			default:
 				first_runner_small_stadium(s);
 				break;

@@ -9,5 +9,6 @@ int test_two(state *s);
 int test_three(state *s);
 int test_four(state *s);
 int test_five(state *s);
+int test_six(state *s);
 
 #endif
