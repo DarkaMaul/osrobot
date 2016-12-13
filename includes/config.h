@@ -44,7 +44,7 @@
 //Grabing constants
 #define GRAB_POSITION 23
 #define MAX_GRABBING_SPEED 550
-#define RELEASING_SPEED 50
+#define RELEASING_SPEED 20
 #define INIT_GRAB_POSITION -15
 
 

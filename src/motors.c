@@ -74,7 +74,7 @@ int release(state *s, int speed)
         log_this(s, "[%s] Releasing failed already in release position\n", __FILE__);
         return -1;
     }
-    ev3_set_ramp_up_sp(s->grabmotor, 6000);
+    ev3_set_ramp_up_sp(s->grabmotor, 10000);
     ev3_set_speed_sp(s->grabmotor, speed);
     ev3_set_position_sp(s->grabmotor, -7);
     ev3_command_motor_by_name(s->grabmotor, "run-to-abs-pos");
