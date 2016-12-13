@@ -28,8 +28,8 @@ mainpos init_main_positions(){
 	position s_fr_endingposition = {.x = S_FR_E_1_X,.y = S_FR_E_1_Y};
 	position l_fr_init = {.x = L_FR_S_0_X + WHEELS_TO_END, .y = L_FR_S_0_Y + WHEELS_TO_END};
 	position l_fr_dodgefirst = {.x = (L_O1_2_X + BIG_ARENA_MAX_X)/2, .y = L_O1_2_Y + L_FR_S_0_Y};
-	position l_fr_center = {.x = L_BA_0_X + L_FR_0_X/2, .y = L_BA_0_Y + L_FR_S_Y};
-	position l_fr_dodgesecond = {.x = L_FR_E_0_X , .y = L_02_0_Y};
+	position l_fr_center = {.x = L_BA_0_X + L_FR_S_0_X/2, .y = L_BA_0_Y + L_FR_S_0_Y};
+	position l_fr_dodgesecond = {.x = L_FR_E_0_X , .y = L_O2_0_Y};
 	position l_fr_ending = {.x = L_FR_E_1_X, .y = L_FR_E_1_Y};
 
 	positions.s_fr_init=s_fr_init;
