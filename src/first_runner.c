@@ -192,7 +192,7 @@ int test_six(state *s)
     int i;
     for (i = 0; i < 13; i++)
     {
-        if (i == 3)
+        if (i == 5)
         {
             printf("Going forward and turning back\n");
             turn(s, TURNING_SPEED, i * -5);
@@ -203,8 +203,11 @@ int test_six(state *s)
         usleep(500000);
         distanceToBall = distance_from_obstacle(s);
         printf("Distance to ball (%d): %d\n", i, distanceToBall);
-        if (distanceToBall != -1 && distanceToBall < 50)
+        if (distanceToBall != -1 && distanceToBall < 40)
+        {
+            turn(s,TURNING_SPEED,8); 
             break;
+        }
     }
 
     catch_ball(s);
