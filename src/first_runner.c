@@ -185,18 +185,29 @@ int test_four(state *s)
 
 int test_six(state *s)
 {
-    log_this(s, "[%s:test6] Test 6\n", __FILE__);
+    printf("Test 6\n");
     int distanceToBall = distance_from_obstacle(s);
-    while (distanceToBall == -1 || distanceToBall > 50)
+    printf("Distance to ball (0): %d\n", distanceToBall);
+
+    int i;
+    for (i = 0; i < 13; i++)
     {
+        if (i == 3)
+        {
+            printf("Going forward and turning back\n");
+            turn(s, TURNING_SPEED, i * -5);
+            go_straight(s, MAX_WHEEL_SPEED, 30);
+        }
+
         turn(s, TURNING_SPEED, 5);
-        sleep(1);
+        usleep(500000);
         distanceToBall = distance_from_obstacle(s);
+        printf("Distance to ball (%d): %d\n", i, distanceToBall);
+        if (distanceToBall != -1 && distanceToBall < 50)
+            break;
     }
-    turn(s, TURNING_SPEED,5);
-    log_this(s, "[%s:test6] Found  ball at %d\n", __FILE__, distanceToBall);
+
     catch_ball(s);
 
-    log_this(s, "[%s:test6] Ball catched!\n", __FILE__);
     return 0;
 }

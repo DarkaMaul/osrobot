@@ -64,11 +64,11 @@ int read_message_from_server(state *s, char *buffer)
     if (readedBytes <= 0)
         return readedBytes;
 
-    if (buffer[HEADER_SRC] != (char) SERVER_ID && buffer[HEADER_SRC] != (unsigned char) s->ally + 1)
-    {
-        log_this(s, "[%s] Message not coming from server.\n", __FILE__);
-        return -1;
-    }
+    // if (buffer[HEADER_SRC] != (char) SERVER_ID && buffer[HEADER_SRC] != (unsigned char) s->ally + 1)
+    // {
+    //     log_this(s, "[%s] Message not coming from server.\n", __FILE__);
+    //     return -1;
+    // }
 
     if (buffer[HEADER_DEST] != (char) TEAM_ID)
     {
@@ -201,7 +201,6 @@ int send_message(state *s, int messageType, unsigned char destination, ...)
 
     //Send the message
     write(s->sock, message, messageLength);
-
     //write(STDOUT_FILENO, message, messageLength);
 
     log_this(s, "[Utils] Message of type %d with id %u sended to %d\n", messageType, s->msgId, destination);
@@ -237,12 +236,13 @@ int load_game_params(state *s, char *buffer)
     if ((unsigned char) buffer[6] == SIDE_RIGHT || (unsigned char) buffer[6] == SIDE_LEFT)
         s->side = (unsigned char) buffer[6];
 
-    if ((unsigned char) buffer[7] >= 2 && (unsigned char) buffer[7] < 254)
+    //TODO
+    if ((unsigned char) buffer[7] >= 1 && (unsigned char) buffer[7] < 254)
         s->ally = (unsigned char) buffer[7];
 
-    if (s->role == -1 || s->side == -1 || s->ally == -1)
+    if (s->role == 255 || s->side == 255 || s->ally == 255)
     {
-        log_this(s, "[Utils] Error while defining game constants in load_game_params(%c, %c, %c).\n", (unsigned char) buffer[5], (unsigned char) buffer[6], (unsigned char) buffer[7]);
+        log_this(s, "[Utils] Error while defining game constants in load_game_params(%u, %u, %u).\n", (unsigned char) buffer[5], (unsigned char) buffer[6], (unsigned char) buffer[7]);
         return -1;
     }
 
