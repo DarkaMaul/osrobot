@@ -423,6 +423,6 @@ int sweep(state *s, int speed, int angle)
     ev3_command_motor_by_name(s->sweepmotor, "run-to-abs-pos");
 
     while (ev3_motor_state(s->sweepmotor) & MOTOR_RUNNING);
-    //log_this(s, "Motor %d on port %c opened, assigned and reseted\n", motor->motor_nr, motor->port);
+
     return 0;
 }

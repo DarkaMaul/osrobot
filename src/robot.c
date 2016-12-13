@@ -49,19 +49,20 @@ int catch_ball(state* s)
  * @return 0 if ball is found 1 otherwise
  */
 int look_for_ball(state *s){
-	int distanceToBall = distance_from_obstacle(s);
-	int sweep= 0;
-	while(distanceToBall == -1)
+	int distanceToBallorObstacle = distance_from_obstacle(s);
+	int turn_sweep= 0;
+	while(distanceToBallorObstacle == -1 || distanceToBallorObstacle > 50)
 	{
 		//Positive for clockwise turn
+/*
 		if (abs(sweep * SWEEP_ANGLE) < MAX_SWEEP_ANGLE)
-			turn(s, TURNING_SPEED, -SWEEP_ANGLE);
+			sweep(s, TURNING_SPEED, -SWEEP_ANGLE);
 		else
-			turn(s, TURNING_SPEED, SWEEP_ANGLE);
-
+			sweep(s, TURNING_SPEED, SWEEP_ANGLE);
+*/
 		sleep(1);
-		distanceToBall = distance_from_obstacle(s);
-		sweep++;
+		distanceToBallorObstacle = distance_from_obstacle(s);
+		turn_sweep++;
 	}
 	return 0;
 }
