@@ -6,6 +6,27 @@
 #include "main.h"
 #include "config.h"
 #include "utils.h"
+#include "logger.h"
+
+void send_all_messages(state *s)
+{
+    log_this(s, "[%s] Send all messages\n", __FILE__);
+
+    int result = 0;
+
+    s->curPos.x = -100;
+    s->curPos.y = 243;
+    //result = send_position(s);
+    printf("Position: %d\n", result);
+
+    printf("Ally: %d\n", (unsigned int) s->ally);
+
+    result = send_message(s, MSG_BALL, s->ally, PICK_BALL, -252, 1224);
+    printf("Ball: %d\n", result);
+
+    result = send_message(s, MSG_NEXT, s->ally);
+    printf("Next: %d\n", result);
+}
 
 void test_bluetooth(state *s)
 {
@@ -25,20 +46,15 @@ void test_bluetooth(state *s)
                     result = load_game_params(s, buffer);
                     if (result == 0)
                     {
-                        printf("Ally: %u\n", s->ally);
-                        printf("Send NEXT...");
-                        result = send_message(s, MSG_NEXT, s->ally);
-                        printf(".... %d\n", result);
+                        printf("Message START recieved and well interpreted\n");
+                        send_all_messages(s);
+
+            //            printf("NExt! %d\n", send_message(s, MSG_NEXT, s->ally));
                     }
                     break;
 
                 case MSG_NEXT:
                     printf("MESSAGE NEXT RECIEVIED\n");
-                    s->curPos.x = -100;
-                    s->curPos.y = 243;
-                    result = send_position(s);
-                    result = send_message(s, MSG_BALL, s->ally, PICK_BALL, -252, 1224);
-                    printf("Send ball: %d\n", result);
                     break;
 
                 case MSG_STOP:
