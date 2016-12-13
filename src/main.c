@@ -11,6 +11,7 @@
 #include "robot.h"
 #include "sensors.h"
 #include "first_runner.h"
+#include "tester.h"
 
 //#include "config.h"
 
@@ -25,30 +26,6 @@ int main(int argc, char *argv[])
     //Init the LeE
     //init_robot(s);
     //init_inet(s);
-    //
-    // char buffer[MSG_MAX_LEN];
-    // char messageType = read_from_server(s, buffer);
-
-    //Waiting for the game to start. Ignore all messages not directed to our team.
-    /*
-    while (messageType != MSG_START)
-    {
-        if (messageType == NOT_FOR_ME)
-            messageType = read_from_server(s, buffer);
-        else
-            nice_exit(s, EXIT_FAILURE);
-    }
-    */
-
-    // //Try to parse start message to load the game parameters
-    // int returnCode;
-    // if (messageType == MSG_START)
-    // {
-    //     returnCode = load_game_params(s, buffer);
-    //     if (returnCode != 0)
-    //         nice_exit(s, EXIT_FAILURE);
-    // }
-
 
     //tests dev in progress
     //grab(s,MAX_GRABBING_SPEED);
@@ -71,6 +48,12 @@ int main(int argc, char *argv[])
 
 	//13 December
     if(argc == 2){
+
+        if (atoi(argv[1]) != 7)
+            init_robot(s);
+        else
+            init_logger(s);
+
     	switch(atoi(argv[1])){
 			case 1:
 				test_one(s);
