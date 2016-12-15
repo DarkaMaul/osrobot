@@ -374,6 +374,20 @@ int sweep(state *s, int speed, int angle)
     return 0;
 }
 
+/**
+ * Function which can be used to make the motor sweep at a specified speed to an absolute angle
+ * @param  s        State structure
+ * @param  speed    Speed for Sweep motor (usually MAX_SWEEP_SPEED)
+ * @param  angle    Speed for LeE (usually MAX_SWEEP_SPEED)
+ * @return          0 if everything is allright -1 else
+ */
+int sweep_absolute(state *s, int speed, int angle)
+{
+    int current_angle = ev3_get_position(s->sweepmotor);
+    int relative_angle = angle - current_angle;
+    return sweep(s, speed, relative_angle);
+}
+
 ////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////
