@@ -275,6 +275,20 @@ int turn(state *s, int speed, int angle){
 }
 
 /**
+* Turn to absolute angle
+* @param s State of LeE
+* @param speed Turning speed of LeE
+* @param angle Desired absolute angle (clocwise, relative to the X axis)
+* @return 0 if everything is alright
+**/
+int turn_absolute(state *s, int speed, int angle)
+{
+    // Call turn() with the corresponding relative angle
+    int relative_angle = clean_angle(angle - s->angle);
+    return turn(s, speed, relative_angle);
+}
+
+/**
 * Turn from a given angle at a given speed, with poteentially a small error. The function turn() calls this one twice to correct this potential error.
 * @param s State of LeE
 * @param speed Turning speed of LeE
