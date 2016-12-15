@@ -54,12 +54,10 @@ int look_for_ball(state *s){
 	while(distanceToBallorObstacle == -1 || distanceToBallorObstacle > 50)
 	{
 		//Positive for clockwise turn
-/*
-		if (abs(sweep * SWEEP_ANGLE) < MAX_SWEEP_ANGLE)
+		if (abs(turn_sweep * SWEEP_ANGLE) < MAX_SWEEP_ANGLE)
 			sweep(s, TURNING_SPEED, -SWEEP_ANGLE);
 		else
 			sweep(s, TURNING_SPEED, SWEEP_ANGLE);
-*/
 		sleep(1);
 		distanceToBallorObstacle = distance_from_obstacle(s);
 		turn_sweep++;
