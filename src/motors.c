@@ -359,13 +359,14 @@ int sweep(state *s, int speed, int angle)
 {
     log_this(s, "[%s:sweep] Sweeping for %d degrees\n", __FILE__, angle);
 	int cur_angle_sweep=ev3_get_position(s->sweepmotor);
-    if (abs(cur_angle_sweep+angle) >= MAX_SWEEP_ANGLE){
+	int abs_sweep_angle = cur_angle_sweep + angle;
+	if (abs(abs_sweep_angle) >= MAX_SWEEP_ANGLE) {
         log_this(s, "[%s:sweep] Sweep failed current sweep angle + desired angle exceed limit (%d(actual) --> %d(desired)) \n", __FILE__, cur_angle_sweep,cur_angle_sweep+ angle);
         return -1;
     }
-    printf("[sweep] current angle=%d desired angle=%d\n",cur_angle_sweep, cur_angle_sweep+angle);
+    printf("[sweep] current angle=%d desired angle=%d\n",cur_angle_sweep, abs_sweep_angle);
     ev3_set_speed_sp(s->sweepmotor, speed);
-    ev3_set_position_sp(s->sweepmotor, cur_angle_sweep+angle);
+    ev3_set_position_sp(s->sweepmotor, abs_sweep_angle);
     ev3_command_motor_by_name(s->sweepmotor, "run-to-abs-pos");
 
     while (ev3_motor_state(s->sweepmotor) & MOTOR_RUNNING);
