@@ -360,7 +360,7 @@ int sweep(state *s, int speed, int angle)
     log_this(s, "[%s:sweep] Sweeping for %d degrees\n", __FILE__, angle);
 	int cur_angle_sweep=ev3_get_position(s->sweepmotor);
 	int rel_sweep_angle = cur_angle_sweep + angle;
-	if (abs(rel_sweep_angle) >= MAX_SWEEP_ANGLE) {
+	if (abs(rel_sweep_angle) > MAX_SWEEP_ANGLE) {
         log_this(s, "[%s:sweep] Sweep failed current sweep angle + desired angle exceed limit (%d(actual) --> %d(desired)) \n", __FILE__, cur_angle_sweep,cur_angle_sweep+ angle);
         return -1;
     }

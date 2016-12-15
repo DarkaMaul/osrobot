@@ -213,7 +213,7 @@
 #define BALL_NOT_FOUND -1
 
 //Sweeping
-#define MAX_SWEEP_ANGLE 55
+#define MAX_SWEEP_ANGLE 45
 #define SWEEP_ANGLE 5
 
 //Ball constants
