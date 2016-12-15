@@ -51,15 +51,20 @@ int catch_ball(state* s)
 int look_for_ball(state *s){
 	int distanceToBallorObstacle = distance_from_obstacle(s);
 	int turn_sweep= 0;
+    log_this(s, "[%s] Look for ball started\n", __FILE__);
+    log_this(s, "[%s] Distance to ball or obstacle %d\n", __FILE__, distanceToBallorObstacle);
 	while(distanceToBallorObstacle == -1 || distanceToBallorObstacle > 50)
 	{
 		//Positive for clockwise turn
-		if (abs(turn_sweep * SWEEP_ANGLE) < MAX_SWEEP_ANGLE)
-			sweep(s, TURNING_SPEED, -SWEEP_ANGLE);
-		else
-			sweep(s, TURNING_SPEED, SWEEP_ANGLE);
+		if (abs(turn_sweep * SWEEP_ANGLE) < MAX_SWEEP_ANGLE){
+			sweep(s, 100, -SWEEP_ANGLE);
+		}
+		else{
+			sweep(s, 100, SWEEP_ANGLE);
+		}
 		sleep(1);
 		distanceToBallorObstacle = distance_from_obstacle(s);
+	    log_this(s, "[%s] Distance to ball or obstacle %d\n", __FILE__, distanceToBallorObstacle);
 		turn_sweep++;
 	}
 	return 0;
