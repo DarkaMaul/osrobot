@@ -55,7 +55,7 @@ int grab(state *s, int speed)
     }
     ev3_set_speed_sp(s->grabmotor, speed);
     ev3_set_position_sp(s->grabmotor, GRAB_POSITION);
-    ev3_command_motor(s->grabmotor, RUN_TO_ABS_POS);
+    ev3_command_motor_by_name(s->grabmotor, "run-to-abs-pos");
 
     while (ev3_motor_state(s->grabmotor) & MOTOR_RUNNING);
     //log_this(s, "Motor %d on port %c opened, assigned and reseted\n", motor->motor_nr, motor->port);
@@ -79,7 +79,7 @@ int release(state *s, int speed)
     ev3_set_ramp_up_sp(s->grabmotor, 10000);
     ev3_set_speed_sp(s->grabmotor, speed);
     ev3_set_position_sp(s->grabmotor, -7);
-    ev3_command_motor(s->grabmotor, RUN_TO_ABS_POS);
+    ev3_command_motor_by_name(s->grabmotor, "run-to-abs-pos");
     while (ev3_motor_state(s->grabmotor) & MOTOR_RUNNING);
     //log_this(s, "Motor %d on port %c opened, assigned and reseted\n", motor->motor_nr, motor->port);
     ev3_set_ramp_up_sp(s->grabmotor, 0);
@@ -367,7 +367,7 @@ int sweep(state *s, int speed, int angle)
     printf("[sweep] current angle=%d desired angle=%d\n",cur_angle_sweep, rel_sweep_angle);
     ev3_set_speed_sp(s->sweepmotor, speed);
     ev3_set_position_sp(s->sweepmotor, rel_sweep_angle);
-    ev3_command_motor(s->grabmotor, RUN_TO_ABS_POS);
+    ev3_command_motor_by_name(s->grabmotor, "run-to-abs-pos");
 
     while (ev3_motor_state(s->sweepmotor) & MOTOR_RUNNING);
 
