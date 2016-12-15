@@ -26,7 +26,7 @@ void init_motors(state *s){
         ev3_open_motor(motor);
         ev3_reset_motor(motor);
         ev3_set_position(motor, 0);
-        log_this(s, "\n[%s:init_motors] Motor %d on port %c opened, assigned and reseted\n", __FILE__, motor->motor_nr, motor->port);
+        log_this(s, "[%s:init_motors] Motor %d on port %c opened, assigned and reseted\n", __FILE__, motor->motor_nr, motor->port);
         motor = motor->next;
     }
     //ev3_stop_command_motor_by_name(s->grabmotor, "hold");
