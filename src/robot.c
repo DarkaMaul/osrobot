@@ -67,7 +67,7 @@ int look_for_ball(state *s){
 			sweep_angle=-sweep_angle;
 			max_sweep_angle=-max_sweep_angle;
 		}
-		usleep(1);
+		usleep(200000);
 		distanceToBallorObstacle = distance_from_obstacle(s);
 	    log_this(s, "[%s] Distance to ball or obstacle %d\n", __FILE__, distanceToBallorObstacle);
 	}
