@@ -30,7 +30,7 @@ void init_motors(state *s){
         motor = motor->next;
     }
     //ev3_stop_command_motor_by_name(s->grabmotor, "hold");
-
+    ev3_set_polarity(s->sweepmotor, -1);
     //Ramp smoothly to max speed
     ev3_set_ramp_up_sp(s->rightmotor, 500);
     ev3_set_ramp_up_sp(s->leftmotor, 500);
@@ -359,14 +359,14 @@ int sweep(state *s, int speed, int angle)
 {
     log_this(s, "[%s:sweep] Sweeping for %d degrees\n", __FILE__, angle);
 	int cur_angle_sweep=ev3_get_position(s->sweepmotor);
-	int abs_sweep_angle = cur_angle_sweep + angle;
-	if (abs(abs_sweep_angle) >= MAX_SWEEP_ANGLE) {
+	int rel_sweep_angle = cur_angle_sweep + angle;
+	if (abs(rel_sweep_angle) >= MAX_SWEEP_ANGLE) {
         log_this(s, "[%s:sweep] Sweep failed current sweep angle + desired angle exceed limit (%d(actual) --> %d(desired)) \n", __FILE__, cur_angle_sweep,cur_angle_sweep+ angle);
         return -1;
     }
-    printf("[sweep] current angle=%d desired angle=%d\n",cur_angle_sweep, abs_sweep_angle);
+    printf("[sweep] current angle=%d desired angle=%d\n",cur_angle_sweep, rel_sweep_angle);
     ev3_set_speed_sp(s->sweepmotor, speed);
-    ev3_set_position_sp(s->sweepmotor, abs_sweep_angle);
+    ev3_set_position_sp(s->sweepmotor, rel_sweep_angle);
     ev3_command_motor(s->grabmotor, RUN_TO_ABS_POS);
 
     while (ev3_motor_state(s->sweepmotor) & MOTOR_RUNNING);
