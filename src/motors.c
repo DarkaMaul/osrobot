@@ -26,7 +26,7 @@ void init_motors(state *s){
         ev3_open_motor(motor);
         ev3_reset_motor(motor);
         ev3_set_position(motor, 0);
-        log_this(s, " Motor %d on port %c opened, assigned and reseted\n",  motor->motor_nr, motor->port);
+        log_this(s, "\n[%s:init_motors] Motor %d on port %c opened, assigned and reseted\n", __FILE__, motor->motor_nr, motor->port);
         motor = motor->next;
     }
     //ev3_stop_command_motor_by_name(s->grabmotor, "hold");
@@ -48,8 +48,9 @@ void init_motors(state *s){
  */
 int grab(state *s, int speed)
 {
+    log_this(s, "[%s:grab] Grabbinging\n", __FILE__);
     if (ev3_get_position(s->grabmotor) == GRAB_POSITION){
-        log_this(s, "[%s] Grabbing failed already in grabbing position\n", __FILE__);
+        log_this(s, "[%s:grab] Grabbing failed already in grabbing position\n", __FILE__);
         return -1;
     }
     ev3_set_speed_sp(s->grabmotor, speed);
@@ -70,8 +71,9 @@ int grab(state *s, int speed)
  */
 int release(state *s, int speed)
 {
+    log_this(s, "[%s:release] Releasing\n", __FILE__);
     if (ev3_get_position(s->grabmotor) == INIT_GRAB_POSITION){
-        log_this(s, "[%s] Releasing failed already in release position\n", __FILE__);
+        log_this(s, "[%s:release] Releasing failed already in release position\n", __FILE__);
         return -1;
     }
     ev3_set_ramp_up_sp(s->grabmotor, 10000);
@@ -98,7 +100,7 @@ int release(state *s, int speed)
 void set_wheels_speed(state *s, int speed){
     ev3_set_speed_sp(s->leftmotor, speed);
     ev3_set_speed_sp(s->rightmotor, speed);
-    log_this(s, "[%s] Wheels' speed set to %d \n", __FILE__, speed);
+    //log_this(s, "[%s] Wheels' speed set to %d \n", __FILE__, speed);
 }
 
 /**
@@ -109,7 +111,7 @@ void set_wheels_speed(state *s, int speed){
 void set_wheels_time(state *s, int time){
     ev3_set_time_sp(s->leftmotor, time);
     ev3_set_time_sp(s->rightmotor, time);
-    log_this(s, "[%s] Wheels' time set to %d \n", __FILE__, time);
+    //log_this(s, "[%s] Wheels' time set to %d \n", __FILE__, time);
 }
 
 /**
@@ -120,7 +122,7 @@ void set_wheels_time(state *s, int time){
 void set_wheels_pos(state *s, int pos){
     ev3_set_position_sp(s->leftmotor, pos);
     ev3_set_position_sp(s->rightmotor, pos);
-    log_this(s, "[%s] Wheels' position set to %d \n", __FILE__, pos);
+    //log_this(s, "[%s] Wheels' position set to %d \n", __FILE__, pos);
 }
 
 /**
@@ -133,6 +135,9 @@ void command_wheels(state *s, int cmd){
     ev3_command_motor(s->rightmotor, cmd);
 }
 
+/////////////////////////////////////////////////////////////////
+///////////wheels_run_time doesn't update the position///////////
+/////////////////////////////////////////////////////////////////
 /**
 * Go for a given time at a given speed
 * @param s     State of LeE
@@ -141,7 +146,7 @@ void command_wheels(state *s, int cmd){
 * @return 0 if everything is alright
 */
 int wheels_run_time(state *s, int speed, int time){
-    log_this(s, "[%s] Wheels running for %d s ...\n", __FILE__, time);
+    //log_this(s, "[%s] Wheels running for %d s ...\n", __FILE__, time);
     set_wheels_speed(s, speed);
     set_wheels_time(s, time);
     command_wheels(s, RUN_TIMED);
@@ -158,7 +163,7 @@ int wheels_run_time(state *s, int speed, int time){
 * @return 0 if everything is alright
 */
 int wheels_run_pos(state *s, int speed, int pos){
-    log_this(s, "[%s] Wheels running to relative position %d...\n", __FILE__, pos);
+    //log_this(s, "[%s] Wheels running to relative position %d...\n", __FILE__, pos);
     set_wheels_speed(s, speed);
     set_wheels_pos(s, pos);
     command_wheels(s, RUN_TO_REL_POS);
@@ -181,6 +186,7 @@ int wheels_run_distance(state *s, int speed, int distance){
     return wheels_run_pos(s, speed, position);
 }
 
+//TODO Make sure the robot go for the disired distance. If not, correct it.
 /**
  * Go straight for a distance in cm
  * @param  s        State structure
@@ -189,7 +195,7 @@ int wheels_run_distance(state *s, int speed, int distance){
  * @return          0 if everything is allright
  */
 int go_straight(state *s, int speed, int distance){
-    log_this(s, "\n[%s] : Going straigth for%d cm\n", __FILE__, distance);
+    log_this(s, "[%s:go_straight] Going straight for%d cm\n", __FILE__, distance);
     update_angle(s,gyro_angle(s));
 
     // We divide the wanted distance in steps od STEPLENGTH
@@ -197,7 +203,7 @@ int go_straight(state *s, int speed, int distance){
     do
     {
 	int currentDistance = (distance > STEPLENGTH) ? STEPLENGTH : distance;
-    log_this(s, "[go_straight] Next step : %d\n", currentDistance);
+    log_this(s, "[%s:go_straight] Next step : %d\n,__FILE__", currentDistance);
 	wheels_run_distance(s, speed, currentDistance);
 	turn(s, TURNING_SPEED, is_running_in_correct_angle(s));
 	distance -= currentDistance;
@@ -215,11 +221,12 @@ int go_straight(state *s, int speed, int distance){
  * @return          0 if everything is allright
  */
 int go_to_pos(state *s, position desiredposition){
+    log_this(s, "\n[%s:go_to_pos] Going to x=%d , y=%d\n", __FILE__, desiredposition.x, desiredposition.y);
 	s->wantedPos=desiredposition;
 	go_to_pos_incomplete(s, s->wantedPos);
 	int pos_distance_diff = compute_distance(compute_relative_position(s->curPos,s->wantedPos));
 	if(pos_distance_diff>ERROR_DISTANCE_MARGIN){
-		log_this(s, "[%s] Go to pos has finished with a significant distance error: err=%d... correct position\n", __FILE__,pos_distance_diff);
+		log_this(s, "\n[%s:go_to_pos] Go to pos has finished with a significant distance error: err=%d... correct position\n", __FILE__,pos_distance_diff);
 		go_to_pos_incomplete(s, desiredposition);
 	}
 	return 0;
@@ -232,18 +239,18 @@ int go_to_pos(state *s, position desiredposition){
  * @return          0 if everything is allright
  */
 int go_to_pos_incomplete(state *s, position desiredposition){
-	log_this(s, "[%s] Go to pos departure destination  x=%d y=%d...\n", __FILE__, s->curPos.x,s->curPos.y);
-	log_this(s, "[%s] Go to pos desired destination  x=%d y=%d...\n", __FILE__, desiredposition.x,desiredposition.y);
+	log_this(s, "[%s:go_to_pos_incomplete] Go to pos departure destination  x=%d y=%d...\n", __FILE__, s->curPos.x,s->curPos.y);
+	log_this(s, "[%s:go_to_pos_incomplete] Go to pos desired destination  x=%d y=%d...\n", __FILE__, desiredposition.x,desiredposition.y);
 	position relativeposition=compute_relative_position(s->curPos,desiredposition);
 	int distancetodest=compute_distance(relativeposition);
-	log_this(s, "[%s] Distance relative to destination %d...\n", __FILE__, distancetodest);
+	log_this(s, "[%s:go_to_pos_incomplete] Distance relative to destination %d...\n", __FILE__, distancetodest);
 	int absoluteangle= -compute_angle(relativeposition);
-	log_this(s, "[%s] Absolute angle to destination (clockwise) to turn %d...\n", __FILE__, absoluteangle);
+	log_this(s, "[%s:go_to_pos_incomplete] Absolute angle to destination (clockwise) to turn %d...\n", __FILE__, absoluteangle);
 	int relativeangle;
 	relativeangle=absoluteangle-s->angle;
-    log_this(s, "[%s] Relative angle to destination (clockwise) to turn %d...\n", __FILE__, relativeangle);
+    log_this(s, "[%s:go_to_pos_incomplete] Relative angle to destination (clockwise) to turn %d...\n", __FILE__, relativeangle);
     int relativeAngleToTurnClockWise=clean_angle(relativeangle);
-    log_this(s, "[%s] Relative cleaned angle to destination (clockwise) sent to turn function: %d...\n", __FILE__, relativeAngleToTurnClockWise);
+    log_this(s, "[%s:go_to_pos_incomplete] Relative cleaned angle to destination (clockwise) sent to turn function: %d...\n", __FILE__, relativeAngleToTurnClockWise);
 
     //need to be clockwise for the turn function so send - relative angle to the function
     turn(s, TURNING_SPEED, relativeAngleToTurnClockWise);
@@ -262,15 +269,15 @@ int go_to_pos_incomplete(state *s, position desiredposition){
 */
 int turn(state *s, int speed, int angle){
     int starting_angle = gyro_angle(s);
-    log_this(s, "[%s:turn] : Starting angle = %d\n", __FILE__, starting_angle);
+    log_this(s, "[%s:turn] Starting angle = %d\n", __FILE__, starting_angle);
     turn_imprecise(s,speed,angle);
     int new_angle =gyro_angle(s);
-    log_this(s, "[%s:turn] : New angle = %d\n", __FILE__, new_angle);
+    log_this(s, "[%s:turn] New angle = %d\n", __FILE__, new_angle);
     int angle_diff = starting_angle+angle-new_angle;
-    log_this(s, "[%s:turn] : Angle difference = %d\n", __FILE__, angle_diff);
+    log_this(s, "[%s:turn] Angle difference = %d\n", __FILE__, angle_diff);
     turn_imprecise(s,TURNING_SPEED,clean_angle(angle_diff));
     new_angle = gyro_angle(s);
-    log_this(s, "[%s:turn] : New angle = %d\n", __FILE__, new_angle);
+    log_this(s, "[%s:turn] New angle after correction = %d\n", __FILE__, new_angle);
     return 0;
 }
 
@@ -284,6 +291,7 @@ int turn(state *s, int speed, int angle){
 int turn_absolute(state *s, int speed, int angle)
 {
     // Call turn() with the corresponding relative angle
+    log_this(s, "[%s:turn_absolute] Turning to absolute angle %d\n", __FILE__, angle);
     int relative_angle = clean_angle(angle - s->angle);
     return turn(s, speed, relative_angle);
 }
@@ -297,10 +305,10 @@ int turn_absolute(state *s, int speed, int angle)
 */
 int turn_imprecise(state *s, int speed, int angle){
     if (abs(angle)<ERROR_MARGIN){
-        log_this(s, "[%s:turn] : The angle is too small (%d). Not turning.\n", __FILE__, angle);
+        log_this(s, "[%s:turn_imprecise] The angle is too small (%d). Not turning.\n", __FILE__, angle);
         return 1;
     }
-    log_this(s, "[%s:turn] : Turning from %d degrees.\n", __FILE__, angle );
+    log_this(s, "[%s:turn_imprecise] Turning from %d degrees.\n", __FILE__, angle );
     int angle_sign = sign(angle);
     speed = speed * angle_sign;
     ev3_update_sensor_val(s->gyro);     // We make sure that the gyro is updated
@@ -329,15 +337,44 @@ int is_running_in_correct_angle(state *s){
 	int actualangle = gyro_angle(s);
 	//+- ERROR_M degrees is ok
     int angle_diff = clean_angle(s->angle - actualangle);
-    printf("Is running: %d\t%d\n", actualangle, angle_diff);
-	log_this(s, "[%s is_running_correct_angle] Angle diff is %d\n", __FILE__, angle_diff);
+    //printf("Is running: %d\t%d\n", actualangle, angle_diff);
+	log_this(s, "[%s:is_running_correct_angle] Angle diff is %d\n", __FILE__, angle_diff);
 	if(abs(angle_diff) > ERROR_MARGIN){
 		return angle_diff;
 	}
 	return 0;
 }
 
+//Sweep motor
 
+
+/**
+ * Function which can be used to make the motor sweep at a specified speed at a specified angle
+ * @param  s        State structure
+ * @param  speed    Speed for Sweep motor (usually MAX_SWEEP_SPEED)
+ * @param  angle    Speed for LeE (usually MAX_SWEEP_SPEED)
+ * @return          0 if everything is allright -1 else
+ */
+int sweep(state *s, int speed, int angle)
+{
+    log_this(s, "[%s:sweep] Sweeping for %d degrees\n", __FILE__, angle);
+	int cur_angle_sweep=ev3_get_position(s->sweepmotor);
+    if (abs(cur_angle_sweep+angle) >= MAX_SWEEP_ANGLE){
+        log_this(s, "[%s:sweep] Sweep failed current sweep angle + desired angle exceed limit (%d(actual) --> %d(desired)) \n", __FILE__, cur_angle_sweep,cur_angle_sweep+ angle);
+        return -1;
+    }
+    ev3_set_speed_sp(s->sweepmotor, speed);
+    ev3_set_position_sp(s->sweepmotor, cur_angle_sweep+angle);
+    ev3_command_motor_by_name(s->sweepmotor, "run-to-abs-pos");
+
+    while (ev3_motor_state(s->sweepmotor) & MOTOR_RUNNING);
+
+    return 0;
+}
+
+////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////
 //Same functions but using the compass, To test and choose/combine.
 
 /**
@@ -415,28 +452,3 @@ int go_straight_compass(state *s, int speed, int distance){
     return 0;
 }
 
-//Sweep motor
-
-
-/**
- * Function which can be used to make the motor sweep at a specified speed at a specified angle
- * @param  s        State structure
- * @param  speed    Speed for Sweep motor (usually MAX_SWEEP_SPEED)
- * @param  angle    Speed for LeE (usually MAX_SWEEP_SPEED)
- * @return          0 if everything is allright -1 else
- */
-int sweep(state *s, int speed, int angle)
-{
-	int cur_angle_sweep=ev3_get_position(s->sweepmotor);
-    if (abs(cur_angle_sweep+angle) >= MAX_SWEEP_ANGLE){
-        log_this(s, "[%s] Sweep failed current sweep angle + desired angle exceed limit (%d(actual) --> %d(desired)) \n", __FILE__, cur_angle_sweep,cur_angle_sweep+ angle);
-        return -1;
-    }
-    ev3_set_speed_sp(s->sweepmotor, speed);
-    ev3_set_position_sp(s->sweepmotor, cur_angle_sweep+angle);
-    ev3_command_motor_by_name(s->sweepmotor, "run-to-abs-pos");
-
-    while (ev3_motor_state(s->sweepmotor) & MOTOR_RUNNING);
-
-    return 0;
-}
