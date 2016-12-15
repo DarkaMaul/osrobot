@@ -367,7 +367,7 @@ int sweep(state *s, int speed, int angle)
     printf("[sweep] current angle=%d desired angle=%d\n",cur_angle_sweep, rel_sweep_angle);
     ev3_set_speed_sp(s->sweepmotor, speed);
     ev3_set_position_sp(s->sweepmotor, rel_sweep_angle);
-    ev3_command_motor_by_name(s->grabmotor, "run-to-abs-pos");
+    ev3_command_motor_by_name(s->sweepmotor, "run-to-abs-pos");
 
     while (ev3_motor_state(s->sweepmotor) & MOTOR_RUNNING);
 
