@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <math.h>
 #include "ev3c.h"
 #include "sensors.h"
 #include "main.h"
@@ -72,10 +73,9 @@ int look_for_ball(state *s){
 	return 0;
 }
 
-
+/*
 int look_for_ball_test6(state *s)
 {
-    int distance_from_obstacle = distance_from_obstacle(s);
     int next_sweep_angle = SWEEP_ANGLE;
     int number_of_steps = floor((MAX_SWEEP_ANGLE/SWEEP_ANGLE)*2)
     sweep_absolute(s,SWEEP_SPEED,MAX_SWEEP_ANGLE);
@@ -83,14 +83,14 @@ int look_for_ball_test6(state *s)
     {
         sweep_absolute(s,SWEEP_SPEED,next_sweep_angle);
         next_sweep_angle += SWEEP_ANGLE;
-        int distance_from_obstacle = distance_from_obstacle(s);
-        if (distance_from_obstacle>0 && distance_from_obstacle<50)
+        int distance_to_obstacle = distance_from_obstacle(s);
+        if (distance_to_obstacle>0 && distance_to_obstacle<50)
         {
-        break;
+            break;
         }
     }
     turn(s, TURNING_SPEED, next_sweep_angle);
     sweep_absolute(s,SWEEP_SPEED,0);
     catch_ball(s);
 }
-
+*/
