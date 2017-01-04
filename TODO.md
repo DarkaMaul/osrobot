@@ -1,5 +1,5 @@
 # TODOS
-## Threads
+## Threads -> Alexis
 1. To send position with bluetooth every 2 second
 2. To detect the ball or an obstacle
 3. Main function (Beginner) with main strategy
@@ -15,9 +15,9 @@
 1. Small stadium (beginner, finisher)
 2. Large Stadium (Beginner, Finisher)
 
-## Cross-compilation scripts
+## Cross-compilation scripts ->  Alex
 
-## Bluetooth ?
+## Bluetooth ? ->  Alex
 
 ## Refactor config 
 1. constant of the game in config
