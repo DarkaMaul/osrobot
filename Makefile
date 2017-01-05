@@ -28,5 +28,8 @@ clean:
 	rm -rf $(OBJ_DIR)
 	rm -fr $(BIN_DIR)
 
+superclean: clean
+	@$(MAKE) -C ev3c -s clean
+
 .PHONY:	clean bin/osRobot bin/testOsRobot
 .DEFAULT: bin/testOsRobot
