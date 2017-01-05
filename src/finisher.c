@@ -6,7 +6,7 @@
 #include "robot.h"
 #include "sensors.h"
 #include "logger.h"
-
+/*
 //TODO adapt the struct to the finisher (I only changed the names)
 //
 typedef struct _mainpositions
@@ -85,4 +85,4 @@ int finisher_small_stadium(state *s)
 
 }
 
-
+*/

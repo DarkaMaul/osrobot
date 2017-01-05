@@ -78,7 +78,7 @@ int main(int argc, char *argv[])
                 break;
 
 			default:
-				first_runner_small_stadium(s);
+				beginner_small_stadium(s);
 				break;
 		}
 	}
