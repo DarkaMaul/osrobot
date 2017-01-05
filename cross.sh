@@ -20,7 +20,7 @@ echo -n "Starting compilation and running (that may take some time).... "
 dirFolder=$(mktemp -d)
 
 homeDir=/home/compiler
-res=$(docker run -t -v $dirFolder:$homeDir/osrobot/bin leeproject/container /bin/bash "script.sh" 1>/dev/null)
+res=$(docker run -t -v $dirFolder:$homeDir/bin leeproject/container /bin/bash "script.sh" 1>/dev/null)
 echo "done"
 
 if [ ! -d 'bin' ]
@@ -29,5 +29,5 @@ then
 fi;
 
 mv $dirFolder/testOsRobot bin/crossCompiled
-rmdir $dirFolder
+#rmdir $dirFolder
 echo "Cross compilation done!"
