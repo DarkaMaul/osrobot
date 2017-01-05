@@ -59,5 +59,5 @@ then
     exit;
 fi;
 
-sshpasss -p "maker" | scp bin/crossCompiled robot@$addr:~/osrobot/bin/crossCompiled
+sshpass -p "maker" | scp bin/crossCompiled robot@$addr:~/osrobot/bin/crossCompiled
 echo "Copy completed on the robot"

@@ -24,7 +24,7 @@ int main(int argc, char *argv[])
     signal(SIGINT, signal_handler);
 
     //Init the LeE
-    //init_robot(s);
+    init_robot(s);
     //init_inet(s);
 
     //tests dev in progress
