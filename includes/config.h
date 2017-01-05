@@ -14,6 +14,7 @@
 #define ERROR_MARGIN 2
 #define ERROR_DISTANCE_MARGIN 5
 #define WHEELS_TO_END 11
+#define SONAR_ERROR_ANGLE -180
 
 //Motors commands
 #define RUN_FOREVER 0
