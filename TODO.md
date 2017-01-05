@@ -23,9 +23,9 @@
 1. constant of the game in config
 2. eg others in config motors
 
-# Global Refactorings
+## Global Refactorings
 
-# Website 
+## Website 
 1. Algorithms
 2. More videos/pictures --> Axel
 3. How we have worked in the group --> Axel
