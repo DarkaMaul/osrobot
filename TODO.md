@@ -4,7 +4,7 @@
 2. To detect the ball or an obstacle
 3. Main function (Beginner) with main strategy
 
-## Sweep function --> Axel
+## Sweep function --> Axel DONE
 1. sweep motor function
 2. detect ball function
 
@@ -23,10 +23,10 @@
 1. constant of the game in config
 2. eg others in config motors
 
-# Global Refactorings
+## Global Refactorings
 
-# Website 
+## Website 
 1. Algorithms
 2. More videos/pictures --> Axel
-3. How we have worked in the group
+3. How we have worked in the group --> Axel
 4. Architecture of the robot

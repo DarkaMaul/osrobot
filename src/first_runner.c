@@ -43,55 +43,42 @@ mainpos init_main_positions(){
 	return positions;
 }
 
-int first_runner_small_stadium(state *s)
+
+int beginner_small_stadium(state *s)
 {
     //Init the Game
-	position init = {
-        .x = S_FR_S_0_X,
-        .y = S_FR_S_0_Y +  WHEELS_TO_END
-    };
+    mainpos positions=init_main_positions();
+    update_pos(s, positions.s_fr_init);
 
-    update_pos(s, init);
-
-	//catch the ball in front of the robot at the begining
-    //catch_ball(s);
-    log_this(s, "\n\nGrabing the ball.\n\n");
-	grab(s, MAX_GRABBING_SPEED);
+    //By default we are in realeasing position so just close the clamps when starting
+    log_this(s,"\n\n[%s: beginner_small_stadium] Grabbing the ball\n\n", __FILE__);
+    grab(s, MAX_GRABBING_SPEED);
 
     //Go to center
-    log_this(s, "\n\nGoing to the center.\n\n");
-	position releaseballposition = {
-        .x = S_BA_0_X - 5,
-        .y = S_BA_0_Y - WHEELS_TO_END + 5
-    };
+    log_this(s,"\n\n[%s: beginner_small_stadium] Going to ball area\n\n", __FILE__);
+    go_to_pos(s, positions.s_fr_releaseball);
+    sleep(2);
 
-	go_to_pos(s, releaseballposition);
-
-    log_this(s, "\n\nReleasing the ball.\n\n");
-
-	release(s, RELEASING_SPEED);
-
-
-    log_this(s, "\n\nGoing back little.\n\n");
+    //release ball
+    log_this(s,"\n\n[%s: beginner_small_stadium] Releasing ball\n\n", __FILE__);
+    release(s, RELEASING_SPEED);
+    
 	//Go back a little
+    log_this(s, "\n\n[%s: beginner_small_stadium] Going back a little\n\n", __FILE__);
 	go_straight(s, MAX_WHEEL_SPEED, -20);
 
-    log_this(s, "\n\nGoing to the end.\n\n");
 	//Go to ending position
-	position endingposition = {
-        .x = S_FR_E_0_X ,
-        .y = (S_FR_E_0_Y + S_FR_E_1_Y) / 2 + 5
-    };
-
-	go_to_pos(s, endingposition);
+    log_this(s, "\n\n[%s: beginner_small_stadium] Going to the end\n\n", __FILE__);
+    go_to_pos(s, positions.s_fr_ending);
 
 	//Send ok signal bluetooth for other team
     send_message(s, MSG_NEXT, s->ally);
 
-    log_this(s, "\n\nTurning around.\n\n");
-	turn(s, 70, 180);
     return 0;
-}
+
+   }
+
+
 
 //Small arena test 1 13 December
 int test_one(state *s)
