@@ -87,7 +87,7 @@ int look_for_ball(state *s){
     int bissect_angle=(angle_one_detected+angle_two_lost)/2;
     log_this(s, "[%s] Calculated bissectrice to turn to detect ball %d\n", __FILE__, bissect_angle);
 	//replace the motors to the original position
-    sweep_absolute(s, 100, MAX_SWEEP_ANGLE);
+    sweep_absolute(s, 100, 0);
     return bissect_angle;
 }
 
