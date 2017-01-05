@@ -1,5 +1,11 @@
 #!/bin/bash
 #Usage cross.sh
+
+if [ $# -ne 1 ]
+then
+    echo "Usage: ./cross.sh [0: no copy // 1: copy over ssh // 2: copy over bluetooth]"
+fi;
+
 if [ ! -e /usr/bin/docker ]
 then
     echo "You need docker"
@@ -31,3 +37,26 @@ fi;
 mv $dirFolder/testOsRobot bin/crossCompiled
 rmdir $dirFolder
 echo "Cross compilation done!"
+
+if [ $1 -eq 0 ]
+then
+    echo "No copy"
+    exit 0;
+fi;
+
+if [ $1 -eq 1 ]
+then
+    addr="10.42.0.103"
+else
+    addr="10.42.0.99"
+fi;
+
+if [ ! -e '/usr/bin/sshpass' ]
+then
+    echo "You need sshpass to continue."
+    echo "sudo apt-get install sshpass"
+    exit;
+fi;
+
+sshpasss -p "maker" | scp bin/crossCompiled robot@$addr:~/osrobot/bin/crossCompiled
+echo "Copy completed on the robot"
