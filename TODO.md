@@ -25,8 +25,8 @@
 
 # Global Refactorings
 
-# Website --> Axel
+# Website 
 1. Algorithms
-2. More videos/pictures
+2. More videos/pictures --> Axel
 3. How we have worked in the group
 4. Architecture of the robot
