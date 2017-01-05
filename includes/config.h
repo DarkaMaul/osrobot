@@ -14,6 +14,7 @@
 #define ERROR_MARGIN 2
 #define ERROR_DISTANCE_MARGIN 5
 #define WHEELS_TO_END 11
+#define ROBOT_WIDTH 16
 
 //Motors commands
 #define RUN_FOREVER 0
