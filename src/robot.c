@@ -51,11 +51,11 @@ int catch_ball(state* s)
  * @return angle if ball is found SONAR_ERROR_ANGLE otherwise
  */
 int look_for_ball(state *s){
+	sweep_absolute(s, 100, MAX_SWEEP_ANGLE);
 	int distanceToBallorObstacle = distance_from_obstacle(s);
 	int turn_sweep= MAX_SWEEP_ANGLE;
     log_this(s, "[%s] Look for ball started\n", __FILE__);
     log_this(s, "[%s] Distance to ball or obstacle %d\n", __FILE__, distanceToBallorObstacle);
-	sweep_absolute(s, 100, MAX_SWEEP_ANGLE);
 	int sweep_angle=-SWEEP_ANGLE;
 	while((distanceToBallorObstacle == -1 || distanceToBallorObstacle > 50) && abs(turn_sweep) <= MAX_SWEEP_ANGLE)
 	{
