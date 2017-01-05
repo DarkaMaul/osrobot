@@ -14,11 +14,8 @@
 #define ERROR_MARGIN 2
 #define ERROR_DISTANCE_MARGIN 5
 #define WHEELS_TO_END 11
-<<<<<<< HEAD
 #define SONAR_ERROR_ANGLE -180
-=======
 #define ROBOT_WIDTH 16
->>>>>>> branch 'master' of git@github.com:DarkaMaul/osrobot.git
 
 //Motors commands
 #define RUN_FOREVER 0
