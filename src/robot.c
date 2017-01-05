@@ -57,7 +57,7 @@ int look_for_ball(state *s){
     log_this(s, "[%s] Distance to ball or obstacle %d\n", __FILE__, distanceToBallorObstacle);
 	sweep_absolute(s, 100, MAX_SWEEP_ANGLE);
 	int sweep_angle=-SWEEP_ANGLE;
-	while((distanceToBallorObstacle == -1 || distanceToBallorObstacle > 50) && abs(turn_sweep) < MAX_SWEEP_ANGLE)
+	while((distanceToBallorObstacle == -1 || distanceToBallorObstacle > 50) && abs(turn_sweep) <= MAX_SWEEP_ANGLE)
 	{
 		turn_sweep+=sweep_angle;
 		//Positive for clockwise turn
@@ -66,13 +66,13 @@ int look_for_ball(state *s){
 		distanceToBallorObstacle = distance_from_obstacle(s);
 	    log_this(s, "[%s] Distance to ball %d\n", __FILE__, distanceToBallorObstacle);
 	}
-	if(abs(turn_sweep) >= MAX_SWEEP_ANGLE) return SONAR_ERROR_ANGLE;
+	if(abs(turn_sweep) > MAX_SWEEP_ANGLE) return SONAR_ERROR_ANGLE;
 
 	//angle one detected is the first angle where the ball appears
 	int angle_one_detected=turn_sweep;
     log_this(s, "[%s] First angle where ball is detected %d\n", __FILE__, angle_one_detected);
 
-    int extra_max_sweep_angle=MAX_SWEEP_ANGLE+20;
+    int extra_max_sweep_angle=MAX_SWEEP_ANGLE+10;
 	while(distanceToBallorObstacle < 50 && abs(turn_sweep) < extra_max_sweep_angle)
 	{
 		turn_sweep+=sweep_angle;
