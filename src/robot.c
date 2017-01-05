@@ -70,7 +70,25 @@ int look_for_ball(state *s){
 		distanceToBallorObstacle = distance_from_obstacle(s);
 	    log_this(s, "[%s] Distance to ball or obstacle %d\n", __FILE__, distanceToBallorObstacle);
 	}
-	return 0;
+	//angle one detected is the first angle where the ball appears
+	int angle_one_detected=turn_sweep;
+    log_this(s, "[%s] First angle where ball is detected %d\n", __FILE__, angle_one_detected);
+    int extra_max_sweep_angle=MAX_SWEEP_ANGLE+20;
+	while(distanceToBallorObstacle < 50 && abs(turn_sweep) < extra_max_sweep_angle)
+	{
+		turn_sweep+=sweep_angle;
+		//Positive for clockwise turn added 20 degrees if ball is in the limit of the sweep angle
+		sweep_absolute(s, 100, turn_sweep);
+		usleep(200000);
+		distanceToBallorObstacle = distance_from_obstacle(s);
+		log_this(s, "[%s] Distance to ball or obstacle %d\n", __FILE__, distanceToBallorObstacle);
+	}
+	int angle_two_lost=turn_sweep;
+    log_this(s, "[%s] Second angle where ball is not detected anymore %d\n", __FILE__, angle_two_lost);
+    int bissect_angle=(angle_one_detected-angle_two_lost)/2;
+    log_this(s, "[%s] Calculated bissectrice to turn to detect ball %d\n", __FILE__, angle_two_lost);
+
+    return bissect_angle;
 }
 
 
