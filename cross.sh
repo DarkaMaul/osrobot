@@ -4,6 +4,7 @@
 if [ $# -ne 1 ]
 then
     echo "Usage: ./cross.sh [0: no copy // 1: copy over ssh // 2: copy over bluetooth]"
+    exit 1;
 fi;
 
 if [ ! -e /usr/bin/docker ]
