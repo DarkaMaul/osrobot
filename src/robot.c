@@ -73,7 +73,7 @@ int look_for_ball(state *s){
     log_this(s, "[%s] First angle where ball is detected %d\n", __FILE__, angle_one_detected);
 
     int extra_max_sweep_angle=MAX_SWEEP_ANGLE+10;
-	while(distanceToBallorObstacle < 50 && abs(turn_sweep) < extra_max_sweep_angle)
+	while(distanceToBallorObstacle < 50 && abs(turn_sweep) < extra_max_sweep_angle && distanceToBallorObstacle!=-1)
 	{
 		turn_sweep+=sweep_angle;
 		//Positive for clockwise turn added 20 degrees if ball is in the limit of the sweep angle
