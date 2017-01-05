@@ -29,5 +29,5 @@ then
 fi;
 
 mv $dirFolder/testOsRobot bin/crossCompiled
-#rmdir $dirFolder
+rmdir $dirFolder
 echo "Cross compilation done!"
