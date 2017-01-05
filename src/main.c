@@ -26,7 +26,7 @@ int main(int argc, char *argv[])
     //Init the LeE
     init_robot(s);
     //init_inet(s);
-
+    look_for_ball(s);
     //tests dev in progress
     //grab(s,MAX_GRABBING_SPEED);
     //sleep(5);
