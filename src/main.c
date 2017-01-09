@@ -18,13 +18,16 @@
 state st;
 state* s = &st;
 
+mainpos mpos;
+mainpos* p = &mpos;
+
 int main(int argc, char *argv[])
 {
     //Register signal handler
     signal(SIGINT, signal_handler);
 
     //Init the LeE
-    init_robot(s);
+    init_robot(s,p);
     //init_inet(s);
     //look_for_ball(s);
     int distance_to_ball = look_for_ball(s);
@@ -67,35 +70,35 @@ int main(int argc, char *argv[])
     if(argc == 2){
 
         if (atoi(argv[1]) != 7)
-            init_robot(s);
+            init_robot(s,p);
         else
             init_logger(s);
 
     	switch(atoi(argv[1])){
 			case 1:
-				test_one(s);
+				test_one(s,p);
 				break;
 			case 2:
-				test_two(s);
+				test_two(s,p);
 				break;
 			case 3:
-				test_three(s);
+				test_three(s,p);
 				break;
 			case 4:
-				test_four(s);
+				test_four(s,p);
 				break;
 			case 5:
-				test_five(s);
+				test_five(s,p);
 				break;
             case 6:
-                test_six(s);
+                test_six(s,p);
                 break;
             case 7:
                 test_bluetooth(s);
                 break;
 
 			default:
-				beginner_small_stadium(s);
+				beginner_small_stadium(s,p);
 				break;
 		}
 	}

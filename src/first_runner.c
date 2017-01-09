@@ -7,48 +7,11 @@
 #include "sensors.h"
 #include "logger.h"
 
-//TODO proposition of better way of ordering things to be stored in s and initialized at the beginning
-//
-typedef struct _mainpositions
-{
-    position s_fr_init;
-    position s_fr_releaseball;
-    position s_fr_ending;
-    position l_fr_init;
-    position l_fr_dodgefirst;
-    position l_fr_releaseball;
-    position l_fr_dodgesecond;
-    position l_fr_ending;
-} mainpos;
 
-mainpos init_main_positions(){
-	mainpos positions;
-	position s_fr_init={.x = S_FR_S_0_X,.y = S_FR_S_0_Y +  WHEELS_TO_END};
-	position s_fr_releaseballposition = {.x = S_BA_0_X - 5,.y = S_BA_0_Y - WHEELS_TO_END + 5};
-	position s_fr_endingposition = {.x = S_FR_E_1_X,.y = S_FR_E_1_Y};
-	position l_fr_init = {.x = L_FR_S_0_X + WHEELS_TO_END, .y = L_FR_S_0_Y + WHEELS_TO_END};
-	position l_fr_dodgefirst = {.x = (L_O1_2_X + BIG_ARENA_MAX_X)/2, .y = L_O1_2_Y + L_FR_S_0_Y};
-	position l_fr_center = {.x = L_BA_0_X + L_FR_S_0_X/2, .y = L_BA_0_Y + L_FR_S_0_Y};
-	position l_fr_dodgesecond = {.x = L_FR_E_0_X , .y = L_O2_0_Y};
-	position l_fr_ending = {.x = L_FR_E_1_X, .y = L_FR_E_1_Y};
-
-	positions.s_fr_init=s_fr_init;
-	positions.s_fr_releaseball=s_fr_releaseballposition;
-	positions.s_fr_ending=s_fr_endingposition;
-	positions.l_fr_init = l_fr_init;
-	positions.l_fr_dodgefirst = l_fr_dodgefirst;
-	positions.l_fr_releaseball = l_fr_center;
-	positions.l_fr_dodgesecond = l_fr_dodgesecond;
-	positions.l_fr_ending = l_fr_ending;
-	return positions;
-}
-
-
-int beginner_small_stadium(state *s)
+int beginner_small_stadium(state *s, mainpos *p)
 {
     //Init the Game
-    mainpos positions=init_main_positions();
-    update_pos(s, positions.s_fr_init);
+    update_pos(s, p->s_fr_init);
 
     //By default we are in realeasing position so just close the clamps when starting
     log_this(s,"\n\n[%s: beginner_small_stadium] Grabbing the ball\n\n", __FILE__);
@@ -56,7 +19,7 @@ int beginner_small_stadium(state *s)
 
     //Go to center
     log_this(s,"\n\n[%s: beginner_small_stadium] Going to ball area\n\n", __FILE__);
-    go_to_pos(s, positions.s_fr_releaseball);
+    go_to_pos(s, p->s_fr_ballarea);
     sleep(2);
 
     //release ball
@@ -69,7 +32,7 @@ int beginner_small_stadium(state *s)
 
 	//Go to ending position
     log_this(s, "\n\n[%s: beginner_small_stadium] Going to the end\n\n", __FILE__);
-    go_to_pos(s, positions.s_fr_ending);
+    go_to_pos(s, p->s_fr_ending);
 
 	//Send ok signal bluetooth for other team
     send_message(s, MSG_NEXT, s->ally);
@@ -81,31 +44,29 @@ int beginner_small_stadium(state *s)
 
 
 //Small arena test 1 13 December
-int test_one(state *s)
+int test_one(state *s, mainpos *p)
 {
     //Init the Game
-    mainpos positions=init_main_positions();
-    update_pos(s, positions.s_fr_init);
+    update_pos(s, p->s_fr_init);
 
 	//Go to ending position
-	go_to_pos(s, positions.s_fr_ending);
+	go_to_pos(s, p->s_fr_ending);
     turn(s, 70, 180);
     return 0;
 }
 
 //Small arena test 2 13 December
-int test_two(state *s)
+int test_two(state *s, mainpos *p)
 {
     //Init the Game
-    mainpos positions=init_main_positions();
-    update_pos(s, positions.s_fr_init);
+    update_pos(s, p->s_fr_init);
     //By default we are in realeasing position so just close the clamps when starting
     grab(s, MAX_GRABBING_SPEED);
 	//time to put the ball inside the hooks
 	sleep(3);
 
     //Go to center
-    go_to_pos(s, positions.s_fr_releaseball);
+    go_to_pos(s, p->s_fr_ballarea);
     sleep(2);
     //release ball
     release(s, RELEASING_SPEED);
@@ -113,14 +74,13 @@ int test_two(state *s)
 }
 
 //Small arena test 5 13 December
-int test_five(state *s)
+int test_five(state *s, mainpos *p)
 {
     //Init the Game
-    mainpos positions=init_main_positions();
-    update_pos(s, positions.s_fr_init);
+    update_pos(s, p->s_fr_init);
 
     //Go to center
-//    go_to_pos(s, positions.s_fr_releaseball);
+//    go_to_pos(s, p->s_fr_ballarea);
 	catch_ball(s);
 
     return 0;
@@ -130,38 +90,36 @@ int test_five(state *s)
 ///////////////// LARGE ARENA //////////////////
 
 //Large arena test 3 13 December
-int test_three(state *s)
+int test_three(state *s, mainpos *p)
 {
     //Init the Game
-    mainpos positions=init_main_positions();
-    update_pos(s, positions.l_fr_init);
+    update_pos(s, p->l_fr_init);
 
 	//Go to ending position
     log_this(s, "\n[%s:test3] Dodging first obstacle\n\n" ,__FILE__);
-	go_to_pos(s, positions.l_fr_dodgefirst);
+	go_to_pos(s, p->l_fr_dodgefirst);
     log_this(s, "\n[%s:test3] Dodging second obstacle\n\n" ,__FILE__);
-	go_to_pos(s, positions.l_fr_dodgesecond);
+	go_to_pos(s, p->l_fr_dodgesecond);
     log_this(s, "\n[%s:test3] Going to the end\n\n",__FILE__);
-	go_to_pos(s, positions.l_fr_ending);
+	go_to_pos(s, p->l_fr_ending);
     turn(s,100,180);
     return 0;
 }
 
 //Large arena test 4 13 December
-int test_four(state *s)
+int test_four(state *s, mainpos *p)
 {
     //Init the Game
-    mainpos positions=init_main_positions();
-    update_pos(s, positions.l_fr_init);
+    update_pos(s, p->l_fr_init);
     //By default we are in realeasing position so just close the clamps when starting
     log_this(s, "\n[%s:test4] Grabbing the ball \n\n",__FILE__);
     grab(s, MAX_GRABBING_SPEED);
     //Dodge first obstacle
     log_this(s, "\n[%s:test4] Dodging first obstacle \n\n",__FILE__);
-	go_to_pos(s, positions.l_fr_dodgefirst);
+	go_to_pos(s, p->l_fr_dodgefirst);
     //Go to center
     log_this(s, "\n[%s:test3] Going to the center\n\n",__FILE__);
-    go_to_pos(s, positions.l_fr_releaseball);
+    go_to_pos(s, p->l_fr_ballarea);
 
     //release ball
     usleep(100000);
@@ -170,7 +128,7 @@ int test_four(state *s)
     return 0;
 }
 
-int test_six(state *s)
+int test_six(state *s, mainpos *p)
 {
     printf("Test 6\n");
     int distanceToBall = distance_from_obstacle(s);

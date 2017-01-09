@@ -3,5 +3,5 @@
 
 #include "main.h"
 
-int finisher_small_stadium(state *s);
+int finisher_small_stadium(state *s, mainpos *p);
 #endif
