@@ -237,7 +237,6 @@
 
 
 #define BALL_CATCH_DISTANCE 4
-#define BALL_CATCH_DISTANCE 0
 #define BALL_FOUND 0
 #define BALL_NOT_FOUND -1
 
