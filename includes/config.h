@@ -209,6 +209,27 @@
 #define L_FR_E_3_X 50
 #define L_FR_E_3_Y 350
 
+//Large_SecondRunner_Startingposition_Point0_X
+#define L_SR_E_0_X 70
+#define L_SR_E_0_Y 350
+#define L_SR_E_1_X 70
+#define L_SR_E_1_Y 390
+#define L_SR_E_2_X 110
+#define L_SR_E_2_Y 390
+#define L_SR_E_3_X 110
+#define L_SR_E_3_Y 350
+
+//Large_SecondRunner_Endingposition_Point0_X
+#define L_SR_S_0_X 70
+#define L_SR_S_0_Y 10
+#define L_SR_S_1_X 70
+#define L_SR_S_1_Y 50
+#define L_SR_S_2_X 110
+#define L_SR_S_2_Y 50
+#define L_SR_S_3_X 110
+#define L_SR_S_3_Y 10
+
+
 
 #define BALL_CATCH_DISTANCE 0
 #define BALL_FOUND 0
