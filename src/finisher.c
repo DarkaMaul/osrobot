@@ -58,17 +58,7 @@ int finisher_small_stadium(state *s)
 
     //Look for the ball
     log_this(s,"\n\n[%s: finisher_small_stadium] Looking for the ball\n\n", __FILE__);
-    int distance_to_ball = look_for_ball(s);
-    if (distance_to_ball == SONAR_ERROR_ANGLE)
-    {
-        go_straight(s, MAX_WHEEL_SPEED, 30);
-        distance_to_ball = look_for_ball(s);        
-    }
-    //TODO Scan the whole arena if we don't find the ball
- 
-    //Turn to face the ball
-    log_this(s,"\n\n[%s: finisher_small_stadium] Preparing to catch the ball\n\n", __FILE__);
-    turn(s,TURNING_SPEED, distance_to_ball);
+    look_for_ball(s);
 
     //Catch the ball
     log_this(s,"\n\n[%s: finisher_small_stadium] Catching the ball\n\n", __FILE__);
