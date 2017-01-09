@@ -46,18 +46,52 @@ int catch_ball(state* s)
 }
 
 /**
+ * Function to look for the ball anywhere close to the ball area //TODO Anywhere in the arena
+ * @param s State of LeE
+ * @return 0 if ball is found and is in front of the robot -1 otherwise
+ */
+int look_for_ball(state *s){
+    log_this(s, "\n\n[%s] Look for ball started\n", __FILE__);
+	int angle_to_ball = look_for_ball_in_close_perimeter(s);
+
+	//TODO parameters can be adjusted to search more
+	int nb_of_steps=1;
+	int size_of_steps=20;
+	for (int i=0;i<nb_of_steps;i++){
+		if (angle_to_ball == SONAR_ERROR_ANGLE)
+		{
+			go_straight(s, MAX_WHEEL_SPEED, size_of_steps);
+			angle_to_ball = look_for_ball_in_close_perimeter(s);
+		}
+	}
+
+	//TODO Scan the whole arena if we don't find the ball
+
+	//Turn to face the ball
+    log_this(s, "[%s] Turning to be in front of the ball of %d degrees\n", __FILE__, angle_to_ball);
+	turn(s,TURNING_SPEED, angle_to_ball);
+    log_this(s, "[%s] Checking that there is something in front of the robot\n", __FILE__);
+	int distanceToBallorObstacle = distance_from_obstacle(s);
+	if (distanceToBallorObstacle > GAP_MIN_BETWEEN_ROBOT_BALL){
+	    log_this(s, "[%s] Look for ball failed there is nothing in front of the robot\n", __FILE__);
+		return -1;
+	}
+	return 0;
+}
+
+/**
  * Function to look for the ball when close to the ball area
  * @param s State of LeE
  * @return angle if ball is found SONAR_ERROR_ANGLE otherwise
  */
-int look_for_ball(state *s){
+int look_for_ball_in_close_perimeter(state *s){
 	sweep_absolute(s, 100, MAX_SWEEP_ANGLE);
 	int distanceToBallorObstacle = distance_from_obstacle(s);
 	int turn_sweep= MAX_SWEEP_ANGLE;
     log_this(s, "[%s] Look for ball started\n", __FILE__);
     log_this(s, "[%s] Distance to ball or obstacle %d\n", __FILE__, distanceToBallorObstacle);
 	int sweep_angle=-SWEEP_ANGLE;
-	while((distanceToBallorObstacle == -1 || distanceToBallorObstacle > 50) && abs(turn_sweep) <= MAX_SWEEP_ANGLE)
+	while((distanceToBallorObstacle == -1 || distanceToBallorObstacle > GAP_MIN_BETWEEN_ROBOT_BALL) && abs(turn_sweep) <= MAX_SWEEP_ANGLE)
 	{
 		turn_sweep+=sweep_angle;
 		//Positive for clockwise turn
@@ -73,7 +107,7 @@ int look_for_ball(state *s){
     log_this(s, "[%s] First angle where ball is detected %d\n", __FILE__, angle_one_detected);
 
     int extra_max_sweep_angle=MAX_SWEEP_ANGLE+10;
-	while(distanceToBallorObstacle < 50 && abs(turn_sweep) < extra_max_sweep_angle && distanceToBallorObstacle!=-1)
+	while(distanceToBallorObstacle < GAP_MIN_BETWEEN_ROBOT_BALL && abs(turn_sweep) < extra_max_sweep_angle && distanceToBallorObstacle!=-1)
 	{
 		turn_sweep+=sweep_angle;
 		//Positive for clockwise turn added 20 degrees if ball is in the limit of the sweep angle
@@ -85,11 +119,12 @@ int look_for_ball(state *s){
 	int angle_two_lost=turn_sweep;
     log_this(s, "[%s] Second angle where ball is not detected anymore %d\n", __FILE__, angle_two_lost);
     int bissect_angle= -(angle_one_detected+angle_two_lost-sweep_angle)/2;
-    log_this(s, "[%s] Calculated bissectrice to turn to detect ball %d\n", __FILE__, bissect_angle);
+    log_this(s, "[%s] Calculated bisector to turn to detect ball %d\n", __FILE__, bissect_angle);
 	//replace the motors to the original position
     sweep_absolute(s, 100, 0);
     return bissect_angle;
 }
+
 
 /**
  * Function to look for an obstacle while moving (or not)
@@ -104,7 +139,7 @@ int look_for_obstacle(state *s){
     log_this(s, "[%s] Distance to obstacle or obstacle %d\n", __FILE__, distanceToBallorObstacle);
 	sweep_absolute(s, 100, MAX_SWEEP_ANGLE);
 	int sweep_angle=-SWEEP_ANGLE;
-	while(distanceToBallorObstacle == -1 || distanceToBallorObstacle > 50)
+	while(distanceToBallorObstacle == -1 || distanceToBallorObstacle > GAP_MIN_BETWEEN_ROBOT_BALL)
 	{
 		turn_sweep+=sweep_angle;
 		//Positive for clockwise turn
