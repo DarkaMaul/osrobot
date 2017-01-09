@@ -31,7 +31,7 @@ int catch_ball(state* s)
     }
 
     //Run to the ball
-    go_straight(s, MAX_WHEEL_SPEED/10, distanceBall - BALL_CATCH_DISTANCE);
+    go_straight(s, MAX_WHEEL_SPEED/10, distanceBall + BALL_CATCH_DISTANCE);
 
     //Close the hook
     grab(s, MAX_GRABBING_SPEED);
@@ -73,7 +73,7 @@ int look_for_ball_in_close_perimeter(state *s){
     log_this(s, "[%s] First angle where ball is detected %d\n", __FILE__, angle_one_detected);
 
     int extra_max_sweep_angle=MAX_SWEEP_ANGLE+10;
-	while(distanceToBallorObstacle < GAP_MIN_BETWEEN_ROBOT_BALL && abs(turn_sweep) < extra_max_sweep_angle && distanceToBallorObstacle!=-1)
+	while(distanceToBallorObstacle <= GAP_MIN_BETWEEN_ROBOT_BALL && abs(turn_sweep) < extra_max_sweep_angle && distanceToBallorObstacle!=-1)
 	{
 		turn_sweep+=sweep_angle;
 		//Positive for clockwise turn added 20 degrees if ball is in the limit of the sweep angle
@@ -103,7 +103,8 @@ int look_for_ball(state *s){
 	//TODO parameters can be adjusted to search more
 	int nb_of_steps=1;
 	int size_of_steps=20;
-	for (int i=0;i<nb_of_steps;i++){
+    int i;
+	for (i=0;i<nb_of_steps;i++){
 		if (angle_to_ball == SONAR_ERROR_ANGLE)
 		{
 			go_straight(s, MAX_WHEEL_SPEED, size_of_steps);
