@@ -165,6 +165,9 @@
 
 //Large_Obstacle1(first one)_Point0_X
 #define L_O1_0_X 0
+#define GAP_MIN_BETWEEN_ROBOT_BALL 50
+//Large_Obstacle1(first one)_Point0_X
+#define L_O1_0_X 0
 #define L_O1_0_Y 150
 #define L_O1_1_X 0
 #define L_O1_1_Y 165
