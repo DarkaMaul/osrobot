@@ -46,40 +46,6 @@ int catch_ball(state* s)
 }
 
 /**
- * Function to look for the ball anywhere close to the ball area //TODO Anywhere in the arena
- * @param s State of LeE
- * @return 0 if ball is found and is in front of the robot -1 otherwise
- */
-int look_for_ball(state *s){
-    log_this(s, "\n\n[%s] Look for ball started\n", __FILE__);
-	int angle_to_ball = look_for_ball_in_close_perimeter(s);
-
-	//TODO parameters can be adjusted to search more
-	int nb_of_steps=1;
-	int size_of_steps=20;
-	for (int i=0;i<nb_of_steps;i++){
-		if (angle_to_ball == SONAR_ERROR_ANGLE)
-		{
-			go_straight(s, MAX_WHEEL_SPEED, size_of_steps);
-			angle_to_ball = look_for_ball_in_close_perimeter(s);
-		}
-	}
-
-	//TODO Scan the whole arena if we don't find the ball
-
-	//Turn to face the ball
-    log_this(s, "[%s] Turning to be in front of the ball of %d degrees\n", __FILE__, angle_to_ball);
-	turn(s,TURNING_SPEED, angle_to_ball);
-    log_this(s, "[%s] Checking that there is something in front of the robot\n", __FILE__);
-	int distanceToBallorObstacle = distance_from_obstacle(s);
-	if (distanceToBallorObstacle > GAP_MIN_BETWEEN_ROBOT_BALL){
-	    log_this(s, "[%s] Look for ball failed there is nothing in front of the robot\n", __FILE__);
-		return -1;
-	}
-	return 0;
-}
-
-/**
  * Function to look for the ball when close to the ball area
  * @param s State of LeE
  * @return angle if ball is found SONAR_ERROR_ANGLE otherwise
@@ -124,6 +90,42 @@ int look_for_ball_in_close_perimeter(state *s){
     sweep_absolute(s, 100, 0);
     return bissect_angle;
 }
+
+/**
+ * Function to look for the ball anywhere close to the ball area //TODO Anywhere in the arena
+ * @param s State of LeE
+ * @return 0 if ball is found and is in front of the robot -1 otherwise
+ */
+int look_for_ball(state *s){
+    log_this(s, "\n\n[%s] Look for ball started\n", __FILE__);
+	int angle_to_ball = look_for_ball_in_close_perimeter(s);
+
+	//TODO parameters can be adjusted to search more
+	int nb_of_steps=1;
+	int size_of_steps=20;
+	for (int i=0;i<nb_of_steps;i++){
+		if (angle_to_ball == SONAR_ERROR_ANGLE)
+		{
+			go_straight(s, MAX_WHEEL_SPEED, size_of_steps);
+			angle_to_ball = look_for_ball_in_close_perimeter(s);
+		}
+	}
+
+	//TODO Scan the whole arena if we don't find the ball
+
+	//Turn to face the ball
+    log_this(s, "[%s] Turning to be in front of the ball of %d degrees\n", __FILE__, angle_to_ball);
+	turn(s,TURNING_SPEED, angle_to_ball);
+    log_this(s, "[%s] Checking that there is something in front of the robot\n", __FILE__);
+	int distanceToBallorObstacle = distance_from_obstacle(s);
+	if (distanceToBallorObstacle > GAP_MIN_BETWEEN_ROBOT_BALL){
+	    log_this(s, "[%s] Look for ball failed there is nothing in front of the robot\n", __FILE__);
+		return -1;
+	}
+	return 0;
+}
+
+
 
 
 /**
