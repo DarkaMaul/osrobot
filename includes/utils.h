@@ -13,7 +13,7 @@ char read_from_server(state *s, char *buffer);
 int read_message_from_server(state *s, char *buffer);
 int load_game_params(state *s, char *buffer);
 
-int send_position(state *s);
+int send_position(state *s, position sendedPosition);
 
 int is_in_arena(state *s, position testedPosition);
 

@@ -1,4 +1,5 @@
 #include <signal.h>
+#include <pthread.h>
 
 #include "init.h"
 #include "main.h"
@@ -6,12 +7,13 @@
 #include "logger.h"
 #include "motors.h"
 #include "utils.h"
+#include "threads.h"
 
 extern state* s;
 
 void signal_handler(int signalNumber)
 {
-    if (signalNumber ==  SIGINT)
+    if (signalNumber == SIGINT)
     {
         log_this(s, "[Init] Recvieved SIGINT.\n");
         nice_exit(s, EXIT_FAILURE);
@@ -36,10 +38,10 @@ int init_robot(state *s, mainpos *p )
     */
 
     //Init the motors
-    init_motors(s);
+    //init_motors(s);
 
     //Init sensors
-    returnValue = init_sensors(s);
+    returnValue = 0;// init_sensors(s);
     if (returnValue !=  0)
     {
         log_this(s, "[%s] Sensors unable to initialize.\n", __FILE__);
@@ -49,8 +51,16 @@ int init_robot(state *s, mainpos *p )
     //Init position
     init_pos(s);
 
+    //Init Threads
+    if(pthread_create(&(s->threadPosition), NULL, (void *) position_thread, (void*) &s))
+    {
+        log_this(s, "[%s] Unable to create position thread\n", __FILE__);
+        nice_exit(s, EXIT_FAILURE);
+    }
+
     //Init main positions for the game
     init_main_positions(p);
+
     return 0;
 }
 
@@ -59,7 +69,7 @@ int init_robot(state *s, mainpos *p )
 *@param positions The positions variable defined in main
 **/
 void init_main_positions(mainpos *p){
-   
+
     position s_fr_init={.x = S_FR_S_0_X,.y = S_FR_S_0_Y +  WHEELS_TO_END};
     position s_fr_ballareaposition = {.x = S_BA_0_X - 5,.y = S_BA_0_Y - WHEELS_TO_END + 5};
     position s_fr_endingposition = {.x = S_FR_E_1_X,.y = S_FR_E_1_Y};
@@ -108,6 +118,9 @@ void init_main_positions(mainpos *p){
 void nice_exit(state *s, int exitState)
 {
     log_this(s, "[Main] Nice exit called.\n");
+
+    if (exitState == EXIT_SUCCESS)
+        close_threads(s);
 
     //TODO @CLOSE BLUETOOTH
     if (s->sock > 0)

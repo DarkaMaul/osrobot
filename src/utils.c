@@ -98,7 +98,7 @@ int init_inet(state *s)
 
     if (connect(sock, (struct sockaddr *) &addr, sizeof(addr)) < 0)
     {
-        log_this(s, "[Utils] Can't connect to INET!");
+        log_this(s, "[Utils] Can't connect to INET!\n");
         return -1;
     }
 
@@ -211,11 +211,12 @@ int send_message(state *s, int messageType, unsigned char destination, ...)
 /**
  * Send the position of LeE
  * @param  s State structure
+ * @param sendedPosition Position sent
  * @return   0 if everythingis OK || -1 if not
  */
-int send_position(state *s)
+int send_position(state *s, position sendedPosition)
 {
-    return send_message(s, MSG_POSITION, SERVER_ID, s->curPos.x, s->curPos.y);
+    return send_message(s, MSG_POSITION, SERVER_ID, sendedPosition.x, sendedPosition.y);
 }
 
 /**

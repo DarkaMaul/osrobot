@@ -44,7 +44,14 @@ typedef struct _state
     uint16_t msgId;
 	uint16_t msgAck;
 
+    //Threads and concurrent access
+    pthread_t threadPosition;
+    pthread_mutex_t mutexPosition;
+    pthread_mutex_t mutexGameStarted;
+    pthread_mutex_t mutexSockUsage;
+
     /* Game */
+    int gameStarted;
     unsigned char type;
     unsigned char role;
     unsigned char side;
@@ -75,6 +82,6 @@ typedef struct _mainpositions
     position l_sr_ending;
 } mainpos;
 
-
+void game();
 
 #endif
