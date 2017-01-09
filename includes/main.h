@@ -44,12 +44,21 @@ typedef struct _state
     uint16_t msgId;
 	uint16_t msgAck;
 
+    //Threads and concurrent access
+    pthread_t threadPosition;
+    pthread_mutex_t mutexPosition;
+    pthread_mutex_t mutexGameStarted;
+    pthread_mutex_t mutexSockUsage;
+
     /* Game */
+    int gameStarted;
     unsigned char type;
     unsigned char role;
     unsigned char side;
     unsigned char ally;
 
 } state;
+
+void game();
 
 #endif

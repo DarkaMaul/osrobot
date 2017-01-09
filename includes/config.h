@@ -93,6 +93,8 @@
 #define NOT_FOR_ME -3
 
 //Game constants
+#define TRAVELLING 1
+#define IMMOBILE 0
 #define ROLE_FIRST 0
 #define ROLE_SECOND 1
 #define SIDE_RIGHT 0
@@ -161,8 +163,8 @@
 // The following coordinates are for the right side of the arena. For the Left side, just invert the X's.
 #define OBSTACLE_WIDTH 15
 
-//Large_Obstacle1(first one)_Point0_X 
-#define L_O1_0_X 0 
+//Large_Obstacle1(first one)_Point0_X
+#define L_O1_0_X 0
 #define L_O1_0_Y 150
 #define L_O1_1_X 0
 #define L_O1_1_Y 165
@@ -228,8 +230,6 @@
 #define L_SR_S_2_Y 50
 #define L_SR_S_3_X 110
 #define L_SR_S_3_Y 10
-
-
 
 #define BALL_CATCH_DISTANCE 0
 #define BALL_FOUND 0
