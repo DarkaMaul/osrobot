@@ -35,43 +35,6 @@ int main(int argc, char *argv[])
     //Register signal handler
     signal(SIGINT, signal_handler);
 
-    //Init the LeE
-    init_robot(s,p);
-    //init_inet(s);
-    //look_for_ball(s);
-    int distance_to_ball = look_for_ball(s);
-    if (distance_to_ball == SONAR_ERROR_ANGLE)
-    {
-        go_straight(s, MAX_WHEEL_SPEED, 30);
-        distance_to_ball = look_for_ball(s);
-    }
-    //TODO Scan the whole arena if we don't find the ball
-
-    //Turn to face the ball
-    log_this(s,"\n\n[%s: finisher_small_stadium] Preparing to catch the ball\n\n", __FILE__);
-    turn(s,TURNING_SPEED, distance_to_ball);
-
-    //Catch the ball
-    log_this(s,"\n\n[%s: finisher_small_stadium] Catching the ball\n\n", __FILE__);
-    catch_ball(s);
-
-
-    //tests dev in progress
-    //grab(s,MAX_GRABBING_SPEED);
-    //sleep(5);
-    //release(s, RELEASING_SPEED);
-
-	//go_straight(s, 1000, 200);
-//    position desiredposition={2,2};
-//    go_to_pos(s, desiredposition);
-//    sleep(3);
-//    desiredposition.x=1;
-//    desiredposition.y=1;
-//    go_to_pos(s, desiredposition);
-	//Initialize the "trip"
-
-	//ACTION
-
 
 	//Reset robot
 
