@@ -13,6 +13,8 @@ int finisher_small_stadium(state *s, mainpos *p)
 {
     //Init the Game
     update_pos(s, p->s_sr_init);
+    update_angle(s,90);
+    s->gyro_reference -= 180; //To set the starting gyro value to 90° (clockwise) 
 
     //TODO replace center by ball position sent by the beginner
     //Go to center

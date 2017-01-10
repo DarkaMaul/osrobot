@@ -26,7 +26,7 @@ int catch_ball(state* s)
     //The ball was not found in a confident interval
     if (distanceBall == -1)
     {
-        log_this(s, "[%s] No ball found in front of the robot... :(  \n", __FILE__);
+        log_this(s, "[%s] No ball found in front of the robot... :(  \n", __FILE__);
         return -1;
     }
 
@@ -169,5 +169,3 @@ int look_for_obstacle(state *s){
     return 0;
 }
 */
-
-

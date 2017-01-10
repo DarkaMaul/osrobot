@@ -234,7 +234,9 @@
 #define L_SR_S_3_X 110
 #define L_SR_S_3_Y 10
 
-#define BALL_CATCH_DISTANCE 0
+
+
+#define BALL_CATCH_DISTANCE 4
 #define BALL_FOUND 0
 #define BALL_NOT_FOUND -1
 

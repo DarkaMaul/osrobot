@@ -80,9 +80,9 @@ void init_main_positions(mainpos *p){
     position l_fr_ending = {.x = L_FR_E_1_X, .y = L_FR_E_1_Y};
 
 
-    position s_sr_init={.x = S_SR_S_0_X,.y = S_SR_S_0_Y +  WHEELS_TO_END};
-    position s_sr_ballareaposition = {.x = S_BA_0_X - 5,.y = S_BA_0_Y - WHEELS_TO_END + 5};
-    position s_sr_endingposition = {.x = S_SR_E_1_X,.y = S_SR_E_1_Y};
+    position s_sr_init={.x = S_SR_S_0_X + ROBOT_WIDTH,.y = S_SR_S_0_Y +  WHEELS_TO_END};
+    position s_sr_ballareaposition = {.x = S_BA_1_X - 5,.y = S_BA_1_Y + WHEELS_TO_END + 5};
+    position s_sr_endingposition = {.x = S_SR_E_1_X + ROBOT_WIDTH, .y = S_SR_E_1_Y - WHEELS_TO_END};
     position l_sr_init = {.x = L_FR_S_0_X + WHEELS_TO_END, .y = L_FR_S_0_Y + WHEELS_TO_END};
     position l_sr_dodgefirst = {.x = (L_O1_2_X + BIG_ARENA_MAX_X)/2, .y = L_O1_2_Y + L_FR_S_0_Y};
     position l_sr_center = {.x = L_BA_0_X + L_FR_S_0_X/2, .y = L_BA_0_Y + L_FR_S_0_Y};
