@@ -13,22 +13,52 @@
 #include "sensors.h"
 #include "first_runner.h"
 #include "tester.h"
-
-//#include "config.h"
+#include "finisher.h"
+#include "config.h"
 
 state st;
 state* s = &st;
+
+mainpos mpos;
+mainpos* p = &mpos;
 
 void game()
 {
     //Game function o_OOOOO_o
 
     //Let's wait for the starting message
+    pthread_mutex_lock(&(s->mutexSockUsage));
 
+    char buf[100];
+    int returnValue;
+    while(1)
+    {
+        returnValue  = read_message_from_server(s, buf);
+        if (returnValue == -1) //We don't release the lock because we're gonna die anyway
+            continue;
+
+        if (buf[HEADER_TYPE] == MSG_START)
+            break;
+    }
+
+    pthread_mutex_unlock(&(s->mutexSockUsage));
+
+    load_game_params(s, buf);
+
+    mainpos *p;
+    if (s->type == SMALL_ARENA)
+    {
+        if(s->role == ROLE_FIRST)
+            beginner_small_stadium(s, p);
+        else
+            finisher_small_stadium(s, p);
+    } else
+    {
+        //TODO
+    }
+
+    return;
 }
-
-mainpos mpos;
-mainpos* p = &mpos;
 
 int main(int argc, char *argv[])
 {
