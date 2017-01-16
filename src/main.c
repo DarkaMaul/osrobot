@@ -54,6 +54,9 @@ int main(int argc, char *argv[])
     //Register signal handler
     signal(SIGINT, signal_handler);
 
+    init_robot(s,p);
+    go_straight(s,1000,10);
+
 	//Reset robot
 
 	//13 December

@@ -97,8 +97,8 @@
 #define IMMOBILE 0
 #define ROLE_FIRST 0
 #define ROLE_SECOND 1
-#define SIDE_RIGHT 0
-#define SIDE_LEFT 1
+#define SIDE_RIGHT 1
+#define SIDE_LEFT -1
 
 //Field config
 #define SMALL_ARENA 0
