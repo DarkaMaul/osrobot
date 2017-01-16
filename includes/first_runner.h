@@ -11,4 +11,6 @@ int test_four(state *s, mainpos *p);
 int test_five(state *s, mainpos *p);
 int test_six(state *s, mainpos *p);
 
+int game_wrapper(state *s, mainpos *p);
+
 #endif

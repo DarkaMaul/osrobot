@@ -47,10 +47,15 @@ void test_bluetooth(state *s)
                     if (result == 0)
                     {
                         printf("Message START recieved and well interpreted\n");
-                        send_all_messages(s);
+                        //send_all_messages(s);
 
             //            printf("NExt! %d\n", send_message(s, MSG_NEXT, s->ally));
                     }
+                    break;
+
+                case MSG_BALL:
+                    printf("MESSAGE BALL RECIEVIED\n");
+                    save_ball_position(s, buffer);
                     break;
 
                 case MSG_NEXT:
