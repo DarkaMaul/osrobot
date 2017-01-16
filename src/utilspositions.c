@@ -9,6 +9,7 @@
 #include <unistd.h>
 #include <stdarg.h>
 #include <math.h>
+#include <pthread.h>
 
 #include "main.h"
 #include "config.h"
@@ -22,8 +23,11 @@
  */
 void update_pos(state* s, position pos) {
     log_this(s, "\n[UPDATE_POSITION] x=%d y=%d from (%d,%d)\n", pos.x, pos.y, s->curPos.x, s->curPos.y);
+
+    pthread_mutex_lock(&(s->mutexPosition));
     s->curPos.x=pos.x;
 	s->curPos.y=pos.y;
+    pthread_mutex_unlock(&(s->mutexPosition));
 }
 
 /**
@@ -32,8 +36,8 @@ void update_pos(state* s, position pos) {
  */
 void init_pos(state *s)
 {
-	s->curPos.x=0;
-	s->curPos.x=0;
+    position pos = {0,0};
+	update_pos(s, pos);
 	s->angle=-90;
 }
 
