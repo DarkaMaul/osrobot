@@ -7,7 +7,8 @@
 int beginner_small_stadium(state *s, mainpos *p);
 int finisher_small_stadium(state *s, mainpos *p);
 
-int large_small_stadium(state *s, mainpos *p);
+int beginner_large_stadium(state *s, mainpos *p);
+int finisher_large_stadium(state *s, mainpos *p);
 
 int game_wrapper(state *s, mainpos *p);
 
