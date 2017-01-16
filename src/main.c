@@ -64,10 +64,6 @@ int main(int argc, char *argv[])
 {
     //Register signal handler
     signal(SIGINT, signal_handler);
-
-    init_robot(s);
-    go_straight(s,1000,10);
-
 	//Reset robot
 
     if(argc == 2){
