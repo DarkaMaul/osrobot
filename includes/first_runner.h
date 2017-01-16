@@ -5,12 +5,10 @@
 #include "utils.h"
 
 int beginner_small_stadium(state *s, mainpos *p);
+int finisher_small_stadium(state *s, mainpos *p);
+
 int large_small_stadium(state *s, mainpos *p);
-int test_one(state *s, mainpos *p);
-int test_two(state *s, mainpos *p);
-int test_three(state *s, mainpos *p);
-int test_four(state *s, mainpos *p);
-int test_five(state *s, mainpos *p);
-int test_six(state *s, mainpos *p);
+
+int game_wrapper(state *s, mainpos *p);
 
 #endif

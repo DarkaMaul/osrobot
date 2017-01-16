@@ -1,7 +1,7 @@
 #ifndef __UTILS_H__
 #define __UTILS_H__
 
-#include "main.h" 
+#include "main.h"
 
 typedef struct _mainpositions
 {
@@ -52,6 +52,6 @@ position compute_position_from_distance_and_angle(state *s, int distancetopos);
 double convert_to_radians(double deg);
 double convert_to_degrees(double deg);
 int sign(int a);
+int save_ball_position(state *s, char *buff);
 void init_main_positions(state *s, mainpos *p);
-
 #endif

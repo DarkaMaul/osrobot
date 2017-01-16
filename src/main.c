@@ -45,17 +45,7 @@ void game()
 
     load_game_params(s, buf);
 
-    mainpos *p;
-    if (s->type == SMALL_ARENA)
-    {
-        if(s->role == ROLE_FIRST)
-            beginner_small_stadium(s, p);
-        else
-            finisher_small_stadium(s, p);
-    } else
-    {
-        //TODO
-    }
+
 
     return;
 }
@@ -64,6 +54,7 @@ int main(int argc, char *argv[])
 {
     //Register signal handler
     signal(SIGINT, signal_handler);
+
     init_robot(s,p);
     go_straight(s,1000,10);
 

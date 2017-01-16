@@ -276,3 +276,23 @@ int is_in_arena(state *s, position testedPosition)
 
     return -1;
 }
+
+/**
+ * Save the ball position when recieved by the ally
+ * @param  s    State structure
+ * @param  buff Message char array
+ * @return      0 || -1 if an error occured
+ */
+int save_ball_position(state *s, char *buff)
+{
+    if (buff[HEADER_TYPE] != MSG_BALL)
+        return -1;
+
+    if (buff[5] != 0)
+        return -1;
+
+    s->ballPosition.x = (int) ((int16_t) *(buff+6));
+    s->ballPosition.y = (int) ((int16_t) *(buff+8));
+
+    return 0;
+}
