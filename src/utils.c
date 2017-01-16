@@ -25,7 +25,7 @@ int init_bluetooth()
     s = socket(AF_BLUETOOTH, SOCK_STREAM, BTPROTO_RFCOMM);
     addr.rc_family = AF_BLUETOOTH;
     addr.rc_channel = (uint8_t) 1;
-    //str2ba(SERV_ADDR, &addr.rc_bdaddr);
+    str2ba(SERV_ADDR, &addr.rc_bdaddr);
 
     // connect to server
     status = connect(s, (struct sockaddr *)&addr, sizeof(addr));
@@ -34,8 +34,6 @@ int init_bluetooth()
         return s;
     else
         return -1;
-
-    return 0;
 }
 
 /**

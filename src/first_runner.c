@@ -62,6 +62,7 @@ int game_wrapper(state *s, mainpos *p)
     s->gameStarted = TRAVELLING;
     pthread_mutex_unlock(&(s->mutexGameStarted));
 
+    init_main_positions(s, p);
     strategy(s, p);
     return 0;
 }
