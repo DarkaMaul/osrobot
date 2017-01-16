@@ -3,6 +3,29 @@
 
 #include "main.h"
 
+typedef struct _mainpositions
+{
+    position s_fr_init;
+    position s_fr_ballarea;
+    position s_fr_ending;
+
+    position l_fr_init;
+    position l_fr_dodgefirst;
+    position l_fr_ballarea;
+    position l_fr_dodgesecond;
+    position l_fr_ending;
+
+    position s_sr_init;
+    position s_sr_ballarea;
+    position s_sr_ending;
+
+    position l_sr_init;
+    position l_sr_dodgefirst;
+    position l_sr_ballarea;
+    position l_sr_dodgesecond;
+    position l_sr_ending;
+} mainpos;
+
 int init_bluetooth();
 
 int init_inet(state *s);
@@ -30,6 +53,5 @@ double convert_to_radians(double deg);
 double convert_to_degrees(double deg);
 int sign(int a);
 int save_ball_position(state *s, char *buff);
-
-
+void init_main_positions(mainpos *p);
 #endif

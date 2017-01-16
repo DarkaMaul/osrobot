@@ -59,37 +59,33 @@ int main(int argc, char *argv[])
 
 	//13 December
     if(argc == 2){
-
-        if (atoi(argv[1]) != 7)
-            init_robot(s,p);
-        else
-            init_logger(s);
-
     	switch(atoi(argv[1])){
-			case 1:
-				test_one(s,p);
-				break;
-			case 2:
-				test_two(s,p);
-				break;
-			case 3:
-				test_three(s,p);
-				break;
-			case 4:
-				test_four(s,p);
-				break;
-			case 5:
-				test_five(s,p);
-				break;
-            case 6:
-                test_six(s,p);
-                break;
-            case 7:
+    		//Test bluetooth
+            case 0:
+            	if (atoi(argv[1]) != 7)
+            		init_robot(s,p);
+            	else
+            		init_logger(s);
                 test_bluetooth(s);
                 break;
-
-			default:
-				beginner_small_stadium(s,p);
+            //Run beginner
+            case 1:
+            	init_robot(s,p);
+            	beginner_small_stadium(s,p);
+            	look_for_ball(s);
+            	break;
+            //Test finisher
+            case 2:
+            	init_robot(s,p);
+            	finisher_small_stadium(s, p);
+            	look_for_ball(s);
+            	break;
+            //Quicks tests
+            case 3:
+        		init_robot(s,p);
+        		printf("cross compilation working");
+				//beginner_small_stadium(s,p);
+				look_for_ball(s);
 				break;
 		}
 	}
