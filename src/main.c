@@ -50,7 +50,7 @@ void game()
 
 int main2(int argc, char** argv)
 {
-    signal(SIGINT, signal_handler);
+    //signal(SIGINT, signal_handler);
 
     init_robot(s);
 
