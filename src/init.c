@@ -42,7 +42,8 @@ int init_robot(state *s)
     init_motors(s);
 
     //Init sensors
-    returnValue = 0;// init_sensors(s);
+    init_sensors(s);
+    returnValue = 0;
     if (returnValue !=  0)
     {
         log_this(s, "[%s] Sensors unable to initialize.\n", __FILE__);

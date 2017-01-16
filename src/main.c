@@ -70,7 +70,6 @@ int main(int argc, char *argv[])
 
 	//Reset robot
 
-	//13 December
     if(argc == 2){
     	switch(atoi(argv[1])){
     		//Test bluetooth
@@ -88,13 +87,13 @@ int main(int argc, char *argv[])
             case 2:
             	init_robot(s);
             	finisher_small_stadium(s, p);
-            	look_for_ball(s);
             	break;
             //Quicks tests
             case 3:
         		init_robot(s);
         		printf("cross compilation working");
 				//beginner_small_stadium(s,p);
+        		init_robot(s);
 				look_for_ball(s);
 				break;
 		}
