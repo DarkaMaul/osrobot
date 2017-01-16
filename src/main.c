@@ -13,7 +13,6 @@
 #include "sensors.h"
 #include "first_runner.h"
 #include "tester.h"
-#include "finisher.h"
 #include "config.h"
 
 state st;
