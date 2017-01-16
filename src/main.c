@@ -33,7 +33,7 @@ void game()
     while(1)
     {
         returnValue  = read_message_from_server(s, buf);
-        if (returnValue == -1) //We don't release the lock because we're gonna die anyway
+        if (returnValue == -1)
             continue;
 
         if (buf[HEADER_TYPE] == MSG_START)
@@ -48,12 +48,24 @@ void game()
     return;
 }
 
+int main2(int argc, char** argv)
+{
+    signal(SIGINT, signal_handler);
+
+    init_robot(s);
+    game();
+
+    nice_exit(s, EXIT_SUCCESS);
+
+    return 0;
+}
+
 int main(int argc, char *argv[])
 {
     //Register signal handler
     signal(SIGINT, signal_handler);
 
-    init_robot(s,p);
+    init_robot(s);
     go_straight(s,1000,10);
 
 	//Reset robot
@@ -63,27 +75,24 @@ int main(int argc, char *argv[])
     	switch(atoi(argv[1])){
     		//Test bluetooth
             case 0:
-            	if (atoi(argv[1]) != 7)
-            		init_robot(s,p);
-            	else
-            		init_logger(s);
+        		init_logger(s);
                 test_bluetooth(s);
                 break;
             //Run beginner
             case 1:
-            	init_robot(s,p);
+            	init_robot(s);
             	beginner_small_stadium(s,p);
             	look_for_ball(s);
             	break;
             //Test finisher
             case 2:
-            	init_robot(s,p);
+            	init_robot(s);
             	finisher_small_stadium(s, p);
             	look_for_ball(s);
             	break;
             //Quicks tests
             case 3:
-        		init_robot(s,p);
+        		init_robot(s);
         		printf("cross compilation working");
 				//beginner_small_stadium(s,p);
 				look_for_ball(s);

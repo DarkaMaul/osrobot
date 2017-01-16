@@ -9,6 +9,12 @@
 #include "sensors.h"
 #include "logger.h"
 
+/**
+ * Game wrapper
+ * @param  s Structure state
+ * @param  p Position
+ * @return   Return 0
+ */
 int game_wrapper(state *s, mainpos *p)
 {
     //If we have to wait until it's our turn

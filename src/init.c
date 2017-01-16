@@ -25,14 +25,15 @@ void signal_handler(int signalNumber)
  * @param  s Structure state
  * @return   0 in case of success || 1 in case of error
  */
-int init_robot(state *s, mainpos *p )
+int init_robot(state *s)
 {
     int returnValue;
+
     //Initialize the logger
     init_logger(s);
 
     //Initialize sockets
-    /*s->sock = init_inet(s);
+    /*s->sock = init_bluetooth();
     if (s->sock == -1)
         nice_exit(s, EXIT_FAILURE);
     */

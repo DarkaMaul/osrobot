@@ -136,7 +136,7 @@ int sign(int a){
 *@param positions The positions variable defined in main
 **/
 void init_main_positions(state *s, mainpos *p){
-   
+
     int side = s->side;
 
     position s_fr_init={.x = S_FR_S_0_X,.y = S_FR_S_0_Y +  WHEELS_TO_END};
@@ -178,3 +178,19 @@ void init_main_positions(state *s, mainpos *p){
     p->l_sr_ending = l_sr_ending;
 }
 
+/**
+ * Compute the point near the ball where the robot will stop
+ * @param  s State structure
+ * @return   position
+ */
+position compute_arrival_point(state *s)
+{
+    position arrivalPoint;
+    int norm = compute_distance(compute_relative_position(s->curPos, s->ballPosition));
+
+    int CONSTANT = 10;
+    arrivalPoint.x =  s->ballPosition.x - CONSTANT * (s->ballPosition.x - s->curPos.x) / norm;
+    arrivalPoint.y =  s->ballPosition.y - CONSTANT * (s->ballPosition.x - s->curPos.y) / norm;
+
+    return arrivalPoint;
+}
