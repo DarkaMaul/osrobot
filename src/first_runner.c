@@ -41,6 +41,50 @@ int beginner_small_stadium(state *s, mainpos *p)
 
    }
 
+int beginner_large_stadium(state *s, mainpos *p)
+{
+ 
+    //Init the Game
+    update_pos(s, p->l_fr_init);
+    
+    //By default we are in realeasing position so just close the clamps when starting
+    log_this(s, "\n[%s:beginner_large_stadium] Grabbing the ball \n\n",__FILE__);
+    grab(s, MAX_GRABBING_SPEED);
+    
+    //Dodge first obstacle
+    log_this(s, "\n[%s:beginner_large_stadium] Dodging first obstacle \n\n",__FILE__);
+	go_to_pos(s, p->l_fr_dodgefirst);
+    
+    //Go to center and a 180
+    log_this(s, "\n[%s:beginner_large_stadium] Going to the center\n\n",__FILE__);
+    go_to_pos(s, p->l_fr_ballarea);
+    turn(s, TURNING_SPEED, 180);
+
+    //Release ball
+    usleep(100000);
+    log_this(s, "\n[%s:beginner_large_stadium] Releasing the ball\n\n",__FILE__);
+    release(s, MAX_GRABBING_SPEED);
+
+   	//Go back a little
+    log_this(s, "\n[%s: beginner_large_stadium] Going back a little\n\n", __FILE__);
+	go_straight(s, MAX_WHEEL_SPEED, -20);
+
+    //Dodge second stadium
+    log_this(s, "\n[%s:beginner_large_stadium] Dodging second obstacle\n\n" ,__FILE__);
+	go_to_pos(s, p->l_fr_dodgesecond);
+ 
+    //Go to ending position
+    log_this(s, "\n\n[%s: beginner_small_stadium] Going to the end\n\n", __FILE__);
+    go_to_pos(s, p->l_fr_ending);
+
+  
+	//Send ok signal bluetooth for other team
+    send_message(s, MSG_NEXT, s->ally);
+
+    return 0;
+
+   }
+
 
 
 //Small arena test 1 13 December
