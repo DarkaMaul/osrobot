@@ -53,9 +53,6 @@ int main(int argc, char *argv[])
     //Register signal handler
     signal(SIGINT, signal_handler);
 
-	//Reset robot
-
-	//13 December
     if(argc == 2){
     	switch(atoi(argv[1])){
     		//Test bluetooth
