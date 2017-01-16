@@ -54,4 +54,6 @@ double convert_to_degrees(double deg);
 int sign(int a);
 int save_ball_position(state *s, char *buff);
 void init_main_positions(state *s, mainpos *p);
+
+position compute_arrival_point(state *s);
 #endif

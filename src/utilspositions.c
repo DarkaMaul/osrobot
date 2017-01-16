@@ -9,6 +9,7 @@
 #include <unistd.h>
 #include <stdarg.h>
 #include <math.h>
+#include <pthread.h>
 
 #include "main.h"
 #include "config.h"
@@ -22,8 +23,11 @@
  */
 void update_pos(state* s, position pos) {
     log_this(s, "\n[UPDATE_POSITION] x=%d y=%d from (%d,%d)\n", pos.x, pos.y, s->curPos.x, s->curPos.y);
+
+    pthread_mutex_lock(&(s->mutexPosition));
     s->curPos.x=pos.x;
 	s->curPos.y=pos.y;
+    pthread_mutex_unlock(&(s->mutexPosition));
 }
 
 /**
@@ -32,8 +36,8 @@ void update_pos(state* s, position pos) {
  */
 void init_pos(state *s)
 {
-	s->curPos.x=0;
-	s->curPos.x=0;
+    position pos = {0,0};
+	update_pos(s, pos);
 	s->angle=-90;
 }
 
@@ -136,7 +140,7 @@ int sign(int a){
 *@param positions The positions variable defined in main
 **/
 void init_main_positions(state *s, mainpos *p){
-   
+
     int side = s->side;
 
     position s_fr_init={.x = S_FR_S_0_X,.y = S_FR_S_0_Y +  WHEELS_TO_END};
@@ -178,3 +182,19 @@ void init_main_positions(state *s, mainpos *p){
     p->l_sr_ending = l_sr_ending;
 }
 
+/**
+ * Compute the point near the ball where the robot will stop
+ * @param  s State structure
+ * @return   position
+ */
+position compute_arrival_point(state *s)
+{
+    position arrivalPoint;
+    int norm = compute_distance(compute_relative_position(s->curPos, s->ballPosition));
+
+    int CONSTANT = 10;
+    arrivalPoint.x =  s->ballPosition.x - CONSTANT * (s->ballPosition.x - s->curPos.x) / norm;
+    arrivalPoint.y =  s->ballPosition.y - CONSTANT * (s->ballPosition.x - s->curPos.y) / norm;
+
+    return arrivalPoint;
+}

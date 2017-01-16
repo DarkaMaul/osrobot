@@ -25,7 +25,7 @@ int init_bluetooth()
     s = socket(AF_BLUETOOTH, SOCK_STREAM, BTPROTO_RFCOMM);
     addr.rc_family = AF_BLUETOOTH;
     addr.rc_channel = (uint8_t) 1;
-    //str2ba(SERV_ADDR, &addr.rc_bdaddr);
+    str2ba(SERV_ADDR, &addr.rc_bdaddr);
 
     // connect to server
     status = connect(s, (struct sockaddr *)&addr, sizeof(addr));
@@ -34,8 +34,6 @@ int init_bluetooth()
         return s;
     else
         return -1;
-
-    return 0;
 }
 
 /**
@@ -228,20 +226,20 @@ int send_position(state *s, position sendedPosition)
 int load_game_params(state *s, char *buffer)
 {
     s->role = -1;
-    s->side = -1;
+    s->side = -2; //FOR REASON
     s->ally = -1;
 
     if ((unsigned char) buffer[5] == ROLE_FIRST || (unsigned char) buffer[5] == ROLE_SECOND)
         s->role = (unsigned char) buffer[5];
 
-    if ((unsigned char) buffer[6] == SIDE_RIGHT || (unsigned char) buffer[6] == SIDE_LEFT)
-        s->side = (unsigned char) buffer[6];
+    if ((unsigned char) buffer[6] == 0 || (unsigned char) buffer[6] == 1)
+        s->side = (unsigned char) ((buffer[6] == 0) ? 1 : -1);
 
     //TODO
     if ((unsigned char) buffer[7] >= 1 && (unsigned char) buffer[7] < 254)
         s->ally = (unsigned char) buffer[7];
 
-    if (s->role == 255 || s->side == 255 || s->ally == 255)
+    if (s->role == 255 || s->side == 254 || s->ally == 255)
     {
         log_this(s, "[Utils] Error while defining game constants in load_game_params(%u, %u, %u).\n", (unsigned char) buffer[5], (unsigned char) buffer[6], (unsigned char) buffer[7]);
         return -1;
