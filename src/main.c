@@ -53,9 +53,6 @@ int main(int argc, char *argv[])
     //Register signal handler
     signal(SIGINT, signal_handler);
 
-    init_robot(s,p);
-    go_straight(s,1000,10);
-
 	//Reset robot
 
 	//13 December
@@ -79,13 +76,10 @@ int main(int argc, char *argv[])
             case 2:
             	init_robot(s,p);
             	finisher_small_stadium(s, p);
-            	look_for_ball(s);
             	break;
             //Quicks tests
             case 3:
         		init_robot(s,p);
-        		printf("cross compilation working");
-				//beginner_small_stadium(s,p);
 				look_for_ball(s);
 				break;
 		}
