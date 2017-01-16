@@ -1,3 +1,5 @@
+#include <pthread.h>
+
 #include "main.h"
 #include "config.h"
 #include "first_runner.h"
@@ -7,6 +9,53 @@
 #include "sensors.h"
 #include "logger.h"
 
+
+int game_wrapper(state *s, mainpos *p)
+{
+    //If we have to wait until it's our turn
+    if (s->role == ROLE_SECOND)
+    {
+        //Let's wait for the starting message
+        pthread_mutex_lock(&(s->mutexSockUsage));
+
+        char buf[100];
+        int returnValue;
+        while(1)
+        {
+            returnValue  = read_message_from_server(s, buf);
+            if (returnValue == -1)
+            {
+                pthread_mutex_unlock(&(s->mutexSockUsage));
+                continue;
+            }
+
+            if (buf[HEADER_TYPE] == MSG_NEXT)
+                break;
+            else if (buf[HEADER_TYPE] == MSG_BALL)
+                save_ball_position(s, buf);
+
+        }
+
+        pthread_mutex_unlock(&(s->mutexSockUsage));
+    }
+
+    //Init the positions
+
+
+
+    if (s->type == SMALL_ARENA)
+    {
+        if(s->role == ROLE_FIRST)
+            beginner_small_stadium(s, p);
+        else
+            finisher_small_stadium(s, p);
+    } else
+    {
+        //TODO
+    }
+
+    return 0;
+}
 
 int beginner_small_stadium(state *s, mainpos *p)
 {
@@ -25,7 +74,7 @@ int beginner_small_stadium(state *s, mainpos *p)
     //release ball
     log_this(s,"\n\n[%s: beginner_small_stadium] Releasing ball\n\n", __FILE__);
     release(s, RELEASING_SPEED);
-    
+
 	//Go back a little
     log_this(s, "\n\n[%s: beginner_small_stadium] Going back a little\n\n", __FILE__);
 	go_straight(s, MAX_WHEEL_SPEED, -20);
@@ -150,7 +199,7 @@ int test_six(state *s, mainpos *p)
         printf("Distance to ball (%d): %d\n", i, distanceToBall);
         if (distanceToBall != -1 && distanceToBall < 40)
         {
-            turn(s,TURNING_SPEED,8); 
+            turn(s,TURNING_SPEED,8);
             break;
         }
     }
