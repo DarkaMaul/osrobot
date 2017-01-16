@@ -52,6 +52,6 @@ position compute_position_from_distance_and_angle(state *s, int distancetopos);
 double convert_to_radians(double deg);
 double convert_to_degrees(double deg);
 int sign(int a);
-void init_main_positions(mainpos *p);
+void init_main_positions(state *s, mainpos *p);
 
 #endif

@@ -58,9 +58,6 @@ int init_robot(state *s, mainpos *p )
         nice_exit(s, EXIT_FAILURE);
     }
 
-    //Init main positions for the game
-    init_main_positions(p);
-
     return 0;
 }
 
