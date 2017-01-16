@@ -30,29 +30,33 @@ int game_wrapper(state *s, mainpos *p)
 
             if (buf[HEADER_TYPE] == MSG_NEXT)
                 break;
-            else if (buf[HEADER_TYPE] == MSG_BALL)
+            else if (buf[HEADER_TYPE] == MSG_BALL) //Interpret the ball message
                 save_ball_position(s, buf);
 
         }
-
         pthread_mutex_unlock(&(s->mutexSockUsage));
     }
 
-    //Init the positions
-
-
-
+    int (*strategy)(state*,mainpos*);
     if (s->type == SMALL_ARENA)
     {
         if(s->role == ROLE_FIRST)
-            beginner_small_stadium(s, p);
+            strategy = &beginner_small_stadium;
         else
-            finisher_small_stadium(s, p);
+            strategy = &finisher_small_stadium;
     } else
     {
-        //TODO
+        if (s->role == ROLE_FIRST)
+            strategy = &beginner_large_stadium;
+        else
+            strategy = &finisher_large_stadium;
     }
 
+    pthread_mutex_lock(&(s->mutexGameStarted));
+    s->gameStarted = TRAVELLING;
+    pthread_mutex_unlock(&(s->mutexGameStarted));
+
+    strategy(s, p);
     return 0;
 }
 
@@ -74,7 +78,7 @@ int beginner_small_stadium(state *s, mainpos *p)
     log_this(s,"\n\n[%s: beginner_small_stadium] Releasing ball\n\n", __FILE__);
     release(s, RELEASING_SPEED);
     send_message(s, MSG_BALL, s->ally);
-    
+
 	//Go back a little
     log_this(s, "\n\n[%s: beginner_small_stadium] Going back a little\n\n", __FILE__);
 	go_straight(s, MAX_WHEEL_SPEED, -20);

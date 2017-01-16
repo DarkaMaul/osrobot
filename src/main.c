@@ -43,8 +43,7 @@ void game()
     pthread_mutex_unlock(&(s->mutexSockUsage));
 
     load_game_params(s, buf);
-
-
+    game_wrapper(s, p);
 
     return;
 }
