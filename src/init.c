@@ -38,7 +38,7 @@ int init_robot(state *s, mainpos *p )
     */
 
     //Init the motors
-    //init_motors(s);
+    init_motors(s);
 
     //Init sensors
     returnValue = 0;// init_sensors(s);
@@ -50,14 +50,14 @@ int init_robot(state *s, mainpos *p )
 
     //Init position
     init_pos(s);
-
+/*
     //Init Threads
     if(pthread_create(&(s->threadPosition), NULL, (void *) position_thread, (void*) &s))
     {
         log_this(s, "[%s] Unable to create position thread\n", __FILE__);
         nice_exit(s, EXIT_FAILURE);
     }
-
+*/
     return 0;
 }
 
