@@ -157,7 +157,7 @@ int finisher_small_stadium(state *s, mainpos *p)
     //Go to center
     log_this(s,"\n[%s:finisher_small_stadium] Going to ball area\n", __FILE__);
     //go_to_pos(s, p->s_sr_ballarea);
-    go_to_pos(compute_arrival_point(s));
+    go_to_pos(s, compute_arrival_point(s));
 
     //Look for the ball
     log_this(s,"\n[%s:finisher_small_stadium] Looking for the ball\n", __FILE__);
@@ -191,7 +191,7 @@ int finisher_large_stadium(state *s, mainpos *p)
     //Go to center and a 180
     log_this(s, "\n[%s:finisher_large_stadium] Going to the center\n",__FILE__);
     //go_to_pos(s, p->l_fr_ballarea);
-    go_to_pos(compute_arrival_point(s));
+    go_to_pos(s, compute_arrival_point(s));
 
     //Look for the ball
     log_this(s,"\n[%s:finisher_large_stadium] Looking for the ball\n", __FILE__);
