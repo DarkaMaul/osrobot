@@ -68,13 +68,13 @@ int look_for_ball_in_close_perimeter_mecanical(state *s){
     {
         turn_sweep+=sweep_angle;
         //Positive for clockwise turn
-        turn_imprecise(s, TURNING_SPEED, -tobereplaced);
+        turn_imprecise(s, TURNING_SPEED, sweep_angle);
         usleep(200000);
         distanceToBallorObstacle = distance_from_obstacle(s);
         log_this(s, "[%s] Distance to ball %d\n", __FILE__, distanceToBallorObstacle);
     }
     if(abs(turn_sweep) > tobereplaced){
-        turn_imprecise(s, TURNING_SPEED, -tobereplaced);
+        turn_imprecise(s, TURNING_SPEED, -tobereplaced/2);
         //To be aligned to go straight after
         return SONAR_ERROR_ANGLE; //Ball not found
     }
@@ -95,7 +95,7 @@ int look_for_ball_in_close_perimeter_mecanical(state *s){
     {
         turn_sweep+=sweep_angle;
         //Positive for clockwise turn added 20 degrees if ball is in the limit of the sweep angle
-        turn_imprecise(s, TURNING_SPEED, -tobereplaced);
+        turn_imprecise(s, TURNING_SPEED, turn_sweep);
         usleep(200000);
         distanceToBallorObstacle = distance_from_obstacle(s);
         log_this(s, "[%s] Distance to ball or obstacle %d\n", __FILE__, distanceToBallorObstacle);
