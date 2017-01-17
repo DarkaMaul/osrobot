@@ -64,7 +64,7 @@ int look_for_ball_in_close_perimeter_mecanical(state *s){
     log_this(s, "[%s] Distance to ball or obstacle %d\n", __FILE__, distanceToBallorObstacle);
     int sweep_angle=SWEEP_ANGLE;
     int turn_sweep=-tobereplaced;
-    while((distanceToBallorObstacle == -1 || distanceToBallorObstacle > GAP_MIN_BETWEEN_ROBOT_BALL) && abs(turn_sweep) <= MAX_SWEEP_ANGLE)
+    while((distanceToBallorObstacle == -1 || distanceToBallorObstacle > GAP_MIN_BETWEEN_ROBOT_BALL) && abs(turn_sweep) <= tobereplaced)
     {
         turn_sweep+=sweep_angle;
         //Positive for clockwise turn
@@ -88,7 +88,7 @@ int look_for_ball_in_close_perimeter_mecanical(state *s){
         sweep_absolute(s, 100, 0);
         return bissect_angle;
     }
-    */
+     */
     int extra_max_sweep_angle=tobereplaced+10;
     while(distanceToBallorObstacle <= GAP_MIN_BETWEEN_ROBOT_BALL && abs(turn_sweep) < extra_max_sweep_angle && distanceToBallorObstacle!=-1)
     {
@@ -124,7 +124,6 @@ int look_for_ball_mecanical(state *s){
             go_straight(s, MAX_WHEEL_SPEED, size_of_steps);
             angle_to_ball = look_for_ball_in_close_perimeter_mecanical(s);
         }else{
-
             log_this(s, "[%s] Look for ball succeeded there is something close to the robot\n", __FILE__);
         }
     }
