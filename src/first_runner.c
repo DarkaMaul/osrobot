@@ -79,16 +79,18 @@ int beginner_small_stadium(state *s, mainpos *p)
     //Go to center
     log_this(s,"\n[%s:beginner_small_stadium] Going to ball area\n", __FILE__);
     go_to_pos(s, p->s_fr_ballarea);
-    sleep(2);
+    getchar();
+    //sleep(2);
 
     //release ball
     log_this(s,"\n[%s:beginner_small_stadium] Releasing ball\n", __FILE__);
-    release(s, RELEASING_SPEED);
-    send_message(s, MSG_BALL, s->ally);
+    //release(s, RELEASING_SPEED);
+    //send_message(s, MSG_BALL, s->ally);
 
 	//Go back a little
     log_this(s, "\n[%s:beginner_small_stadium] Going back a little\n", __FILE__);
 	go_straight(s, MAX_WHEEL_SPEED, -20);
+    getchar();
 
 	//Go to ending position
     log_this(s, "\n[%s:beginner_small_stadium] Going to the end\n", __FILE__);
@@ -114,17 +116,20 @@ int beginner_large_stadium(state *s, mainpos *p)
     //Dodge first obstacle
     log_this(s, "\n[%s:beginner_large_stadium] Dodging first obstacle \n",__FILE__);
 	go_to_pos(s, p->l_fr_dodgefirst);
+    getchar();
 
-    //Go to center and a 180
+    //Go to center and do a 180
     log_this(s, "\n[%s:beginner_large_stadium] Going to the center\n",__FILE__);
     go_to_pos(s, p->l_fr_ballarea);
+    getchar();
     turn(s, TURNING_SPEED, 180);
+    getchar();
 
     //Release ball
     usleep(100000);
     log_this(s, "\n[%s:beginner_large_stadium] Releasing the ball\n",__FILE__);
-    release(s, MAX_GRABBING_SPEED);
-    send_message(s, MSG_BALL, s->ally);
+    //release(s, MAX_GRABBING_SPEED);
+    //send_message(s, MSG_BALL, s->ally);
 
    	//Go back a little
     log_this(s, "\n[%s:beginner_large_stadium] Going back a little\n", __FILE__);

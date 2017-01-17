@@ -32,8 +32,8 @@ void init_motors(state *s){
     //ev3_stop_command_motor_by_name(s->grabmotor, "hold");
     ev3_set_polarity(s->sweepmotor, -1);
     //Ramp smoothly to max speed
-    ev3_set_ramp_up_sp(s->rightmotor, 500);
-    ev3_set_ramp_up_sp(s->leftmotor, 500);
+    ev3_set_ramp_up_sp(s->rightmotor, 1000);
+    ev3_set_ramp_up_sp(s->leftmotor, 1000);
     ev3_set_ramp_down_sp(s->rightmotor, 1000);
     ev3_set_ramp_down_sp(s->leftmotor, 1000);
 
@@ -76,7 +76,7 @@ int release(state *s, int speed)
         log_this(s, "[%s:release] Releasing failed already in release position\n", __FILE__);
         return -1;
     }
-    ev3_set_ramp_up_sp(s->grabmotor, 10000);
+    ev3_set_ramp_up_sp(s->grabmotor, 5000);
     ev3_set_speed_sp(s->grabmotor, speed);
     ev3_set_position_sp(s->grabmotor, -7);
     ev3_command_motor_by_name(s->grabmotor, "run-to-abs-pos");
@@ -197,18 +197,19 @@ int wheels_run_distance(state *s, int speed, int distance){
 int go_straight(state *s, int speed, int distance){
     log_this(s, "[%s:go_straight] Going straight for%d cm\n", __FILE__, distance);
     update_angle(s,gyro_angle(s));
-    int correct_distance = distance*floor(100/97.5); // based on tests : 2,5cm error for 100cm
+    int correctDistance = distance*floor(100/97.5); // based on tests : 2,5cm error for 100cm
     // We divide the wanted distance in steps od STEPLENGTH
     // After each step we correct the direction of the robot
     do
     {
-	int currentDistance = (correct_distance > STEPLENGTH) ? STEPLENGTH : correct_distance;
+	int currentDistance = (correctDistance > STEPLENGTH) ? STEPLENGTH : correctDistance;
     log_this(s, "[%s:go_straight] Next step : %d\n",__FILE__, currentDistance);
 	wheels_run_distance(s, speed, currentDistance);
+    usleep(500000);
 	turn(s, TURNING_SPEED, is_running_in_correct_angle(s));
-	correct_distance -= currentDistance;
+	correctDistance -= currentDistance;
 
-    } while (distance > 0);
+    } while (correctDistance > 0);
 
     return 0;
 }

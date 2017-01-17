@@ -82,13 +82,16 @@ int main(int argc, char *argv[])
             //Run beginner
             case 1:
                 init_robot(s);
+                s->side = 1;
+                init_main_positions(s,p);
                 beginner_small_stadium(s,p);
-                look_for_ball(s);
                 break;
             //Test finisher
             case 2:
                 init_robot(s);
-                finisher_small_stadium(s, p);
+                s->side = 1;
+                init_main_positions(s,p);
+                beginner_large_stadium(s,p);
                 break;
             //Quicks tests
             case 3:

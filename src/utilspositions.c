@@ -148,7 +148,7 @@ void init_main_positions(state *s, mainpos *p){
     position s_fr_endingposition = {.x = S_FR_E_1_X,.y = S_FR_E_1_Y};
     position l_fr_init = {.x = side*(L_FR_S_0_X + WHEELS_TO_END), .y = L_FR_S_0_Y + WHEELS_TO_END};
     position l_fr_dodgefirst = {.x = side*(L_O1_2_X + BIG_ARENA_MAX_X)/2, .y = L_O1_2_Y + L_FR_S_0_Y};
-    position l_fr_center = {.x = side*(L_BA_0_X + L_FR_S_0_X/2), .y = L_BA_0_Y + L_FR_S_0_Y};
+    position l_fr_center = {.x = side*(L_BA_1_X - L_FR_S_0_X/2), .y = L_BA_1_Y + WHEELS_TO_END };
     position l_fr_dodgesecond = {.x = side*L_FR_E_0_X , .y = L_O2_0_Y};
     position l_fr_ending = {.x = side*L_FR_E_1_X, .y = L_FR_E_1_Y};
 
