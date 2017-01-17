@@ -74,7 +74,7 @@ int look_for_ball_in_close_perimeter_mecanical(state *s){
         log_this(s, "[%s] Distance to ball %d\n", __FILE__, distanceToBallorObstacle);
     }
     if(abs(turn_sweep) > tobereplaced){
-        turn_imprecise(s, TURNING_SPEED, -tobereplaced/2);
+        turn_imprecise(s, TURNING_SPEED, -tobereplaced);
         //To be aligned to go straight after
         return SONAR_ERROR_ANGLE; //Ball not found
     }
@@ -118,8 +118,8 @@ int look_for_ball_mecanical(state *s){
     int angle_to_ball = look_for_ball_in_close_perimeter_mecanical(s);
 
     //TODO parameters can be adjusted to search more
-    int nb_of_steps=1;
-    int size_of_steps=5;
+    int nb_of_steps=2;
+    int size_of_steps=20;
     int i;
     for (i=0;i<nb_of_steps;i++){
         if (angle_to_ball == SONAR_ERROR_ANGLE)
@@ -205,7 +205,7 @@ int look_for_ball(state *s){
 
     //TODO parameters can be adjusted to search more
     int nb_of_steps=1;
-    int size_of_steps=2;
+    int size_of_steps=15;
     int i;
     for (i=0;i<nb_of_steps;i++){
         if (angle_to_ball == SONAR_ERROR_ANGLE)
