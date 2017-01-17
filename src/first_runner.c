@@ -64,6 +64,12 @@ int game_wrapper(state *s, mainpos *p)
 
     init_main_positions(s, p);
     strategy(s, p);
+
+    pthread_mutex_lock(&(s->mutexGameStarted));
+    s->gameStarted = IMMOBILE;
+    pthread_mutex_unlock(&(s->mutexGameStarted));
+
+
     return 0;
 }
 
@@ -166,7 +172,6 @@ int finisher_small_stadium(state *s, mainpos *p)
     //Catch the ball
     log_this(s,"\n[%s:finisher_small_stadium] Catching the ball\n", __FILE__);
     catch_ball(s);
-
   	//Go to ending position
     log_this(s, "\n[%s:finisher_small_stadium] Going to the end\n", __FILE__);
     go_to_pos(s, p->s_sr_ending);
@@ -180,7 +185,6 @@ int finisher_small_stadium(state *s, mainpos *p)
 
 int finisher_large_stadium(state *s, mainpos *p)
 {
-
     //Init the Game
     update_pos(s, p->l_fr_init);
 
