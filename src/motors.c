@@ -197,7 +197,7 @@ int wheels_run_distance(state *s, int speed, int distance){
 int go_straight(state *s, int speed, int distance){
     log_this(s, "[%s:go_straight] Going straight for%d cm\n", __FILE__, distance);
     update_angle(s,gyro_angle(s));
-
+    int correct_distance = (int) distance*(100/97,5); // based on tests : 2,5cm error for 100cm
     // We divide the wanted distance in steps od STEPLENGTH
     // After each step we correct the direction of the robot
     do
