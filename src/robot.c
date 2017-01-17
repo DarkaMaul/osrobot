@@ -80,16 +80,7 @@ int look_for_ball_in_close_perimeter_mecanical(state *s){
     }
 
     int angle_one_detected=turn_sweep;
-    /*
-    //We are in the first position where ball is detected
-    //Angle is too close to the limit so return the first angle found
-    if(abs(angle_one_detected+ERROR_DISTANCE_MARGIN) >= tobereplaced){
-        int bissect_angle= -angle_one_detected+15;
-        log_this(s, "[%s] Not calculating second angle ball is too close to the limit of the sweeper capability. Ball at angle=%d\n", __FILE__, bissect_angle);
-        sweep_absolute(s, 100, 0);
-        return bissect_angle;
-    }
-     */
+
     int extra_max_sweep_angle=tobereplaced+10;
     while(distanceToBallorObstacle <= GAP_MIN_BETWEEN_ROBOT_BALL && abs(turn_sweep) < extra_max_sweep_angle && distanceToBallorObstacle!=-1)
     {
@@ -103,6 +94,7 @@ int look_for_ball_in_close_perimeter_mecanical(state *s){
     int angle_two_lost=turn_sweep;
     log_this(s, "[%s] Second angle where ball is not detected anymore %d\n", __FILE__, angle_two_lost);
 
+    //Calculated bisector based on the position of the robot
     int bissect_angle= (angle_one_detected+angle_two_lost-sweep_angle)/2;
     log_this(s, "[%s] Calculated bisector to turn to detect ball %d\n", __FILE__, bissect_angle);
 
