@@ -119,7 +119,6 @@ int look_for_ball_mecanical(state *s){
     int size_of_steps=5;
     int i;
     for (i=0;i<nb_of_steps;i++){
-        int distanceToBallorObstacle = distance_from_obstacle(s);
         if (angle_to_ball == SONAR_ERROR_ANGLE)
         {
             go_straight(s, MAX_WHEEL_SPEED, size_of_steps);
