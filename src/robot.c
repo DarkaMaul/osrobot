@@ -38,9 +38,10 @@ int catch_ball(state* s)
     grab(s, MAX_GRABBING_SPEED);
 
     int returnValue = is_ball_present(s);
-    if(returnValue == BALL_FOUND){
+    if(returnValue == BALL_FOUND)
+    {
         log_this(s, "[%s] We're lucky, the ball is inside the hook!\n", __FILE__);
-        send_message(s, MSG_BALL, s->ally);
+        send_ball_position(s, BALL_PICK);
     }
     else
         log_this(s, "[%s] Damn, we missed it at the very last moment\n", __FILE__);

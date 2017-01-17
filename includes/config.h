@@ -90,6 +90,9 @@
 #define HEADER_DEST 3
 #define HEADER_TYPE 4
 
+#define BALL_PICK 1
+#define BALL_DROP 0
+
 #define NOT_FOR_ME -3
 
 //Game constants
