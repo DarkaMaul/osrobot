@@ -57,13 +57,13 @@ int look_for_ball_in_close_perimeter_mecanical(state *s){
 
     //TODO REPLACE 90 with MAx sweep angle
     int tobereplaced=80;
-    turn_absolute(s, 100, -40);
+    turn(s, 100, -tobereplaced);
 
     int distanceToBallorObstacle = distance_from_obstacle(s);
     log_this(s, "[%s] Look for ball started\n", __FILE__);
     log_this(s, "[%s] Distance to ball or obstacle %d\n", __FILE__, distanceToBallorObstacle);
-    int sweep_angle=-SWEEP_ANGLE-5;
-    int turn_sweep=tobereplaced;
+    int sweep_angle=SWEEP_ANGLE;
+    int turn_sweep=-tobereplaced;
     while((distanceToBallorObstacle == -1 || distanceToBallorObstacle > GAP_MIN_BETWEEN_ROBOT_BALL) && abs(turn_sweep) <= MAX_SWEEP_ANGLE)
     {
         turn_sweep+=sweep_angle;
@@ -73,13 +73,41 @@ int look_for_ball_in_close_perimeter_mecanical(state *s){
         distanceToBallorObstacle = distance_from_obstacle(s);
         log_this(s, "[%s] Distance to ball %d\n", __FILE__, distanceToBallorObstacle);
     }
+    if(abs(turn_sweep) > tobereplaced){
+        turn(s,100,-tobereplaced/2);//To be aligned to go straight after
+        return SONAR_ERROR_ANGLE; //Ball not found
+    }
+
+    int angle_one_detected=turn_sweep;
     /*
-    if(abs(turn_sweep) > MAX_SWEEP_ANGLE){
-        return SONAR_ERROR_ANGLE;
+    //We are in the first position where ball is detected
+    //Angle is too close to the limit so return the first angle found
+    if(abs(angle_one_detected+ERROR_DISTANCE_MARGIN) >= tobereplaced){
+        int bissect_angle= -angle_one_detected+15;
+        log_this(s, "[%s] Not calculating second angle ball is too close to the limit of the sweeper capability. Ball at angle=%d\n", __FILE__, bissect_angle);
+        sweep_absolute(s, 100, 0);
+        return bissect_angle;
     }
     */
-    //We are in the first position where ball is detected
-    return turn_sweep;
+    int extra_max_sweep_angle=tobereplaced+10;
+    while(distanceToBallorObstacle <= GAP_MIN_BETWEEN_ROBOT_BALL && abs(turn_sweep) < extra_max_sweep_angle && distanceToBallorObstacle!=-1)
+    {
+        turn_sweep+=sweep_angle;
+        //Positive for clockwise turn added 20 degrees if ball is in the limit of the sweep angle
+        turn(s, 100, sweep_angle);
+        usleep(200000);
+        distanceToBallorObstacle = distance_from_obstacle(s);
+        log_this(s, "[%s] Distance to ball or obstacle %d\n", __FILE__, distanceToBallorObstacle);
+    }
+    int angle_two_lost=turn_sweep;
+    log_this(s, "[%s] Second angle where ball is not detected anymore %d\n", __FILE__, angle_two_lost);
+
+    int bissect_angle= (angle_one_detected+angle_two_lost-sweep_angle)/2;
+    log_this(s, "[%s] Calculated bisector to turn to detect ball %d\n", __FILE__, bissect_angle);
+
+    //replace the motors to the original position
+    //sweep_absolute(s, 100, 0);
+    return bissect_angle;
 }
 
 int look_for_ball_mecanical(state *s){
@@ -92,7 +120,7 @@ int look_for_ball_mecanical(state *s){
     int i;
     for (i=0;i<nb_of_steps;i++){
         int distanceToBallorObstacle = distance_from_obstacle(s);
-        if (angle_to_ball == SONAR_ERROR_ANGLE || distanceToBallorObstacle > GAP_MIN_BETWEEN_ROBOT_BALL)
+        if (angle_to_ball == SONAR_ERROR_ANGLE)
         {
             go_straight(s, MAX_WHEEL_SPEED, size_of_steps);
             angle_to_ball = look_for_ball_in_close_perimeter_mecanical(s);
