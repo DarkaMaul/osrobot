@@ -122,14 +122,14 @@ int beginner_large_stadium(state *s, mainpos *p)
     log_this(s, "\n[%s:beginner_large_stadium] Going to the center\n",__FILE__);
     go_to_pos(s, p->l_fr_ballarea);
     getchar();
-    turn(s, TURNING_SPEED, 180);
+    turn(s, HIGH_TURNING_SPEED, 180);
     getchar();
 
     //Release ball
     usleep(100000);
     log_this(s, "\n[%s:beginner_large_stadium] Releasing the ball\n",__FILE__);
-    //release(s, MAX_GRABBING_SPEED);
-    //send_message(s, MSG_BALL, s->ally);
+    release(s, MAX_GRABBING_SPEED);
+    send_message(s, MSG_BALL, s->ally);
 
    	//Go back a little
     log_this(s, "\n[%s:beginner_large_stadium] Going back a little\n", __FILE__);

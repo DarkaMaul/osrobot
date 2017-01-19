@@ -32,7 +32,7 @@ int catch_ball(state* s)
     }
 
     //Run to the ball
-    go_straight(s, MAX_WHEEL_SPEED/10, distanceBall - BALL_CATCH_DISTANCE);
+    go_straight(s, MAX_WHEEL_SPEED/10, distanceBall + BALL_CATCH_DISTANCE);
 
     //Close the hook
     grab(s, MAX_GRABBING_SPEED);
