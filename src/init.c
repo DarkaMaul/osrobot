@@ -58,7 +58,7 @@ int init_robot(state *s)
     }
     
     init_pos(s);
-
+/*
     //Set game started
     pthread_mutex_lock(&(s->mutexGameStarted));
     s->gameStarted = IMMOBILE;
@@ -70,7 +70,7 @@ int init_robot(state *s)
         log_this(s, "[%s] Unable to create position thread\n", __FILE__);
         nice_exit(s, EXIT_FAILURE);
     }
-
+*/
     return 0;
 }
 

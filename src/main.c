@@ -77,24 +77,32 @@ int main(int argc, char *argv[])
             //Run beginner
             case 1:
                 init_robot(s);
+                s->side = -1;
+                init_main_positions(s,p);
                 beginner_small_stadium(s,p);
-                look_for_ball(s);
                 break;
             //Test finisher
             case 2:
                 init_robot(s);
-                finisher_small_stadium(s, p);
+                s->side = -1;
+                init_main_positions(s,p);
+                beginner_large_stadium(s,p);
                 break;
             //Quicks tests
             case 3:
                 init_robot(s);
-                printf("cross compilation working");
-                //beginner_small_stadium(s,p);
-                init_robot(s);
-                look_for_ball(s);
+                look_for_ball_mecanical(s);
+                catch_ball(s);
                 break;
             case 4:
                 main2(0, NULL);
+                break;
+            case 5:
+                init_robot(s);
+                position pos = {-20, 10};
+                position pos2 = {-10, 80};
+                update_pos(s,pos);
+                go_to_pos(s, pos2);
                 break;
         }
     }

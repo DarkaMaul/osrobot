@@ -46,15 +46,16 @@
 //Grabing constants
 #define GRAB_POSITION 23
 #define MAX_GRABBING_SPEED 550
-#define RELEASING_SPEED 20
+#define RELEASING_SPEED 100
 #define INIT_GRAB_POSITION -15
 
 
 //Wheel motors constants
-#define MAX_WHEEL_SPEED 1050
+#define MAX_WHEEL_SPEED 750
 #define WHEEL_DIAMETER 5.6
 #define STEPLENGTH 60
 #define TURNING_SPEED 30
+#define HIGH_TURNING_SPEED 200
 
 //Positions of of fixed elements
 #define CENTER_POSITION 0
@@ -239,7 +240,7 @@
 
 
 
-#define BALL_CATCH_DISTANCE 4
+#define BALL_CATCH_DISTANCE 6
 #define BALL_FOUND 0
 #define BALL_NOT_FOUND -1
 
