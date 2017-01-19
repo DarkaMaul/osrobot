@@ -50,6 +50,13 @@ int init_robot(state *s)
     }
 
     //Init position
+    returnValue = init_locks(s);
+    if (returnValue != 0)
+    {
+        log_this(s, "[%s] Unable to init locks\n", __FILE__);
+        return 1;
+    }
+    
     init_pos(s);
 
     //Set game started
@@ -67,6 +74,19 @@ int init_robot(state *s)
     return 0;
 }
 
+int init_locks(state *s)
+{
+    if (pthread_mutex_init(&(s->mutexPosition), NULL) != 0)
+        return -1;
+
+    if (pthread_mutex_init(&(s->mutexGameStarted), NULL) != 0)
+        return -1;
+
+    if (pthread_mutex_init(&(s->mutexSockUsage), NULL) != 0)
+        return -1;
+
+    return 0;
+}
 
 
 /**

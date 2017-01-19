@@ -20,19 +20,13 @@ int game_wrapper(state *s, mainpos *p)
     //If we have to wait until it's our turn
     if (s->role == ROLE_SECOND)
     {
-        //Let's wait for the starting message
-        pthread_mutex_lock(&(s->mutexSockUsage));
-
         char buf[100];
         int returnValue;
         while(1)
         {
             returnValue  = read_message_from_server(s, buf);
             if (returnValue == -1)
-            {
-                pthread_mutex_unlock(&(s->mutexSockUsage));
                 continue;
-            }
 
             if (buf[HEADER_TYPE] == MSG_NEXT)
                 break;
@@ -40,7 +34,6 @@ int game_wrapper(state *s, mainpos *p)
                 save_ball_position(s, buf);
 
         }
-        pthread_mutex_unlock(&(s->mutexSockUsage));
     }
 
     int (*strategy)(state*,mainpos*);
@@ -62,13 +55,26 @@ int game_wrapper(state *s, mainpos *p)
     s->gameStarted = TRAVELLING;
     pthread_mutex_unlock(&(s->mutexGameStarted));
 
-    init_main_positions(s, p);
-    strategy(s, p);
+    //init_main_positions(s, p);
+    //strategy(s, p);
+    printf("Test\n");
+    getchar();
+
+    printf("Test %d\n",s->ally);
+    position a = {1, 2};
+    s->curPos = a;
+    sleep(1);
+    a = (position) {2,3};
+    update_pos(s, a);
+    sleep(1);
+    a = (position) {.x = 4, .y = 3};
+    update_pos(s,a);
+
+    send_message(s, MSG_NEXT, s->ally);
 
     pthread_mutex_lock(&(s->mutexGameStarted));
     s->gameStarted = IMMOBILE;
     pthread_mutex_unlock(&(s->mutexGameStarted));
-
 
     return 0;
 }

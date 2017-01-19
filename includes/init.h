@@ -6,6 +6,7 @@
 
 int init_robot(state *s);
 void nice_exit(state *s, int exitState);
+int init_locks(state *s);
 void signal_handler(int signalNumber);
 
 #endif

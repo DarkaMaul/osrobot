@@ -6,6 +6,7 @@
 #include <bluetooth/rfcomm.h>
 #include <arpa/inet.h>
 #include <stdarg.h>
+#include <pthread.h>
 
 #include "main.h"
 #include "config.h"
@@ -44,7 +45,9 @@ int init_bluetooth()
  */
 int read_from_server(state *s, char *buffer)
 {
+    pthread_mutex_lock(&(s->mutexSockUsage));
     int readedBytes = read(s->sock, buffer, (size_t) MSG_MAX_LEN);
+    pthread_mutex_unlock(&(s->mutexSockUsage));
 
     if (readedBytes <= 0)
     {
@@ -70,7 +73,7 @@ int read_message_from_server(state *s, char *buffer)
 
     if (buffer[HEADER_DEST] != (char) TEAM_ID)
     {
-        log_this(s, "[%s] Message recieved but not for me.\n", __FILE__);
+        log_this(s, "[Utils] Message recieved but not for me.\n");
         return -1;
     }
 
@@ -201,7 +204,10 @@ int send_message(state *s, int messageType, unsigned char destination, ...)
     va_end(argumentList);
 
     //Send the message
+    pthread_mutex_lock(&(s->mutexSockUsage));
     write(s->sock, message, messageLength);
+    pthread_mutex_unlock(&(s->mutexSockUsage));
+
     //write(STDOUT_FILENO, message, messageLength);
 
     log_this(s, "[Utils] Message of type %d with id %u sended to %d\n", messageType, s->msgId, destination);

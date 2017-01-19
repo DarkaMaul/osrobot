@@ -25,9 +25,6 @@ void game()
 {
     //Game function o_OOOOO_o
 
-    //Let's wait for the starting message
-    pthread_mutex_lock(&(s->mutexSockUsage));
-
     char buf[100];
     int returnValue;
     while(1)
@@ -39,8 +36,6 @@ void game()
         if (buf[HEADER_TYPE] == MSG_START)
             break;
     }
-
-    pthread_mutex_unlock(&(s->mutexSockUsage));
 
     load_game_params(s, buf);
     game_wrapper(s, p);

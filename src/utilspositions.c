@@ -22,7 +22,7 @@
  * @param  position    New position of LeE
  */
 void update_pos(state* s, position pos) {
-    log_this(s, "\n[UPDATE_POSITION] x=%d y=%d from (%d,%d)\n", pos.x, pos.y, s->curPos.x, s->curPos.y);
+    printf("[UPDATE_POSITION] x=%d y=%d from (%d,%d)\n", pos.x, pos.y, s->curPos.x, s->curPos.y);
 
     pthread_mutex_lock(&(s->mutexPosition));
     s->curPos.x=pos.x;

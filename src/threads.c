@@ -14,7 +14,6 @@ void position_thread(void *voidS)
 {
     state *s = (state *) voidS;
 
-    log_this(s, "[%s] Waiting for server\n");
     while(1)
     {
         pthread_mutex_lock(&(s->mutexGameStarted));
@@ -27,8 +26,7 @@ void position_thread(void *voidS)
         pthread_mutex_unlock(&(s->mutexGameStarted));
         sleep(2);
     }
-
-    log_this(s, "[%s] Starting to send position\n", __FILE__);
+    printf("WERE ARE\n");
 
     position currentPos;
     int i = 0;
@@ -38,9 +36,7 @@ void position_thread(void *voidS)
         currentPos = s->curPos;
         pthread_mutex_unlock(&(s->mutexPosition));
 
-        pthread_mutex_lock(&(s->mutexSockUsage));
         send_position(s, currentPos);
-        pthread_mutex_unlock(&(s->mutexSockUsage));
 
         if (++i == 8)
         {
@@ -55,8 +51,6 @@ void position_thread(void *voidS)
         }
         sleep(2);
     }
-
-    log_this(s, "[%s] End thread position.\n", __FILE__);
 
     return;
 }

@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <unistd.h>
+#include <pthread.h>
 
 #include "ev3c.h"
 #include "tester.h"
@@ -12,6 +13,8 @@
 #include "robot.h"
 #include "sensors.h"
 #include "logger.h"
+#include "threads.h"
+#include "init.h"
 
 void send_all_messages(state *s)
 {
@@ -36,6 +39,22 @@ void send_all_messages(state *s)
 void test_bluetooth(state *s)
 {
     s->sock = init_inet(s);
+    init_locks(s);
+
+    //Set game started
+    pthread_mutex_lock(&(s->mutexGameStarted));
+    s->gameStarted = IMMOBILE;
+    pthread_mutex_unlock(&(s->mutexGameStarted));
+
+    //Init Threads
+    if(pthread_create(&(s->threadPosition), NULL, (void *) position_thread, (void*) &s))
+    {
+        printf("[%s] Unable to create position thread\n", __FILE__);
+        exit(0);
+    }
+
+    game();
+    exit(0);
 
     char buffer[MSG_MAX_LEN];
     int readedBytes, result;
@@ -52,6 +71,9 @@ void test_bluetooth(state *s)
                     if (result == 0)
                     {
                         printf("Message START recieved and well interpreted\n");
+                        mainpos *p;
+                        game();
+
                         //send_all_messages(s);
 
             //            printf("NExt! %d\n", send_message(s, MSG_NEXT, s->ally));
