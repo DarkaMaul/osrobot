@@ -202,13 +202,12 @@ int go_straight(state *s, int speed, int distance){
     // After each step we correct the direction of the robot
     do
     {
-	int currentDistance = (correctDistance > STEPLENGTH) ? STEPLENGTH : correctDistance;
-    log_this(s, "[%s:go_straight] Next step : %d\n",__FILE__, currentDistance);
-	wheels_run_distance(s, speed, currentDistance);
-    usleep(500000);
-	turn(s, TURNING_SPEED, is_running_in_correct_angle(s));
-	correctDistance -= currentDistance;
-
+        int currentDistance = (correctDistance > STEPLENGTH) ? STEPLENGTH : correctDistance;
+        log_this(s, "[%s:go_straight] Next step : %d\n",__FILE__, currentDistance);
+    	wheels_run_distance(s, speed, currentDistance);
+        usleep(500000);
+    	turn(s, TURNING_SPEED, is_running_in_correct_angle(s));
+    	correctDistance -= currentDistance;
     } while (correctDistance > 0);
 
     return 0;
@@ -468,4 +467,3 @@ int go_straight_compass(state *s, int speed, int distance){
     turn_compass(s, TURNING_SPEED, is_running_in_correct_angle_compass(s));
     return 0;
 }
-

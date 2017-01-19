@@ -42,8 +42,7 @@ int init_robot(state *s)
     init_motors(s);
 
     //Init sensors
-    init_sensors(s);
-    returnValue = 0;
+    returnValue = init_sensors(s);
     if (returnValue !=  0)
     {
         log_this(s, "[%s] Sensors unable to initialize.\n", __FILE__);
@@ -53,6 +52,11 @@ int init_robot(state *s)
     //Init position
     init_pos(s);
 /*
+    //Set game started
+    pthread_mutex_lock(&(s->mutexGameStarted));
+    s->gameStarted = IMMOBILE;
+    pthread_mutex_unlock(&(s->mutexGameStarted));
+
     //Init Threads
     if(pthread_create(&(s->threadPosition), NULL, (void *) position_thread, (void*) &s))
     {

@@ -200,3 +200,19 @@ position compute_arrival_point(state *s)
 
     return arrivalPoint;
 }
+
+/**
+ * Send ball position after drop
+ * @param s State structure
+ */
+void send_ball_position(state *s, int action)
+{
+    position ballPosition;
+
+    pthread_mutex_lock(&(s->mutexPosition));
+    ballPosition.x = (ROBOT_WIDTH / 2) * sin(-s->angle) + s->curPos.x;
+    ballPosition.y = (WHEELS_TO_END) * cos(-s->angle - 90) + s->curPos.y;
+    pthread_mutex_unlock(&(s->mutexPosition));
+
+    send_message(s, MSG_BALL, s->ally, action, ballPosition.x, ballPosition.y);
+}

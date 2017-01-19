@@ -122,6 +122,9 @@ void close_inet(state *s)
  *                          ACK : (unsigned int) id of the message to ack
  *                                (int) status of the ACK (ACK_OK || ACK_NOK)
  *                          NEXT: void
+ *                          BALL: (int) act
+ *                              : (int) x
+ *                                (int) y
  *                          CUSTOM: not implemeented
  *                          POSITION: (int) x
  *                                    (int) y
@@ -286,7 +289,7 @@ int save_ball_position(state *s, char *buff)
     if (buff[HEADER_TYPE] != MSG_BALL)
         return -1;
 
-    if (buff[5] != 0)
+    if (buff[5] != BALL_DROP)
         return -1;
 
     s->ballPosition.x = (int) ((int16_t) *(buff+6));
