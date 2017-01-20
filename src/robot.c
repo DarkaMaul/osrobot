@@ -32,7 +32,7 @@ int catch_ball(state* s)
     }
 
     //Run to the ball
-    go_straight(s, MAX_WHEEL_SPEED/10, distanceBall + BALL_CATCH_DISTANCE);
+    go_straight(s, MAX_WHEEL_SPEED/2, distanceBall + BALL_CATCH_DISTANCE);
 
     //Close the hook
     grab(s, MAX_GRABBING_SPEED);
@@ -57,7 +57,7 @@ int catch_ball(state* s)
 int look_for_ball_in_close_perimeter_mecanical(state *s){
 
     //TODO REPLACE 90 with MAx sweep angle
-    int tobereplaced=45;
+    int tobereplaced=30;
     turn_imprecise(s, TURNING_SPEED, -tobereplaced);
 
     int distanceToBallorObstacle = distance_from_obstacle(s);

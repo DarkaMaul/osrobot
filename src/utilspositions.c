@@ -26,7 +26,7 @@ void update_pos(state* s, position pos) {
 
     pthread_mutex_lock(&(s->mutexPosition));
     s->curPos.x=pos.x;
-	s->curPos.y=pos.y;
+    s->curPos.y=pos.y;
     pthread_mutex_unlock(&(s->mutexPosition));
 }
 
@@ -37,8 +37,8 @@ void update_pos(state* s, position pos) {
 void init_pos(state *s)
 {
     position pos = {0,0};
-	update_pos(s, pos);
-	s->angle=-90;
+    update_pos(s, pos);
+    s->angle=-90;
 }
 
 /**
@@ -47,8 +47,8 @@ void init_pos(state *s)
  * @param  angle    New angle for LeE
  */
 void update_angle(state* s,int angle){
-	s->angle = angle;
-	log_this(s, "\n[UPDATE_ANGLE] angle=%d\n",  s->angle);
+    s->angle = angle;
+    log_this(s, "\n[UPDATE_ANGLE] angle=%d\n",  s->angle);
 }
 
 /**
@@ -70,7 +70,7 @@ int clean_angle(int angle)
  * @param  position desiredposition
  */
 int compute_distance(position desiredposition){
-	return (int) floor(sqrt(pow(desiredposition.x,2)+pow(desiredposition.y,2)));
+    return (int) floor(sqrt(pow(desiredposition.x,2)+pow(desiredposition.y,2)));
 }
 
 /**
@@ -78,7 +78,7 @@ int compute_distance(position desiredposition){
  * @param  position desiredrelposition
  */
 int compute_angle(position desiredrelposition){
-	return (int) floor(convert_to_degrees(atan2((double)desiredrelposition.y,(double)desiredrelposition.x)));
+    return (int) floor(convert_to_degrees(atan2((double)desiredrelposition.y,(double)desiredrelposition.x)));
 }
 
 /**
@@ -88,11 +88,11 @@ int compute_angle(position desiredrelposition){
 * @return position calculated
 */
 position compute_position_from_distance_and_angle(state *s, int distancetopos){
-	position relpos;
-	//There is a minus s.angle because values of the sensors are clockwise
-	relpos.x=s->curPos.x+distancetopos*cos(convert_to_radians(-s->angle));
-	relpos.y=s->curPos.y+distancetopos*sin(convert_to_radians(-s->angle));
-	return relpos;
+    position relpos;
+    //There is a minus s.angle because values of the sensors are clockwise
+    relpos.x=s->curPos.x+distancetopos*cos(convert_to_radians(-s->angle));
+    relpos.y=s->curPos.y+distancetopos*sin(convert_to_radians(-s->angle));
+    return relpos;
 }
 
 /**
@@ -102,10 +102,33 @@ position compute_position_from_distance_and_angle(state *s, int distancetopos){
 * @return relative position
 */
 position compute_relative_position(position actualposition,position desiredposition){
-	position result;
-	result.x=desiredposition.x-actualposition.x;
-	result.y=desiredposition.y-actualposition.y;
-	return result;
+    position result;
+    result.x=desiredposition.x-actualposition.x;
+    result.y=desiredposition.y-actualposition.y;
+    return result;
+}
+
+/**
+* Compute absolute angle to destination
+*@param s State of LeE
+*@param dest Destination
+*@return rel_angle relative angle to destination
+**/
+int compute_rel_angle_to_destination(state* s, position dest){
+    log_this(s, "[%s:go_to_pos_incomplete] Go to pos departure destination  x=%d y=%d...\n", __FILE__, s->curPos.x,s->curPos.y);
+    log_this(s, "[%s:go_to_pos_incomplete] Go to pos desired destination  x=%d y=%d...\n", __FILE__, dest.x,dest.y);
+    position relativeposition=compute_relative_position(s->curPos,dest);
+    int distancetodest=compute_distance(relativeposition);
+    log_this(s, "[%s:go_to_pos_incomplete] Distance relative to destination %d...\n", __FILE__, distancetodest);
+    int absoluteangle= -compute_angle(relativeposition);
+    log_this(s, "[%s:go_to_pos_incomplete] Absolute angle to destination (clockwise) to turn %d...\n", __FILE__, absoluteangle);
+    int relativeangle;
+    relativeangle=absoluteangle-s->angle;
+    log_this(s, "[%s:go_to_pos_incomplete] Relative angle to destination (clockwise) to turn %d...\n", __FILE__, relativeangle);
+    int relativeAngleToTurnClockWise=clean_angle(relativeangle);
+    log_this(s, "[%s:go_to_pos_incomplete] Relative cleaned angle to destination (clockwise) sent to turn function: %d...\n", __FILE__, relativeAngleToTurnClockWise);
+
+    return relativeAngleToTurnClockWise;
 }
 
 /**
@@ -114,7 +137,7 @@ position compute_relative_position(position actualposition,position desiredposit
 * @return radian value
 */
 double convert_to_radians(double deg){
-	return deg*M_PI/180.0;
+    return deg*M_PI/180.0;
 }
 
 /**
@@ -123,7 +146,7 @@ double convert_to_radians(double deg){
 * @return degree value
 */
 double convert_to_degrees(double rad){
-	return rad*180.0/M_PI;
+    return rad*180.0/M_PI;
 }
 
 /**
@@ -148,30 +171,30 @@ void init_main_positions(state *s, mainpos *p){
     position s_fr_endingposition = {.x = S_FR_E_1_X,.y = S_FR_E_1_Y};
 
     position l_fr_init = {.x = side*(L_FR_S_0_X + WHEELS_TO_END), .y = L_FR_S_0_Y + WHEELS_TO_END};
-    position l_fr_dodgefirst = {.x = side*(L_O1_2_X + BIG_ARENA_MAX_X)/2, .y = L_O1_2_Y + L_FR_S_0_Y};
-    position l_fr_center = {.x = side*(L_BA_1_X + ROBOT_WIDTH/2), .y = L_BA_1_Y + WHEELS_TO_END/2 };
-    position l_fr_dodgesecond = {.x = side*L_FR_E_0_X , .y = L_O2_0_Y};
-    position l_fr_ending = {.x = side*(L_FR_E_1_X + ROBOT_WIDTH), .y = L_FR_E_1_Y };
+    position l_fr_dodgefirst = {.x = side*(L_O1_2_X + BIG_ARENA_MAX_X + ROBOT_WIDTH*1.5)/2, .y = L_O1_2_Y + L_FR_S_0_Y};
+    position l_fr_center = {.x = side*(L_BA_1_X), .y = L_BA_1_Y + WHEELS_TO_END/2 };
+    position l_fr_dodgesecond = {.x = side*(L_O2_0_X)/2, .y = L_O2_0_Y};
+    position l_fr_ending = {.x = side*(L_FR_E_0_X + ROBOT_WIDTH), .y = L_FR_E_0_Y + 2.5*WHEELS_TO_END };
 
 
     position s_sr_init={.x = S_SR_S_0_X + ROBOT_WIDTH,.y = S_SR_S_0_Y +  WHEELS_TO_END};
     position s_sr_ballareaposition = {.x = S_BA_1_X - 5,.y = S_BA_1_Y + WHEELS_TO_END + 5};
     position s_sr_endingposition = {.x = S_SR_E_1_X + ROBOT_WIDTH, .y = S_SR_E_1_Y - WHEELS_TO_END};
 
-    position l_sr_init = {.x = side*(L_FR_S_0_X + WHEELS_TO_END), .y = L_FR_S_0_Y + WHEELS_TO_END};
-    position l_sr_dodgefirst = {.x = side*(L_O1_2_X + BIG_ARENA_MAX_X)/2, .y = L_O1_2_Y + L_FR_S_0_Y};
-    position l_sr_center = {.x = side*(L_BA_0_X + L_FR_S_0_X/2), .y = L_BA_0_Y + L_FR_S_0_Y};
-    position l_sr_dodgesecond = {.x = side*L_FR_E_0_X , .y = L_O2_0_Y};
-    position l_sr_ending = {.x = side*L_FR_E_1_X + 1.5*ROBOT_WIDTH, .y = L_FR_E_1_Y + WHEELS_TO_END};
+    position l_sr_init = {.x = side*(L_SR_S_2_X - WHEELS_TO_END), .y = L_SR_S_2_Y - WHEELS_TO_END};
+    position l_sr_dodgefirst = {.x = side*(L_O2_0_X - ROBOT_WIDTH)/2, .y = L_O2_0_Y - WHEELS_TO_END};
+    position l_sr_center = {.x = side*(L_BA_1_X - 2*ROBOT_WIDTH), .y = L_BA_1_Y + 2*WHEELS_TO_END};
+    position l_sr_dodgesecond = {.x = side*(L_O1_2_X + BIG_ARENA_MAX_X)/2 , .y = L_O1_2_Y};
+    position l_sr_ending = {.x = side*(L_SR_E_3_X - ROBOT_WIDTH), .y = L_SR_E_3_Y + 1.5*WHEELS_TO_END};
 
     p->s_fr_init=s_fr_init;
-	p->s_fr_ballarea=s_fr_ballareaposition;
-	p->s_fr_ending=s_fr_endingposition;
-	p->l_fr_init = l_fr_init;
-	p->l_fr_dodgefirst = l_fr_dodgefirst;
-	p->l_fr_ballarea = l_fr_center;
-	p->l_fr_dodgesecond = l_fr_dodgesecond;
-	p->l_fr_ending = l_fr_ending;
+    p->s_fr_ballarea=s_fr_ballareaposition;
+    p->s_fr_ending=s_fr_endingposition;
+    p->l_fr_init = l_fr_init;
+    p->l_fr_dodgefirst = l_fr_dodgefirst;
+    p->l_fr_ballarea = l_fr_center;
+    p->l_fr_dodgesecond = l_fr_dodgesecond;
+    p->l_fr_ending = l_fr_ending;
 
 
     p->s_sr_init=s_sr_init;
@@ -194,7 +217,7 @@ position compute_arrival_point(state *s)
     position arrivalPoint;
     int norm = compute_distance(compute_relative_position(s->curPos, s->ballPosition));
 
-    int CONSTANT = 10;
+    int CONSTANT = 30;
     arrivalPoint.x =  s->ballPosition.x - CONSTANT * (s->ballPosition.x - s->curPos.x) / norm;
     arrivalPoint.y =  s->ballPosition.y - CONSTANT * (s->ballPosition.x - s->curPos.y) / norm;
 
