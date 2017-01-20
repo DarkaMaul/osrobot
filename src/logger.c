@@ -1,9 +1,4 @@
-/**
- * @file logger.c
- * @date 7 Nov 2016
- * @brief Logger system
- */
-
+#include <pthread.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdarg.h>
@@ -52,10 +47,13 @@ void close_logger(state *s)
 */
 void log_this(state *s, const char *format, ...)
 {
+    int a = pthread_mutex_lock(&(s->mutexLogFile));
     va_list args;
     va_start(args, format);
     vfprintf(s->logfile_fd, format, args);
     vprintf(format,args);
     va_end(args);
     fflush(s->logfile_fd);
+
+    a = pthread_mutex_unlock(&(s->mutexLogFile));
 }

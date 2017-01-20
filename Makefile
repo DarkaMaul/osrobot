@@ -6,7 +6,7 @@ BIN_DIR = bin/
 C_FILES = $(wildcard src/*.c)
 OBJ_FILES = $(addprefix $(OBJ_DIR),$(notdir $(C_FILES:.c=.o)))
 
-CFLAGS = $(INC_DIR) -Wall -g
+CFLAGS = $(INC_DIR) -Wall -g -O0
 LDFLAGS = -lm -lbluetooth -pthread
 
 bin/testOsRobot: ev3c.a $(OBJ_FILES)

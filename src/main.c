@@ -71,8 +71,8 @@ int main(int argc, char *argv[])
         switch(atoi(argv[1])){
             //Test bluetooth
             case 0:
+                init_locks(s);
                 init_logger(s);
-
                 test_bluetooth(s);
                 break;
             //Run beginner
@@ -108,7 +108,6 @@ int main(int argc, char *argv[])
         }
     }
     //Close external ressources
-
     nice_exit(s, EXIT_SUCCESS);
     return 0;
 }

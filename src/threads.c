@@ -15,6 +15,7 @@ extern state* s;
 void position_thread()
 {
     //Wait until game start
+
     while(1)
     {
         pthread_mutex_lock(&(s->mutexGameStarted));
@@ -24,6 +25,7 @@ void position_thread()
             break;
         }
         pthread_mutex_unlock(&(s->mutexGameStarted));
+        sleep(2);
     }
 
     position currentPos;

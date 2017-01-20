@@ -50,6 +50,7 @@ typedef struct _state
     pthread_mutex_t mutexPosition;
     pthread_mutex_t mutexGameStarted;
     pthread_mutex_t mutexSockUsage;
+    pthread_mutex_t mutexLogFile;
 
     /* Game */
     int gameStarted;

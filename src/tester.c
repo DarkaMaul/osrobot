@@ -39,13 +39,13 @@ void send_all_messages(state *s)
 void test_bluetooth(state *s)
 {
     s->sock = init_inet(s);
-    init_locks(s);
 
     //Set game started
     pthread_mutex_lock(&(s->mutexGameStarted));
     s->gameStarted = IMMOBILE;
     pthread_mutex_unlock(&(s->mutexGameStarted));
 
+    getchar();
     //Init Threads
     s->side = 5;
     if(pthread_create(&(s->threadPosition), NULL, (void *) position_thread, NULL))
@@ -54,7 +54,6 @@ void test_bluetooth(state *s)
         exit(0);
     }
 
-    printf("We're there\n");
     game();
     exit(0);
 }

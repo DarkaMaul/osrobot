@@ -86,16 +86,17 @@ int game_wrapper(state *s, mainpos *p)
 
 int beginner_small_stadium_1(state *s, mainpos *p)
 {
+    printf("BegSmall1:%d\n",s->doNotUnitialize);
     //If it's truely the first run, then do unitialize
     if (s->doNotUnitialize != 1)
         update_pos(s, p->s_fr_init);
 
     //By default we are in realeasing position so just close the clamps when starting
-    log_this(s,"\n[%s:beginner_small_stadium_1] Grabbing the ball\n", __FILE__);
+    //log_this(s,"[%s:beginner_small_stadium_1] Grabbing the ball\n", __FILE__);
     grab(s, MAX_GRABBING_SPEED);
 
     //Go to center
-    log_this(s,"\n[%s:beginner_small_stadium_1] Going to ball area\n", __FILE__);
+    log_this(s,"[%s:beginner_small_stadium_1] Going to ball area\n", __FILE__);
     go_to_pos(s, p->s_fr_ballarea);
     getchar();
 
@@ -145,10 +146,8 @@ int beginner_small_stadium_2(state *s, mainpos *p)
     return 0;
 }
 
-
 int beginner_large_stadium(state *s, mainpos *p)
 {
-
     //Init the Game
     update_pos(s, p->l_fr_init);
 
