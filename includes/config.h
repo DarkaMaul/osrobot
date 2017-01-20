@@ -12,7 +12,7 @@
 
 //Robot constants
 #define ERROR_MARGIN 2
-#define ERROR_DISTANCE_MARGIN 5
+#define ERROR_DISTANCE_MARGIN 10
 #define WHEELS_TO_END 11
 #define SONAR_ERROR_ANGLE -180
 #define ROBOT_WIDTH 16
@@ -46,16 +46,16 @@
 //Grabing constants
 #define GRAB_POSITION 23
 #define MAX_GRABBING_SPEED 550
-#define RELEASING_SPEED 100
+#define RELEASING_SPEED 400
 #define INIT_GRAB_POSITION -15
 
 
 //Wheel motors constants
-#define MAX_WHEEL_SPEED 750
+#define MAX_WHEEL_SPEED 200
 #define WHEEL_DIAMETER 5.6
 #define STEPLENGTH 60
 #define TURNING_SPEED 30
-#define HIGH_TURNING_SPEED 200
+#define HIGH_TURNING_SPEED 80
 
 //Positions of of fixed elements
 #define CENTER_POSITION 0
@@ -219,24 +219,24 @@
 #define L_FR_E_3_Y 350
 
 //Large_SecondRunner_Startingposition_Point0_X
-#define L_SR_E_0_X 70
-#define L_SR_E_0_Y 350
-#define L_SR_E_1_X 70
-#define L_SR_E_1_Y 390
-#define L_SR_E_2_X 110
-#define L_SR_E_2_Y 390
-#define L_SR_E_3_X 110
-#define L_SR_E_3_Y 350
+#define L_SR_S_0_X 70
+#define L_SR_S_0_Y 350
+#define L_SR_S_1_X 70
+#define L_SR_S_1_Y 390
+#define L_SR_S_2_X 110
+#define L_SR_S_2_Y 390
+#define L_SR_S_3_X 110
+#define L_SR_S_3_Y 350
 
 //Large_SecondRunner_Endingposition_Point0_X
-#define L_SR_S_0_X 70
-#define L_SR_S_0_Y 10
-#define L_SR_S_1_X 70
-#define L_SR_S_1_Y 50
-#define L_SR_S_2_X 110
-#define L_SR_S_2_Y 50
-#define L_SR_S_3_X 110
-#define L_SR_S_3_Y 10
+#define L_SR_E_0_X 70
+#define L_SR_E_0_Y 10
+#define L_SR_E_1_X 70
+#define L_SR_E_1_Y 50
+#define L_SR_E_2_X 110
+#define L_SR_E_2_Y 50
+#define L_SR_E_3_X 110
+#define L_SR_E_3_Y 10
 
 
 

@@ -32,8 +32,8 @@ void init_motors(state *s){
     //ev3_stop_command_motor_by_name(s->grabmotor, "hold");
     ev3_set_polarity(s->sweepmotor, -1);
     //Ramp smoothly to max speed
-    ev3_set_ramp_up_sp(s->rightmotor, 500);
-    ev3_set_ramp_up_sp(s->leftmotor, 500);
+    ev3_set_ramp_up_sp(s->rightmotor, 1000);
+    ev3_set_ramp_up_sp(s->leftmotor, 1000);
     ev3_set_ramp_down_sp(s->rightmotor, 500);
     ev3_set_ramp_down_sp(s->leftmotor, 500);
 

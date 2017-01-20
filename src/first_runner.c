@@ -137,12 +137,13 @@ int beginner_large_stadium(state *s, mainpos *p)
     go_to_pos(s, p->l_fr_ballarea);
     getchar();
     turn(s, HIGH_TURNING_SPEED, 180);
+    update_angle(s, gyro_angle(s));
     getchar();
 
     //Release ball
     usleep(100000);
     log_this(s, "\n[%s:beginner_large_stadium] Releasing the ball\n",__FILE__);
-    release(s, MAX_GRABBING_SPEED);
+    release(s, RELEASING_SPEED);
     send_message(s, MSG_BALL, s->ally);
 
    	//Go back a little
@@ -150,8 +151,8 @@ int beginner_large_stadium(state *s, mainpos *p)
 	go_straight(s, MAX_WHEEL_SPEED, -20);
 
     //Dodge second stadium
-    log_this(s, "\n[%s:beginner_large_stadium] Dodging second obstacle\n" ,__FILE__);
-	go_to_pos(s, p->l_fr_dodgesecond);
+//    log_this(s, "\n[%s:beginner_large_stadium] Dodging second obstacle\n" ,__FILE__);
+//    go_to_pos(s, p->l_fr_dodgesecond);
 
     //Go to ending position
     log_this(s, "\n[%s: beginner_large_stadium] Going to the end\n", __FILE__);
@@ -199,30 +200,39 @@ int finisher_small_stadium(state *s, mainpos *p)
 int finisher_large_stadium(state *s, mainpos *p)
 {
     //Init the Game
-    update_pos(s, p->l_fr_init);
+    update_pos(s, p->l_sr_init);
+    update_angle(s, 90);
+    s->gyro_reference -= 180; 
 
     //Dodge first obstacle
     log_this(s, "\n[%s:finisher_large_stadium] Dodging first obstacle \n",__FILE__);
-	go_to_pos(s, p->l_fr_dodgefirst);
+	go_to_pos(s, p->l_sr_dodgefirst);
 
     //Go to center and a 180
     log_this(s, "\n[%s:finisher_large_stadium] Going to the center\n",__FILE__);
-    //go_to_pos(s, p->l_fr_ballarea);
-    go_to_pos(s, compute_arrival_point(s));
+    //go_to_pos(s, p->l_sr_ballarea);
+    //go_to_pos(s, compute_arrival_point(s));
+    //int rel_angle_to_ball = compute_rel_angle_to_destination(s,s->ballPosition);
+    //printf("\nTurning towards the ball %d \n\n",rel_angle_to_ball);
+    //turn(s,TURNING_SPEED, rel_angle_to_ball);
+    turn(s, TURNING_SPEED, 45);
+    update_angle(s, gyro_angle(s));
 
     //Look for the ball
     log_this(s,"\n[%s:finisher_large_stadium] Looking for the ball\n", __FILE__);
-    look_for_ball(s);
+    look_for_ball_mecanical(s);
 
     //Catch the ball
     log_this(s,"\n[%s:finisher_large_stadium] Catching the ball\n", __FILE__);
     catch_ball(s);
 
-
+    //Dodge second obstacle
+    log_this(s, "\n[%s:finisher_large_stadium] Dodging first obstacle \n",__FILE__);
+	go_to_pos(s, p->l_sr_dodgesecond);
 
     //Go to ending position
     log_this(s, "\n[%s: finisher_large_stadium] Going to the end\n", __FILE__);
-    go_to_pos(s, p->l_fr_ending);
+    go_to_pos(s, p->l_sr_ending);
 
 	//Send ok signal bluetooth for other team
     send_message(s, MSG_NEXT, s->ally);
