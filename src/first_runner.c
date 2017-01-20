@@ -257,10 +257,10 @@ int finisher_large_stadium(state *s, mainpos *p)
     log_this(s, "\n[%s:finisher_large_stadium] Going to the center\n",__FILE__);
     //go_to_pos(s, p->l_sr_ballarea);
     //go_to_pos(s, compute_arrival_point(s));
-    //int rel_angle_to_ball = compute_rel_angle_to_destination(s,s->ballPosition);
-    //printf("\nTurning towards the ball %d \n\n",rel_angle_to_ball);
-    //turn(s,TURNING_SPEED, rel_angle_to_ball);
-    turn(s, TURNING_SPEED, 45);
+    int rel_angle_to_ball = compute_rel_angle_to_destination(s,s->ballPosition);
+    printf("\nTurning towards the ball %d \n\n",rel_angle_to_ball);
+    //int rel_angle_to_ball = -(s->side*45);
+    turn(s,TURNING_SPEED, rel_angle_to_ball);
     update_angle(s, gyro_angle(s));
 
     //Look for the ball

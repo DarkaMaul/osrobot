@@ -80,13 +80,14 @@ int main(int argc, char *argv[])
                 init_robot(s);
                 s->side = -1;
                 init_main_positions(s,p);
-                beginner_small_stadium_1(s,p);
+                beginner_large_stadium(s,p);
                 break;
             //Test finisher
             case 2:
                 init_robot(s);
                 s->side = -1;
-                position ballpos = {L_BA_1_X,L_BA_1_Y} ;
+                int side = -1;
+                position ballpos = {side*L_BA_1_X,L_BA_1_Y} ;
                 s->ballPosition = ballpos;
                 init_main_positions(s,p);
                 finisher_large_stadium(s,p);

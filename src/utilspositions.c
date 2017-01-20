@@ -115,11 +115,19 @@ position compute_relative_position(position actualposition,position desiredposit
 *@return rel_angle relative angle to destination
 **/
 int compute_rel_angle_to_destination(state* s, position dest){
-    printf("\ncomputing angle to ball\n\n");
+    log_this(s, "[%s:go_to_pos_incomplete] Go to pos departure destination  x=%d y=%d...\n", __FILE__, s->curPos.x,s->curPos.y);
+    log_this(s, "[%s:go_to_pos_incomplete] Go to pos desired destination  x=%d y=%d...\n", __FILE__, dest.x,dest.y);
     position relativeposition=compute_relative_position(s->curPos,dest);
-    int absoluteangle=compute_angle(relativeposition);
-    int relativeangle=absoluteangle-s->angle;
+    int distancetodest=compute_distance(relativeposition);
+    log_this(s, "[%s:go_to_pos_incomplete] Distance relative to destination %d...\n", __FILE__, distancetodest);
+    int absoluteangle= -compute_angle(relativeposition);
+    log_this(s, "[%s:go_to_pos_incomplete] Absolute angle to destination (clockwise) to turn %d...\n", __FILE__, absoluteangle);
+    int relativeangle;
+    relativeangle=absoluteangle-s->angle;
+    log_this(s, "[%s:go_to_pos_incomplete] Relative angle to destination (clockwise) to turn %d...\n", __FILE__, relativeangle);
     int relativeAngleToTurnClockWise=clean_angle(relativeangle);
+    log_this(s, "[%s:go_to_pos_incomplete] Relative cleaned angle to destination (clockwise) sent to turn function: %d...\n", __FILE__, relativeAngleToTurnClockWise);
+
     return relativeAngleToTurnClockWise;
 }
 
@@ -174,10 +182,10 @@ void init_main_positions(state *s, mainpos *p){
     position s_sr_endingposition = {.x = S_SR_E_1_X + ROBOT_WIDTH, .y = S_SR_E_1_Y - WHEELS_TO_END};
 
     position l_sr_init = {.x = side*(L_SR_S_2_X - WHEELS_TO_END), .y = L_SR_S_2_Y - WHEELS_TO_END};
-    position l_sr_dodgefirst = {.x = side*(L_O2_0_X - 1.5*ROBOT_WIDTH)/2, .y = L_O2_0_Y};
+    position l_sr_dodgefirst = {.x = side*(L_O2_0_X - ROBOT_WIDTH)/2, .y = L_O2_0_Y - WHEELS_TO_END};
     position l_sr_center = {.x = side*(L_BA_1_X - 2*ROBOT_WIDTH), .y = L_BA_1_Y + 2*WHEELS_TO_END};
     position l_sr_dodgesecond = {.x = side*(L_O1_2_X + BIG_ARENA_MAX_X)/2 , .y = L_O1_2_Y};
-    position l_sr_ending = {.x = side*(L_SR_E_3_X - 2*ROBOT_WIDTH), .y = L_SR_E_3_Y + 1.5*WHEELS_TO_END};
+    position l_sr_ending = {.x = side*(L_SR_E_3_X - ROBOT_WIDTH), .y = L_SR_E_3_Y + 1.5*WHEELS_TO_END};
 
     p->s_fr_init=s_fr_init;
     p->s_fr_ballarea=s_fr_ballareaposition;
