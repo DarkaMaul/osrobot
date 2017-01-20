@@ -63,14 +63,8 @@ int read_message_from_server(state *s, char *buffer)
 {
     int readedBytes = read_from_server(s, buffer);
 
-    if (readedBytes <= 0)
+    if (readedBytes == -1)
         return readedBytes;
-
-    // if (buffer[HEADER_SRC] != (char) SERVER_ID && buffer[HEADER_SRC] != (unsigned char) s->ally + 1)
-    // {
-    //     log_this(s, "[%s] Message not coming from server.\n", __FILE__);
-    //     return -1;
-    // }
 
     if (buffer[HEADER_DEST] != (char) TEAM_ID)
     {
@@ -92,7 +86,6 @@ int read_message_from_server(state *s, char *buffer)
 
     return readedBytes;
 }
-
 
 /**
  * Init the inet connexion
@@ -220,10 +213,7 @@ int send_message(state *s, int messageType, unsigned char destination, ...)
     write(s->sock, message, messageLength);
     pthread_mutex_unlock(&(s->mutexSockUsage));
 
-    //write(STDOUT_FILENO, message, messageLength);
-
-    log_this(s, "[Utils] Message of type %d with id %u sended to %d\n", messageType, s->msgId, destination);
-
+    log_this(s, "[Utils] Message sent\n");
     return 0;
 }
 
