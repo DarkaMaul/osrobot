@@ -5,15 +5,17 @@
 #include "logger.h"
 #include "utils.h"
 
+
+extern state* s;
 /**
  * Function to handle the position thread
  * @param voidS Void *  but actually a pointer to state structure
  * @return void
+ * @TODO REMOVE ARG
  */
 void position_thread(void *voidS)
 {
-    state *s = (state *) voidS;
-
+    //Wait until game start
     while(1)
     {
         pthread_mutex_lock(&(s->mutexGameStarted));
@@ -22,11 +24,8 @@ void position_thread(void *voidS)
             pthread_mutex_unlock(&(s->mutexGameStarted));
             break;
         }
-
         pthread_mutex_unlock(&(s->mutexGameStarted));
-        sleep(2);
     }
-    printf("WERE ARE\n");
 
     position currentPos;
     int i = 0;

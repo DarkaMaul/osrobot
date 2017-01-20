@@ -56,7 +56,7 @@ int init_robot(state *s)
         log_this(s, "[%s] Unable to init locks\n", __FILE__);
         return 1;
     }
-    
+
     init_pos(s);
 /*
     //Set game started
@@ -84,6 +84,8 @@ int init_locks(state *s)
 
     if (pthread_mutex_init(&(s->mutexSockUsage), NULL) != 0)
         return -1;
+
+    //s->startThread;
 
     return 0;
 }

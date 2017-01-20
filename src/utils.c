@@ -193,7 +193,6 @@ int send_message(state *s, int messageType, unsigned char destination, ...)
             *((int16_t *) (message+6)) = position[0];
             *((int16_t *) (message+8)) = position[1];
             messageLength = MSG_BALL_LEN;
-            printf("We did it boys \n");
             break;
 
         default:

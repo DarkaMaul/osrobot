@@ -8,6 +8,7 @@
 #include "robot.h"
 #include "sensors.h"
 #include "logger.h"
+#include "threads.h"
 
 /**
  * Game wrapper
@@ -51,30 +52,31 @@ int game_wrapper(state *s, mainpos *p)
             strategy = &finisher_large_stadium;
     }
 
+    //Start sending position
     pthread_mutex_lock(&(s->mutexGameStarted));
     s->gameStarted = TRAVELLING;
     pthread_mutex_unlock(&(s->mutexGameStarted));
 
     //init_main_positions(s, p);
     //strategy(s, p);
-    printf("Test\n");
-    getchar();
-
-    printf("Test %d\n",s->ally);
+    //Stupid tests
     position a = {1, 2};
     s->curPos = a;
-    sleep(1);
     a = (position) {2,3};
     update_pos(s, a);
-    sleep(1);
+    sleep(10);
+    //send_position(s, a);
     a = (position) {.x = 4, .y = 3};
     update_pos(s,a);
+    sleep(10);
 
-    send_message(s, MSG_NEXT, s->ally);
+    // send_message(s, MSG_NEXT, s->ally);
 
     pthread_mutex_lock(&(s->mutexGameStarted));
     s->gameStarted = IMMOBILE;
     pthread_mutex_unlock(&(s->mutexGameStarted));
+
+    close_threads(s);
 
     return 0;
 }

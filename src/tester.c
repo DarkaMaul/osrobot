@@ -47,71 +47,16 @@ void test_bluetooth(state *s)
     pthread_mutex_unlock(&(s->mutexGameStarted));
 
     //Init Threads
-    if(pthread_create(&(s->threadPosition), NULL, (void *) position_thread, (void*) &s))
+    s->side = 5;
+    if(pthread_create(&(s->threadPosition), NULL, (void *) position_thread, &s))
     {
         printf("[%s] Unable to create position thread\n", __FILE__);
         exit(0);
     }
 
+    printf("We're there\n");
     game();
     exit(0);
-
-    char buffer[MSG_MAX_LEN];
-    int readedBytes, result;
-    while (1)
-    {
-        sleep(1);
-        readedBytes = read_message_from_server(s, buffer);
-        if (readedBytes != -1)
-        {
-            switch (buffer[HEADER_TYPE])
-            {
-                case MSG_START:
-                    result = load_game_params(s, buffer);
-                    if (result == 0)
-                    {
-                        printf("Message START recieved and well interpreted\n");
-                        mainpos *p;
-                        game();
-
-                        //send_all_messages(s);
-
-            //            printf("NExt! %d\n", send_message(s, MSG_NEXT, s->ally));
-                    }
-                    break;
-
-                case MSG_BALL:
-                    printf("MESSAGE BALL RECIEVIED\n");
-                    save_ball_position(s, buffer);
-                    break;
-
-                case MSG_NEXT:
-                    printf("MESSAGE NEXT RECIEVIED\n");
-                    break;
-
-                case MSG_STOP:
-                    printf("MESSAGE STOP recieved\n");
-                    return;
-                    break;
-
-                case MSG_KICK:
-                    if (buffer[5] == TEAM_ID)
-                    {
-                        printf("We have been kicked ...\n");
-                        return;
-                    }
-                    else
-                        printf("Someone else has been kicked !\n");
-
-                    break;
-
-                default:
-                    break;
-
-            }
-        }
-    }
-
 }
 
 
@@ -231,3 +176,62 @@ int test_six(state *s, mainpos *p)
 
     return 0;
 }
+
+/*
+
+    char buffer[MSG_MAX_LEN];
+    int readedBytes, result;
+    while (1)
+    {
+        sleep(1);
+        readedBytes = read_message_from_server(s, buffer);
+        if (readedBytes != -1)
+        {
+            switch (buffer[HEADER_TYPE])
+            {
+                case MSG_START:
+                    result = load_game_params(s, buffer);
+                    if (result == 0)
+                    {
+                        printf("Message START recieved and well interpreted\n");
+                        mainpos *p;
+                        game();
+
+                        //send_all_messages(s);
+
+            //            printf("NExt! %d\n", send_message(s, MSG_NEXT, s->ally));
+                    }
+                    break;
+
+                case MSG_BALL:
+                    printf("MESSAGE BALL RECIEVIED\n");
+                    save_ball_position(s, buffer);
+                    break;
+
+                case MSG_NEXT:
+                    printf("MESSAGE NEXT RECIEVIED\n");
+                    break;
+
+                case MSG_STOP:
+                    printf("MESSAGE STOP recieved\n");
+                    return;
+                    break;
+
+                case MSG_KICK:
+                    if (buffer[5] == TEAM_ID)
+                    {
+                        printf("We have been kicked ...\n");
+                        return;
+                    }
+                    else
+                        printf("Someone else has been kicked !\n");
+
+                    break;
+
+                default:
+                    break;
+
+            }
+        }
+    }
+ */

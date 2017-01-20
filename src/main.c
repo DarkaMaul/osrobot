@@ -72,6 +72,7 @@ int main(int argc, char *argv[])
             //Test bluetooth
             case 0:
                 init_logger(s);
+                
                 test_bluetooth(s);
                 break;
             //Run beginner
