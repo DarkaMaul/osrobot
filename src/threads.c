@@ -11,9 +11,8 @@ extern state* s;
  * Function to handle the position thread
  * @param voidS Void *  but actually a pointer to state structure
  * @return void
- * @TODO REMOVE ARG
  */
-void position_thread(void *voidS)
+void position_thread()
 {
     //Wait until game start
     while(1)

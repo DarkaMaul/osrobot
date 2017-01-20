@@ -3,5 +3,5 @@
 #include "main.h"
 #include "config.h"
 
-void position_thread(void *s);
+void position_thread();
 int close_threads(state *s);

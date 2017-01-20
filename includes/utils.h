@@ -29,7 +29,7 @@ typedef struct _mainpositions
 int init_bluetooth();
 
 int init_inet(state *s);
-void close_inet(state *s);
+void close_socket(state *s);
 
 int send_message(state *s, int messageType, unsigned char destination, ...);
 int read_from_server(state *s, char *buffer);

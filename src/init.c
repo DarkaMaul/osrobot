@@ -65,7 +65,7 @@ int init_robot(state *s)
     pthread_mutex_unlock(&(s->mutexGameStarted));
 
     //Init Threads
-    if(pthread_create(&(s->threadPosition), NULL, (void *) position_thread, (void*) &s))
+    if(pthread_create(&(s->threadPosition), NULL, (void *) position_thread, NULL))
     {
         log_this(s, "[%s] Unable to create position thread\n", __FILE__);
         nice_exit(s, EXIT_FAILURE);
@@ -101,9 +101,8 @@ void nice_exit(state *s, int exitState)
     if (exitState == EXIT_SUCCESS)
         close_threads(s);
 
-    //TODO @CLOSE BLUETOOTH
     if (s->sock > 0)
-        close_inet(s);
+        close_socket(s);
 
     if (s->logfile_fd > 0)
         close_logger(s);

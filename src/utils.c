@@ -16,7 +16,6 @@
 
 /**
  * Initialize the bluetooth connexion to the SERV_ADDR (defined in config)
- * @todo TEST
  * @return [description]
  */
 int init_bluetooth()
@@ -113,13 +112,16 @@ int init_inet(state *s)
 }
 
 /**
- * Close the inet socket previously opened
+ * Close the socket previously opened
  * @param s State structure
  */
-void close_inet(state *s)
+void close_socket(state *s)
 {
+    pthread_mutex_lock(&(s->mutexSockUsage));
     close(s->sock);
-    log_this(s, "[Utils] Closing socket INET.");
+    pthread_mutex_unlock(&(s->mutexSockUsage));
+
+    log_this(s, "[Utils] Closing socket.\n");
 }
 
 /**
@@ -247,7 +249,6 @@ int load_game_params(state *s, char *buffer)
     if ((unsigned char) buffer[6] == 0 || (unsigned char) buffer[6] == 1)
         s->side = (unsigned char) ((buffer[6] == 0) ? 1 : -1);
 
-    //TODO
     if ((unsigned char) buffer[7] >= 1 && (unsigned char) buffer[7] < 254)
         s->ally = (unsigned char) buffer[7];
 
