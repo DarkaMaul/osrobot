@@ -85,8 +85,6 @@ int init_locks(state *s)
     if (pthread_mutex_init(&(s->mutexSockUsage), NULL) != 0)
         return -1;
 
-    //s->startThread;
-
     return 0;
 }
 

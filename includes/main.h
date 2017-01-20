@@ -53,6 +53,7 @@ typedef struct _state
 
     /* Game */
     int gameStarted;
+    int doNotUnitialize;
     unsigned char type;
     unsigned char role;
     unsigned char side;

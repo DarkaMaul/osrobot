@@ -236,6 +236,7 @@ int load_game_params(state *s, char *buffer)
     s->role = -1;
     s->side = -2; //FOR REASON
     s->ally = -1;
+    s->doNotUnitialize = 0;
 
     if ((unsigned char) buffer[5] == ROLE_FIRST || (unsigned char) buffer[5] == ROLE_SECOND)
         s->role = (unsigned char) buffer[5];
