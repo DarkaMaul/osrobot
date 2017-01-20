@@ -84,6 +84,12 @@ int read_message_from_server(state *s, char *buffer)
         nice_exit(s, EXIT_SUCCESS);
     }
 
+    if (buffer[HEADER_TYPE] == MSG_STOP)
+    {
+        log_this(s, "[%s] Game has stopped !\n", __FILE__);
+        nice_exit(s, EXIT_SUCCESS);
+    }
+
     return readedBytes;
 }
 
