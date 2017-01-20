@@ -18,104 +18,133 @@
  */
 int game_wrapper(state *s, mainpos *p)
 {
-    //If we have to wait until it's our turn
-    if (s->role == ROLE_SECOND)
+
+    while(1)
     {
-        char buf[100];
-        int returnValue;
-        while(1)
+        //If we have to wait until it's our turn
+        if (s->role == ROLE_SECOND || (s->role == ROLE_FIRST && s->doNotUnitialize ==  1))
         {
-            returnValue  = read_message_from_server(s, buf);
-            if (returnValue == -1)
-                continue;
+            char buf[100];
+            int returnValue;
+            while(1)
+            {
+                returnValue  = read_message_from_server(s, buf);
+                if (returnValue == -1)
+                    continue;
 
-            if (buf[HEADER_TYPE] == MSG_NEXT)
-                break;
-            else if (buf[HEADER_TYPE] == MSG_BALL) //Interpret the ball message
-                save_ball_position(s, buf);
+                if (buf[HEADER_TYPE] == MSG_NEXT)
+                    break;
+                else if (buf[HEADER_TYPE] == MSG_BALL) //Interpret the ball message
+                    save_ball_position(s, buf);
 
+            }
         }
+
+        int (*strategy)(state*,mainpos*);
+        if (s->type == SMALL_ARENA)
+        {
+            if(s->role == ROLE_FIRST)
+            {
+                if (s->side == 1)
+                    strategy = &beginner_small_stadium_1;
+                else
+                    strategy = &beginner_small_stadium_2;
+
+            } else
+                strategy = &finisher_small_stadium;
+
+        } else
+        {
+            if (s->role == ROLE_FIRST)
+                strategy = &beginner_large_stadium;
+            else
+                strategy = &finisher_large_stadium;
+        }
+
+        //Start sending position
+        pthread_mutex_lock(&(s->mutexGameStarted));
+        s->gameStarted = TRAVELLING;
+        pthread_mutex_unlock(&(s->mutexGameStarted));
+
+        init_main_positions(s, p);
+        strategy(s, p);
+
+        pthread_mutex_lock(&(s->mutexGameStarted));
+        s->gameStarted = IMMOBILE;
+        pthread_mutex_unlock(&(s->mutexGameStarted));
+
+        send_message(s, MSG_NEXT, s->ally);
+
+        if (s->type == BIG_ARENA)
+            break;
     }
-
-    int (*strategy)(state*,mainpos*);
-    if (s->type == SMALL_ARENA)
-    {
-        if(s->role == ROLE_FIRST)
-            strategy = &beginner_small_stadium;
-        else
-            strategy = &finisher_small_stadium;
-    } else
-    {
-        if (s->role == ROLE_FIRST)
-            strategy = &beginner_large_stadium;
-        else
-            strategy = &finisher_large_stadium;
-    }
-
-    //Start sending position
-    pthread_mutex_lock(&(s->mutexGameStarted));
-    s->gameStarted = TRAVELLING;
-    pthread_mutex_unlock(&(s->mutexGameStarted));
-
-    //init_main_positions(s, p);
-    //strategy(s, p);
-    //Stupid tests
-    position a = {1, 2};
-    s->curPos = a;
-    a = (position) {2,3};
-    update_pos(s, a);
-    sleep(10);
-    //send_position(s, a);
-    a = (position) {.x = 4, .y = 3};
-    update_pos(s,a);
-    sleep(10);
-
-    // send_message(s, MSG_NEXT, s->ally);
-
-    pthread_mutex_lock(&(s->mutexGameStarted));
-    s->gameStarted = IMMOBILE;
-    pthread_mutex_unlock(&(s->mutexGameStarted));
 
     close_threads(s);
 
     return 0;
 }
 
-int beginner_small_stadium(state *s, mainpos *p)
+int beginner_small_stadium_1(state *s, mainpos *p)
 {
-    //Init the Game
-    update_pos(s, p->s_fr_init);
+    //If it's truely the first run, then do unitialize
+    if (s->doNotUnitialize != 1)
+        update_pos(s, p->s_fr_init);
 
     //By default we are in realeasing position so just close the clamps when starting
-    log_this(s,"\n[%s:beginner_small_stadium] Grabbing the ball\n", __FILE__);
+    log_this(s,"\n[%s:beginner_small_stadium_1] Grabbing the ball\n", __FILE__);
     grab(s, MAX_GRABBING_SPEED);
 
     //Go to center
-    log_this(s,"\n[%s:beginner_small_stadium] Going to ball area\n", __FILE__);
+    log_this(s,"\n[%s:beginner_small_stadium_1] Going to ball area\n", __FILE__);
     go_to_pos(s, p->s_fr_ballarea);
     getchar();
-    //sleep(2);
 
     //release ball
-    log_this(s,"\n[%s:beginner_small_stadium] Releasing ball\n", __FILE__);
-    //release(s, RELEASING_SPEED);
-    //send_message(s, MSG_BALL, s->ally);
+    log_this(s,"\n[%s:beginner_small_stadium_1] Releasing ball\n", __FILE__);
+    release(s, RELEASING_SPEED);
+    send_message(s, MSG_BALL, s->ally);
 
-	//Go back a little
-    log_this(s, "\n[%s:beginner_small_stadium] Going back a little\n", __FILE__);
-	go_straight(s, MAX_WHEEL_SPEED, -20);
+    //Go back a little
+    log_this(s, "\n[%s:beginner_small_stadium_1] Going back a little\n", __FILE__);
+    go_straight(s, MAX_WHEEL_SPEED, -20);
     getchar();
 
-	//Go to ending position
-    log_this(s, "\n[%s:beginner_small_stadium] Going to the end\n", __FILE__);
+    //Go to ending position
+    log_this(s, "\n[%s:beginner_small_stadium_1] Going to the end\n", __FILE__);
     go_to_pos(s, p->s_fr_ending);
 
-	//Send ok signal bluetooth for other team
-    send_message(s, MSG_NEXT, s->ally);
+    return 0;
+}
+
+int beginner_small_stadium_2(state *s, mainpos *p)
+{
+    //We already know where we are
+    //We already have open clamps
+
+    //Go to ball
+    log_this(s,"\n[%s:beginner_small_stadium_2] Going to ball area\n", __FILE__);
+    go_to_pos(s, compute_arrival_point(s));
+
+    //Look for it and catch it!
+    log_this(s,"\n[%s:beginner_small_stadium_2] Trying to catch the ball\n", __FILE__);
+    getchar();
+    look_for_ball(s);
+    catch_ball(s);
+
+    //Go to ending position
+    log_this(s, "\n[%s:beginner_small_stadium_2] Going to the end\n", __FILE__);
+    go_to_pos(s, p->s_fr_init);
+
+    //Turn to be ready for next time
+    turn(s, HIGH_TURNING_SPEED, 180);
+    release(s, RELEASING_SPEED);
+
+    //Prevent beginner_small_stadium_1 to unitialize the position
+    s->doNotUnitialize = 1;
 
     return 0;
+}
 
-   }
 
 int beginner_large_stadium(state *s, mainpos *p)
 {
@@ -129,7 +158,7 @@ int beginner_large_stadium(state *s, mainpos *p)
 
     //Dodge first obstacle
     log_this(s, "\n[%s:beginner_large_stadium] Dodging first obstacle \n",__FILE__);
-	go_to_pos(s, p->l_fr_dodgefirst);
+    go_to_pos(s, p->l_fr_dodgefirst);
     getchar();
 
     //Go to center and do a 180
@@ -146,9 +175,9 @@ int beginner_large_stadium(state *s, mainpos *p)
     release(s, RELEASING_SPEED);
     send_message(s, MSG_BALL, s->ally);
 
-   	//Go back a little
+       //Go back a little
     log_this(s, "\n[%s:beginner_large_stadium] Going back a little\n", __FILE__);
-	go_straight(s, MAX_WHEEL_SPEED, -20);
+    go_straight(s, MAX_WHEEL_SPEED, -20);
 
     //Dodge second stadium
 //    log_this(s, "\n[%s:beginner_large_stadium] Dodging second obstacle\n" ,__FILE__);
@@ -158,10 +187,6 @@ int beginner_large_stadium(state *s, mainpos *p)
     log_this(s, "\n[%s: beginner_large_stadium] Going to the end\n", __FILE__);
     go_to_pos(s, p->l_fr_ending);
 
-
-	//Send ok signal bluetooth for other team
-    send_message(s, MSG_NEXT, s->ally);
-
     return 0;
 
    }
@@ -169,32 +194,52 @@ int beginner_large_stadium(state *s, mainpos *p)
 int finisher_small_stadium(state *s, mainpos *p)
 {
     //Init the Game
-    update_pos(s, p->s_sr_init);
-    update_angle(s,90);
-    s->gyro_reference -= 180; //To set the starting gyro value to 90° (clockwise)
-
+    if (s->doNotUnitialize != 1)
+    {
+        update_pos(s, p->s_sr_init);
+        update_angle(s,90);
+        s->gyro_reference -= 180; //To set the starting gyro value to 90° (clockwise)
+    }
 
     //Go to center
-    log_this(s,"\n[%s:finisher_small_stadium] Going to ball area\n", __FILE__);
-    //go_to_pos(s, p->s_sr_ballarea);
+    log_this(s,"\n[%s:finisher_small_stadium_1] Going to ball area\n", __FILE__);
     go_to_pos(s, compute_arrival_point(s));
 
     //Look for the ball
-    log_this(s,"\n[%s:finisher_small_stadium] Looking for the ball\n", __FILE__);
+    log_this(s,"\n[%s:finisher_small_stadium_1] Looking for the ball\n", __FILE__);
     look_for_ball(s);
-
-    //Catch the ball
-    log_this(s,"\n[%s:finisher_small_stadium] Catching the ball\n", __FILE__);
     catch_ball(s);
-  	//Go to ending position
-    log_this(s, "\n[%s:finisher_small_stadium] Going to the end\n", __FILE__);
+
+      //Go to ending position
+    log_this(s, "\n[%s:finisher_small_stadium_1] Going to the end\n", __FILE__);
     go_to_pos(s, p->s_sr_ending);
 
-	//Send ok signal bluetooth for other team
-    send_message(s, MSG_NEXT, s->ally);
+    // ------------------- SECOND TRIP ---------------
+    //Turn the robot
+    turn(s, HIGH_TURNING_SPEED, 180);
+
+    //Go to center
+    log_this(s,"\n[%s:finisher_small_stadium_2] Going to ball area\n", __FILE__);
+    go_to_pos(s, p->s_sr_ballarea);
+
+    //Look for the ball
+    log_this(s,"\n[%s:finisher_small_stadium_2] Release the ball\n", __FILE__);
+    release(s, RELEASING_SPEED);
+    send_message(s, MSG_BALL, s->ally);
+
+    //Go back a little
+    go_straight(s, MAX_WHEEL_SPEED, -20);
+
+    //Go to ending position
+    log_this(s, "\n[%s:finisher_small_stadium_2] Going to the end\n", __FILE__);
+    go_to_pos(s, p->s_sr_init);
+
+    turn(s, HIGH_TURNING_SPEED, 180);
+
+    //We don't want intialization next time
+    s->doNotUnitialize = 1;
 
     return 0;
-
 }
 
 int finisher_large_stadium(state *s, mainpos *p)
@@ -233,9 +278,6 @@ int finisher_large_stadium(state *s, mainpos *p)
     //Go to ending position
     log_this(s, "\n[%s: finisher_large_stadium] Going to the end\n", __FILE__);
     go_to_pos(s, p->l_sr_ending);
-
-	//Send ok signal bluetooth for other team
-    send_message(s, MSG_NEXT, s->ally);
 
     return 0;
 

@@ -11,10 +11,11 @@
 #include "main.h"
 #include "config.h"
 #include "logger.h"
+#include "init.h"
+#include "utils.h"
 
 /**
  * Initialize the bluetooth connexion to the SERV_ADDR (defined in config)
- * @todo TEST
  * @return [description]
  */
 int init_bluetooth()
@@ -54,7 +55,6 @@ int read_from_server(state *s, char *buffer)
         log_this(s, "[Utils] Impossible to read from server (error code: %d)", readedBytes);
         return -1;
     }
-
     return readedBytes;
 }
 
@@ -62,14 +62,8 @@ int read_message_from_server(state *s, char *buffer)
 {
     int readedBytes = read_from_server(s, buffer);
 
-    if (readedBytes <= 0)
+    if (readedBytes == -1)
         return readedBytes;
-
-    // if (buffer[HEADER_SRC] != (char) SERVER_ID && buffer[HEADER_SRC] != (unsigned char) s->ally + 1)
-    // {
-    //     log_this(s, "[%s] Message not coming from server.\n", __FILE__);
-    //     return -1;
-    // }
 
     if (buffer[HEADER_DEST] != (char) TEAM_ID)
     {
@@ -77,9 +71,20 @@ int read_message_from_server(state *s, char *buffer)
         return -1;
     }
 
+    if (buffer[HEADER_TYPE] == MSG_KICK && buffer[5] == TEAM_ID)
+    {
+        log_this(s, "[%s] We have been kicked !\n", __FILE__);
+        nice_exit(s, EXIT_SUCCESS);
+    }
+
+    if (buffer[HEADER_TYPE] == MSG_STOP)
+    {
+        log_this(s, "[%s] Game has stopped !\n", __FILE__);
+        nice_exit(s, EXIT_SUCCESS);
+    }
+
     return readedBytes;
 }
-
 
 /**
  * Init the inet connexion
@@ -107,13 +112,16 @@ int init_inet(state *s)
 }
 
 /**
- * Close the inet socket previously opened
+ * Close the socket previously opened
  * @param s State structure
  */
-void close_inet(state *s)
+void close_socket(state *s)
 {
+    pthread_mutex_lock(&(s->mutexSockUsage));
     close(s->sock);
-    log_this(s, "[Utils] Closing socket INET.");
+    pthread_mutex_unlock(&(s->mutexSockUsage));
+
+    log_this(s, "[Utils] Closing socket.\n");
 }
 
 /**
@@ -207,10 +215,7 @@ int send_message(state *s, int messageType, unsigned char destination, ...)
     write(s->sock, message, messageLength);
     pthread_mutex_unlock(&(s->mutexSockUsage));
 
-    //write(STDOUT_FILENO, message, messageLength);
-
-    log_this(s, "[Utils] Message of type %d with id %u sended to %d\n", messageType, s->msgId, destination);
-
+    log_this(s, "[Utils] Message sent\n");
     return 0;
 }
 
@@ -236,6 +241,7 @@ int load_game_params(state *s, char *buffer)
     s->role = -1;
     s->side = -2; //FOR REASON
     s->ally = -1;
+    s->doNotUnitialize = 0;
 
     if ((unsigned char) buffer[5] == ROLE_FIRST || (unsigned char) buffer[5] == ROLE_SECOND)
         s->role = (unsigned char) buffer[5];
@@ -243,7 +249,6 @@ int load_game_params(state *s, char *buffer)
     if ((unsigned char) buffer[6] == 0 || (unsigned char) buffer[6] == 1)
         s->side = (unsigned char) ((buffer[6] == 0) ? 1 : -1);
 
-    //TODO
     if ((unsigned char) buffer[7] >= 1 && (unsigned char) buffer[7] < 254)
         s->ally = (unsigned char) buffer[7];
 

@@ -72,7 +72,7 @@ int main(int argc, char *argv[])
             //Test bluetooth
             case 0:
                 init_logger(s);
-                
+
                 test_bluetooth(s);
                 break;
             //Run beginner
@@ -80,7 +80,7 @@ int main(int argc, char *argv[])
                 init_robot(s);
                 s->side = -1;
                 init_main_positions(s,p);
-                beginner_large_stadium(s,p);
+                beginner_small_stadium_1(s,p);
                 break;
             //Test finisher
             case 2:
