@@ -77,7 +77,6 @@ int game_wrapper(state *s, mainpos *p)
 
         if (s->type == BIG_ARENA)
             break;
-
     }
 
     close_threads(s);
@@ -114,9 +113,6 @@ int beginner_small_stadium_1(state *s, mainpos *p)
     log_this(s, "\n[%s:beginner_small_stadium_1] Going to the end\n", __FILE__);
     go_to_pos(s, p->s_fr_ending);
 
-    //Send ok signal bluetooth for other team
-    send_message(s, MSG_NEXT, s->ally);
-
     return 0;
 }
 
@@ -142,9 +138,6 @@ int beginner_small_stadium_2(state *s, mainpos *p)
     //Turn to be ready for next time
     turn(s, HIGH_TURNING_SPEED, 180);
     release(s, RELEASING_SPEED);
-
-    //Send ok signal bluetooth for other team
-    send_message(s, MSG_NEXT, s->ally);
 
     //Prevent beginner_small_stadium_1 to unitialize the position
     s->doNotUnitialize = 1;
@@ -192,10 +185,6 @@ int beginner_large_stadium(state *s, mainpos *p)
     //Go to ending position
     log_this(s, "\n[%s: beginner_large_stadium] Going to the end\n", __FILE__);
     go_to_pos(s, p->l_fr_ending);
-
-
-    //Send ok signal bluetooth for other team
-    send_message(s, MSG_NEXT, s->ally);
 
     return 0;
 
@@ -246,9 +235,6 @@ int finisher_small_stadium(state *s, mainpos *p)
 
     turn(s, HIGH_TURNING_SPEED, 180);
 
-    //Send ok signal bluetooth for other team
-    send_message(s, MSG_NEXT, s->ally);
-
     //We don't want intialization next time
     s->doNotUnitialize = 1;
 
@@ -280,9 +266,6 @@ int finisher_large_stadium(state *s, mainpos *p)
     //Go to ending position
     log_this(s, "\n[%s: finisher_large_stadium] Going to the end\n", __FILE__);
     go_to_pos(s, p->l_fr_ending);
-
-    //Send ok signal bluetooth for other team
-    send_message(s, MSG_NEXT, s->ally);
 
     return 0;
 
