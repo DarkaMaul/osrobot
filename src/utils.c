@@ -11,6 +11,8 @@
 #include "main.h"
 #include "config.h"
 #include "logger.h"
+#include "init.h"
+#include "utils.h"
 
 /**
  * Initialize the bluetooth connexion to the SERV_ADDR (defined in config)
@@ -54,7 +56,6 @@ int read_from_server(state *s, char *buffer)
         log_this(s, "[Utils] Impossible to read from server (error code: %d)", readedBytes);
         return -1;
     }
-
     return readedBytes;
 }
 
@@ -75,6 +76,12 @@ int read_message_from_server(state *s, char *buffer)
     {
         log_this(s, "[Utils] Message recieved but not for me.\n");
         return -1;
+    }
+
+    if (buffer[HEADER_TYPE] == MSG_KICK && buffer[5] == TEAM_ID)
+    {
+        log_this(s, "[%s] We have been kicked !\n", __FILE__);
+        nice_exit(s, EXIT_SUCCESS);
     }
 
     return readedBytes;
