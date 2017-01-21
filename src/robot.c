@@ -56,14 +56,8 @@ int catch_ball(state* s)
  */
 int look_for_ball_in_close_perimeter_mecanical(state *s){
 
-    int side=(int) s->side;
-    //Just in case because I have seen side=-2
-    if(side>0){
-        side=1;
-    }else{
-        side=-1;
-    }
-
+    int side = ((s->side==1)? 1:-1);
+    printf("side : %d \n",side);
     //TODO REPLACE value with MAx sweep angle from config
     int tobereplaced=30*side;
     turn_imprecise(s, TURNING_SPEED, -tobereplaced);
@@ -109,7 +103,7 @@ int look_for_ball_in_close_perimeter_mecanical(state *s){
 
     //replace the motors to the original position
     //sweep_absolute(s, 100, 0);
-    int turn_angle=-angle_two_lost+bissect_angle-SWEEP_ANGLE;
+    int turn_angle=-angle_two_lost+bissect_angle-sweep_angle;
     turn_imprecise(s, TURNING_SPEED, turn_angle);
     return bissect_angle;
 }

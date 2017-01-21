@@ -95,8 +95,9 @@ int main(int argc, char *argv[])
             //Quicks tests
             case 3:
                 init_robot(s);
+                s->side = 1;
                 look_for_ball_mecanical(s);
-                catch_ball(s);
+                //catch_ball(s);
                 break;
             case 4:
                 main2(0, NULL);
