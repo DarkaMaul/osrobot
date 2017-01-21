@@ -5,6 +5,8 @@
 #include "config.h"
 #include "utils.h"
 #include "sensors.h"
+#include "logger.h"
+
 
 /**
  * Init the sensors
@@ -22,14 +24,17 @@ int init_sensors(state *s)
     //Configure color sensor
     ev3_open_sensor(s->color);
     ev3_mode_sensor_by_name(s->color, "COL-COLOR");
+    log_this(s, "[%s:init_sensors] Color Sensor on port %c opened and configured in mode %d\n", __FILE__, s->color->port,s->color->mode);
 
     //Configure sonar sensor
     ev3_open_sensor(s->sonar);
     ev3_mode_sensor_by_name(s->sonar, "US-DIST-CM");
+    log_this(s, "[%s:init_sensors] Sonar Sensor on port %c opened and configured in mode %d\n", __FILE__, s->sonar->port,s->sonar->mode);
 
     //Configure Gyro in angle
     ev3_open_sensor(s->gyro);
     ev3_mode_sensor_by_name(s->gyro, "GYRO-ANG");
+    log_this(s, "[%s:init_sensors] Gyro Sensor on port %c opened and configured in mode %d\n", __FILE__, s->gyro->port,s->gyro->mode);
 
     // Configure compass
     //ev3_open_sensor(s->compass);
