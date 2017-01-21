@@ -56,16 +56,24 @@ int catch_ball(state* s)
  */
 int look_for_ball_in_close_perimeter_mecanical(state *s){
 
-    //TODO REPLACE 90 with MAx sweep angle
-    int tobereplaced=30;
+    int side=(int) s->side;
+    //Just in case because I have seen side=-2
+    if(side>0){
+        side=1;
+    }else{
+        side=-1;
+    }
+
+    //TODO REPLACE value with MAx sweep angle from config
+    int tobereplaced=30*side;
     turn_imprecise(s, TURNING_SPEED, -tobereplaced);
 
     int distanceToBallorObstacle = distance_from_obstacle(s);
     log_this(s, "[%s] Look for ball started\n", __FILE__);
     log_this(s, "[%s] Distance to ball or obstacle %d\n", __FILE__, distanceToBallorObstacle);
-    int sweep_angle=SWEEP_ANGLE;
+    int sweep_angle=SWEEP_ANGLE*side;
     int turn_sweep=-tobereplaced;
-    while((distanceToBallorObstacle == -1 || distanceToBallorObstacle > GAP_MIN_BETWEEN_ROBOT_BALL) && abs(turn_sweep) <= tobereplaced)
+    while((distanceToBallorObstacle == -1 || distanceToBallorObstacle > GAP_MIN_BETWEEN_ROBOT_BALL) && abs(turn_sweep) <= abs(tobereplaced))
     {
         turn_sweep+=sweep_angle;
         //Positive for clockwise turn
@@ -74,7 +82,7 @@ int look_for_ball_in_close_perimeter_mecanical(state *s){
         distanceToBallorObstacle = distance_from_obstacle(s);
         log_this(s, "[%s] Distance to ball %d\n", __FILE__, distanceToBallorObstacle);
     }
-    if(abs(turn_sweep) > tobereplaced){
+    if(abs(turn_sweep) > abs(tobereplaced)){
         turn_imprecise(s, TURNING_SPEED, -tobereplaced);
         //To be aligned to go straight after
         return SONAR_ERROR_ANGLE; //Ball not found
@@ -82,8 +90,8 @@ int look_for_ball_in_close_perimeter_mecanical(state *s){
 
     int angle_one_detected=turn_sweep;
 
-    int extra_max_sweep_angle=tobereplaced+10;
-    while(distanceToBallorObstacle <= GAP_MIN_BETWEEN_ROBOT_BALL && abs(turn_sweep) < extra_max_sweep_angle && distanceToBallorObstacle!=-1)
+    int extra_max_sweep_angle=tobereplaced+10*side;
+    while(distanceToBallorObstacle <= GAP_MIN_BETWEEN_ROBOT_BALL && abs(turn_sweep) < abs(extra_max_sweep_angle) && distanceToBallorObstacle!=-1)
     {
         turn_sweep+=sweep_angle;
         //Positive for clockwise turn added 20 degrees if ball is in the limit of the sweep angle
