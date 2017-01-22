@@ -194,7 +194,7 @@ void init_main_positions(state *s, mainpos *p){
     p->l_fr_ballarea = l_fr_center;
     p->l_fr_dodgesecond = l_fr_dodgesecond;
     p->l_fr_ending = l_fr_ending;
-    
+
     p->s_sr_init=s_sr_init;
     p->s_sr_ballarea=s_sr_ballareaposition;
     p->s_sr_ending=s_sr_endingposition;
