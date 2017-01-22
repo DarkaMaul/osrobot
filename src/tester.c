@@ -25,15 +25,15 @@ void send_all_messages(state *s)
     s->curPos.x = -100;
     s->curPos.y = 243;
     //result = send_position(s);
-    printf("Position: %d\n", result);
+    //printf("Position: %d\n", result);
 
-    printf("Ally: %d\n", (unsigned int) s->ally);
+    //printf("Ally: %d\n", (unsigned int) s->ally);
 
     result = send_message(s, MSG_BALL, s->ally, PICK_BALL, -252, 1224);
-    printf("Ball: %d\n", result);
+    //printf("Ball: %d\n", result);
 
     result = send_message(s, MSG_NEXT, s->ally);
-    printf("Next: %d\n", result);
+    //printf("Next: %d\n", result);
 }
 
 void test_bluetooth(state *s)
@@ -48,7 +48,7 @@ void test_bluetooth(state *s)
     //Init Threads
     if(pthread_create(&(s->threadPosition), NULL, (void *) position_thread, NULL))
     {
-        printf("[%s] Unable to create position thread\n", __FILE__);
+        //printf("[%s] Unable to create position thread\n", __FILE__);
         exit(0);
     }
 
@@ -144,16 +144,16 @@ int test_four(state *s, mainpos *p)
 
 int test_six(state *s, mainpos *p)
 {
-    printf("Test 6\n");
+    //printf("Test 6\n");
     int distanceToBall = distance_from_obstacle(s);
-    printf("Distance to ball (0): %d\n", distanceToBall);
+    //printf("Distance to ball (0): %d\n", distanceToBall);
 
     int i;
     for (i = 0; i < 13; i++)
     {
         if (i == 5)
         {
-            printf("Going forward and turning back\n");
+            //printf("Going forward and turning back\n");
             turn(s, TURNING_SPEED, i * -5);
             go_straight(s, MAX_WHEEL_SPEED, 30);
         }
@@ -161,7 +161,7 @@ int test_six(state *s, mainpos *p)
         turn(s, TURNING_SPEED, 5);
         usleep(500000);
         distanceToBall = distance_from_obstacle(s);
-        printf("Distance to ball (%d): %d\n", i, distanceToBall);
+        //printf("Distance to ball (%d): %d\n", i, distanceToBall);
         if (distanceToBall != -1 && distanceToBall < 40)
         {
             turn(s,TURNING_SPEED,8);
@@ -190,38 +190,38 @@ int test_six(state *s, mainpos *p)
                     result = load_game_params(s, buffer);
                     if (result == 0)
                     {
-                        printf("Message START recieved and well interpreted\n");
+                        //printf("Message START recieved and well interpreted\n");
                         mainpos *p;
                         game();
 
                         //send_all_messages(s);
 
-            //            printf("NExt! %d\n", send_message(s, MSG_NEXT, s->ally));
+            //            //printf("NExt! %d\n", send_message(s, MSG_NEXT, s->ally));
                     }
                     break;
 
                 case MSG_BALL:
-                    printf("MESSAGE BALL RECIEVIED\n");
+                    //printf("MESSAGE BALL RECIEVIED\n");
                     save_ball_position(s, buffer);
                     break;
 
                 case MSG_NEXT:
-                    printf("MESSAGE NEXT RECIEVIED\n");
+                    //printf("MESSAGE NEXT RECIEVIED\n");
                     break;
 
                 case MSG_STOP:
-                    printf("MESSAGE STOP recieved\n");
+                    //printf("MESSAGE STOP recieved\n");
                     return;
                     break;
 
                 case MSG_KICK:
                     if (buffer[5] == TEAM_ID)
                     {
-                        printf("We have been kicked ...\n");
+                        //printf("We have been kicked ...\n");
                         return;
                     }
                     else
-                        printf("Someone else has been kicked !\n");
+                        //printf("Someone else has been kicked !\n");
 
                     break;
 

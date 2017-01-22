@@ -341,7 +341,7 @@ int is_running_in_correct_angle(state *s){
     int actualangle = gyro_angle(s);
     //+- ERROR_M degrees is ok
     int angle_diff = clean_angle(s->angle - actualangle);
-    //printf("Is running: %d\t%d\n", actualangle, angle_diff);
+    ////printf("Is running: %d\t%d\n", actualangle, angle_diff);
     log_this(s, "[%s:is_running_correct_angle] Angle diff is %d\n", __FILE__, angle_diff);
     if(abs(angle_diff) > ERROR_MARGIN){
         return angle_diff;
@@ -368,7 +368,7 @@ int sweep(state *s, int speed, int angle)
         log_this(s, "[%s:sweep] Sweep failed current sweep angle + desired angle exceed limit (%d(actual) --> %d(desired)) \n", __FILE__, cur_angle_sweep,cur_angle_sweep+ angle);
         return -1;
     }
-    printf("[sweep] current angle=%d desired angle=%d\n",cur_angle_sweep, rel_sweep_angle);
+    //printf("[sweep] current angle=%d desired angle=%d\n",cur_angle_sweep, rel_sweep_angle);
     ev3_set_speed_sp(s->sweepmotor, speed);
     ev3_set_position_sp(s->sweepmotor, rel_sweep_angle);
     ev3_command_motor_by_name(s->sweepmotor, "run-to-abs-pos");
@@ -437,7 +437,7 @@ int is_running_in_correct_angle_compass(state *s){
     int actualangle = compass_angle(s);
     //+- ERROR_M degrees is ok
     int angle_diff = clean_angle(s->angle - actualangle);
-    printf("Is running: %d\t%d\n", actualangle, angle_diff);
+    //printf("Is running: %d\t%d\n", actualangle, angle_diff);
     log_this(s, "[%s] Angle diff is %d\n", __FILE__, angle_diff);
     if(abs(angle_diff) > ERROR_MARGIN){
         return angle_diff;
@@ -459,7 +459,7 @@ int go_straight_compass(state *s, int speed, int distance){
     // We divide the wanted distance in steps od STEPLENGTH
     int nb_of_steps = distance / STEPLENGTH;
     int remaining_distance = distance % STEPLENGTH;
-    printf("STP: %d \t RD: %d\n", nb_of_steps, remaining_distance);
+    //printf("STP: %d \t RD: %d\n", nb_of_steps, remaining_distance);
     int i;
     // After each step we correct the direction of the robot
     for (i=0; i<nb_of_steps; i++){

@@ -75,7 +75,7 @@ int init_locks(state *s)
     if ((rc = pthread_mutex_init(&(s->mutexLogFile), NULL)) != 0)
         return -1;
 
-    printf("RC:%d\n", rc);
+    //printf("RC:%d\n", rc);
 
     if (pthread_mutex_init(&(s->mutexGameStarted), NULL) != 0)
         return -1;

@@ -22,7 +22,7 @@
  * @param  position    New position of LeE
  */
 void update_pos(state* s, position pos) {
-    printf("[UPDATE_POSITION] x=%d y=%d from (%d,%d)\n", pos.x, pos.y, s->curPos.x, s->curPos.y);
+    //printf("[UPDATE_POSITION] x=%d y=%d from (%d,%d)\n", pos.x, pos.y, s->curPos.x, s->curPos.y);
 
     pthread_mutex_lock(&(s->mutexPosition));
     s->curPos.x=pos.x;
@@ -165,7 +165,7 @@ int sign(int a){
 void init_main_positions(state *s, mainpos *p){
 
     int side = ((s->side==1)? 1:-1);
-    printf("%d\n",side);
+    //printf("%d\n",side);
     position s_fr_init={.x = S_FR_S_0_X,.y = S_FR_S_0_Y +  WHEELS_TO_END};
     position s_fr_ballareaposition = {.x = S_BA_0_X - 5,.y = S_BA_0_Y - WHEELS_TO_END + 5};
     position s_fr_endingposition = {.x = S_FR_E_1_X,.y = S_FR_E_1_Y};

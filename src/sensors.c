@@ -45,8 +45,8 @@ int init_sensors(state *s)
 
     //ev3_update_sensor_val(s->compass);
     //s->compass_reference = s->compass->val_data[0].s32;
-    //printf("%d\n",s->compass_reference);
-    //printf("Initial value of the compass : %d \n", compass_angle(s));
+    ////printf("%d\n",s->compass_reference);
+    ////printf("Initial value of the compass : %d \n", compass_angle(s));
 
     return 0;
 }
@@ -102,7 +102,7 @@ int compass_angle(state *s)
 //TODO Test if the initial value of the compass is 0
     ev3_update_sensor_val(s->compass);
     int angle = s->compass->val_data[0].s32;
-    printf("Angle:%d\t%d\n", angle, clean_angle(angle - s->compass_reference));
+    //printf("Angle:%d\t%d\n", angle, clean_angle(angle - s->compass_reference));
     return clean_angle(angle - s->compass_reference - 90);
 }
 
@@ -124,20 +124,20 @@ int testSensor()
 	ev3_sensor_ptr sensor = sensors;
 	while (sensor)
 	{
-		printf("==== %s ====\n",sensor->driver_name);
-		printf("ident: %i\n",sensor->driver_identifier);
-		printf("sensor: %i\n",sensor->sensor_nr);
-		printf("port: %i\n",sensor->port);
-		printf("bin_fd: %i\n",sensor->bin_fd);
-		printf("data count: %i\n",sensor->data_count);
-		printf("data format: %i\n",sensor->bin_data_format);
-		printf("units: %s\n",sensor->units);
-		printf("decimals: %i\n",sensor->decimals);
-		printf("poll ms: %i\n",sensor->poll_ms);
-		printf("mode count: %i\n",sensor->mode_count);
+		//printf("==== %s ====\n",sensor->driver_name);
+		//printf("ident: %i\n",sensor->driver_identifier);
+		//printf("sensor: %i\n",sensor->sensor_nr);
+		//printf("port: %i\n",sensor->port);
+		//printf("bin_fd: %i\n",sensor->bin_fd);
+		//printf("data count: %i\n",sensor->data_count);
+		//printf("data format: %i\n",sensor->bin_data_format);
+		//printf("units: %s\n",sensor->units);
+		//printf("decimals: %i\n",sensor->decimals);
+		//printf("poll ms: %i\n",sensor->poll_ms);
+		//printf("mode count: %i\n",sensor->mode_count);
 		for (i = 0; i < sensor->mode_count; i++)
-			printf("mode[%i]: %s\n",i,sensor->modes[i]);
-		printf("active mode: %i\n",sensor->mode);
+			//printf("mode[%i]: %s\n",i,sensor->modes[i]);
+		//printf("active mode: %i\n",sensor->mode);
 		//If there is more than one mode, let's choose the second one.
 		if (sensor->mode_count > 1)
 			ev3_mode_sensor(sensor,1);
@@ -148,7 +148,7 @@ int testSensor()
 	}
 	//Let's do this again, but this time we print the bin and val data
 	//values for every found sensor for the next 10 seconds
-	printf("Showing the sensor values for the next 10 seconds\n");
+	//printf("Showing the sensor values for the next 10 seconds\n");
 	for (i = 0; i < 10; i++)
 	{
 		sensor = sensors;
@@ -156,10 +156,10 @@ int testSensor()
 		{
 			ev3_update_sensor_bin(sensor);
 			ev3_update_sensor_val(sensor);
-			printf("%s [%i]: \n",sensor->driver_name,sensor->port);
+			//printf("%s [%i]: \n",sensor->driver_name,sensor->port);
 			int j;
 			for (j = 0; j < sensor->data_count;j++)
-				printf("\tvalue %i: %i (raw) - %i (formated)\n",j,sensor->bin_data[0].s32,sensor->val_data[0].s32);
+				//printf("\tvalue %i: %i (raw) - %i (formated)\n",j,sensor->bin_data[0].s32,sensor->val_data[0].s32);
 			sensor = sensor->next;
 		}
 		sleep(1);

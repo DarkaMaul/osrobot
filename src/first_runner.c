@@ -86,7 +86,6 @@ int game_wrapper(state *s, mainpos *p)
 
 int beginner_small_stadium_1(state *s, mainpos *p)
 {
-    printf("BegSmall1:%d\n",s->doNotUnitialize);
     //If it's truely the first run, then do unitialize
     if (s->doNotUnitialize != 1)
         update_pos(s, p->s_fr_init);
@@ -246,7 +245,7 @@ int finisher_large_stadium(state *s, mainpos *p)
     //Init the Game
     update_pos(s, p->l_sr_init);
     update_angle(s, 90);
-    s->gyro_reference -= 180; 
+    s->gyro_reference -= 180;
 
     //Dodge first obstacle
     log_this(s, "\n[%s:finisher_large_stadium] Dodging first obstacle \n",__FILE__);
@@ -257,7 +256,7 @@ int finisher_large_stadium(state *s, mainpos *p)
     //go_to_pos(s, p->l_sr_ballarea);
     //go_to_pos(s, compute_arrival_point(s));
     int rel_angle_to_ball = compute_rel_angle_to_destination(s,s->ballPosition);
-    printf("\nTurning towards the ball %d \n\n",rel_angle_to_ball);
+    //printf("\nTurning towards the ball %d \n\n",rel_angle_to_ball);
     //int rel_angle_to_ball = -(s->side*45);
     turn(s,TURNING_SPEED, rel_angle_to_ball);
     update_angle(s, gyro_angle(s));
