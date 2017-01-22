@@ -50,8 +50,8 @@ void log_this(state *s, const char *format, ...)
     va_list args;
     pthread_mutex_lock(&(s->mutexLogFile));
     va_start(args, format);
-    vf//printf(s->logfile_fd, format, args);
-    //v//printf(format,args); //DELETED BC IT MESSES WITH THREADS
+    vfprintf(s->logfile_fd, format, args);
+    //vprintf(format,args); //DELETED BC IT MESSES WITH THREADS
     va_end(args);
     fflush(s->logfile_fd);
     pthread_mutex_unlock(&(s->mutexLogFile));
