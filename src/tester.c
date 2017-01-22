@@ -28,7 +28,7 @@ void test_bluetooth(state *s)
     //Init Threads
     if(pthread_create(&(s->threadPosition), NULL, (void *) position_thread, NULL))
     {
-        //printf("[%s] Unable to create position thread\n", __FILE__);
+        log_this(s, "[%s] Unable to create position thread\n", __FILE__);
         exit(0);
     }
 
