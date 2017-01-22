@@ -84,6 +84,12 @@ int game_wrapper(state *s, mainpos *p)
     return 0;
 }
 
+/**
+ * Beginner small stadium 1 strategy (LEADER 1->2)
+ * @param  s State structure
+ * @param  p Mainpos structure
+ * @return   0
+ */
 int beginner_small_stadium_1(state *s, mainpos *p)
 {
     //If it's truely the first run, then do unitialize
@@ -116,6 +122,12 @@ int beginner_small_stadium_1(state *s, mainpos *p)
     return 0;
 }
 
+/**
+ * Beginner small stadium : stragegy LEADER (2->1)
+ * @param  s State structure
+ * @param  p Mainpos structure
+ * @return  0
+ */
 int beginner_small_stadium_2(state *s, mainpos *p)
 {
     //We already know where we are
@@ -145,6 +157,12 @@ int beginner_small_stadium_2(state *s, mainpos *p)
     return 0;
 }
 
+/**
+ * Beginner large stadium : Strategy LEADER
+ * @param  s State structure
+ * @param  p Mainpos structure
+ * @return 0
+ */
 int beginner_large_stadium(state *s, mainpos *p)
 {
     //Init the Game
@@ -189,6 +207,12 @@ int beginner_large_stadium(state *s, mainpos *p)
 
    }
 
+/**
+ * Finisher Small stadium : strategy FOLLOWER
+ * @param  s State structure
+ * @param  p Mainpos structure
+ * @return 0
+ */
 int finisher_small_stadium(state *s, mainpos *p)
 {
     //Init the Game
@@ -240,6 +264,12 @@ int finisher_small_stadium(state *s, mainpos *p)
     return 0;
 }
 
+/**
+ * Finisher large stadium: strategy FOLLOWER
+ * @param  s State structure
+ * @param  p Mainpos structure
+ * @return 0
+ */
 int finisher_large_stadium(state *s, mainpos *p)
 {
     //Init the Game
@@ -278,5 +308,4 @@ int finisher_large_stadium(state *s, mainpos *p)
     go_to_pos(s, p->l_sr_ending);
 
     return 0;
-
 }

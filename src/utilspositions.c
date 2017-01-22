@@ -122,8 +122,7 @@ int compute_rel_angle_to_destination(state* s, position dest){
     log_this(s, "[%s:go_to_pos_incomplete] Distance relative to destination %d...\n", __FILE__, distancetodest);
     int absoluteangle= -compute_angle(relativeposition);
     log_this(s, "[%s:go_to_pos_incomplete] Absolute angle to destination (clockwise) to turn %d...\n", __FILE__, absoluteangle);
-    int relativeangle;
-    relativeangle=absoluteangle-s->angle;
+    int relativeangle = absoluteangle-s->angle;
     log_this(s, "[%s:go_to_pos_incomplete] Relative angle to destination (clockwise) to turn %d...\n", __FILE__, relativeangle);
     int relativeAngleToTurnClockWise=clean_angle(relativeangle);
     log_this(s, "[%s:go_to_pos_incomplete] Relative cleaned angle to destination (clockwise) sent to turn function: %d...\n", __FILE__, relativeAngleToTurnClockWise);
@@ -160,7 +159,7 @@ int sign(int a){
 
 /**
 * Initialize the positions used by LeE
-*@param positions The positions variable defined in main
+* @param positions The positions variable defined in main
 **/
 void init_main_positions(state *s, mainpos *p){
 
@@ -195,8 +194,7 @@ void init_main_positions(state *s, mainpos *p){
     p->l_fr_ballarea = l_fr_center;
     p->l_fr_dodgesecond = l_fr_dodgesecond;
     p->l_fr_ending = l_fr_ending;
-
-
+    
     p->s_sr_init=s_sr_init;
     p->s_sr_ballarea=s_sr_ballareaposition;
     p->s_sr_ending=s_sr_endingposition;
