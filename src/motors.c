@@ -48,7 +48,7 @@ void init_motors(state *s){
  */
 int grab(state *s, int speed)
 {
-    log_this(s, "[%s:grab] Grab\n", __FILE__);
+    log_this(s, "[motors:grab] Grab\n");
     if (ev3_get_position(s->grabmotor) == GRAB_POSITION){
         log_this(s, "[%s:grab] Grabbing failed already in grabbing position\n", __FILE__);
         return -1;

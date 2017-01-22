@@ -45,9 +45,7 @@ void test_bluetooth(state *s)
     s->gameStarted = IMMOBILE;
     pthread_mutex_unlock(&(s->mutexGameStarted));
 
-    getchar();
     //Init Threads
-    s->side = 5;
     if(pthread_create(&(s->threadPosition), NULL, (void *) position_thread, NULL))
     {
         printf("[%s] Unable to create position thread\n", __FILE__);
