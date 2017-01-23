@@ -93,11 +93,10 @@ int beginner_small_stadium_1(state *s, mainpos *p)
 {
     //If it's truely the first run, then do unitialize
     if (s->doNotUnitialize != 1)
+    {
         update_pos(s, p->s_fr_init);
-
-    //By default we are in realeasing position so just close the clamps when starting
-    //log_this(s,"[%s:beginner_small_stadium_1] Grabbing the ball\n", __FILE__);
-    grab(s, MAX_GRABBING_SPEED);
+        grab(s, MAX_GRABBING_SPEED);
+    }
 
     //Go to center
     log_this(s,"[%s:beginner_small_stadium_1] Going to ball area\n", __FILE__);
@@ -122,6 +121,8 @@ int beginner_small_stadium_1(state *s, mainpos *p)
     log_this(s, "\n[%s:beginner_small_stadium_1] Going to the end\n", __FILE__);
     go_to_pos(s, p->s_fr_ending);
 
+    grab(s, MAX_GRABBING_SPEED);
+
     return 0;
 }
 
@@ -134,7 +135,7 @@ int beginner_small_stadium_1(state *s, mainpos *p)
 int beginner_small_stadium_2(state *s, mainpos *p)
 {
     //We already know where we are
-    //We already have open clamps
+    release(s, RELEASING_SPEED);
 
     //Go to ball
     log_this(s,"\n[%s:beginner_small_stadium_2] Going to ball area\n", __FILE__);
@@ -154,7 +155,6 @@ int beginner_small_stadium_2(state *s, mainpos *p)
 
     //Turn to be ready for next time
     turn(s, HIGH_TURNING_SPEED, 180);
-    release(s, RELEASING_SPEED);
 
     //Prevent beginner_small_stadium_1 to unitialize the position
     s->doNotUnitialize = 1;
@@ -198,6 +198,7 @@ int beginner_large_stadium(state *s, mainpos *p)
     //Go back a little
     log_this(s, "\n[%s:beginner_large_stadium] Going back a little\n", __FILE__);
     go_straight(s, MAX_WHEEL_SPEED, -20);
+    grab(s, MAX_GRABBING_SPEED); //Close the clamps
 
     //Go to ending position
     log_this(s, "\n[%s: beginner_large_stadium] Going to the end\n", __FILE__);
@@ -221,7 +222,8 @@ int finisher_small_stadium(state *s, mainpos *p)
         update_pos(s, p->s_sr_init);
         update_angle(s,90);
         s->gyro_reference -= 180; //To set the starting gyro value to 90° (clockwise)
-    }
+    } else
+        release(s, RELEASING_SPEED);
 
     //Go to center
     log_this(s,"\n[%s:finisher_small_stadium_1] Going to ball area\n", __FILE__);
@@ -257,6 +259,7 @@ int finisher_small_stadium(state *s, mainpos *p)
     go_to_pos(s, p->s_sr_init);
 
     turn(s, HIGH_TURNING_SPEED, 180);
+    grab(s, MAX_GRABBING_SPEED);
 
     //We don't want intialization next time
     s->doNotUnitialize = 1;
