@@ -106,6 +106,7 @@ int look_for_ball_in_close_perimeter_mecanical(state *s)
     //sweep_absolute(s, 100, 0);
     int turn_angle=-angle_two_lost+bissect_angle-sweep_angle;
     turn_imprecise(s, TURNING_SPEED, turn_angle);
+    update_angle(s, gyro_angle(s));
     return bissect_angle;
 }
 

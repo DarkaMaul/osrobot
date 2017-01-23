@@ -121,7 +121,14 @@ int main(int argc, char *argv[])
                 s->role = ROLE_FIRST;
                 s->type = SMALL_ARENA;
                 s->sock =  -1;
-                game_wrapper(s, p);
+                //game_wrapper(s, p);
+                init_main_positions(s,p);
+                s->ballPosition.x = S_BA_2_X;
+                s->ballPosition.y = S_BA_2_Y;
+                beginner_small_stadium_1(s, p);
+                getchar();
+                beginner_small_stadium_2(s, p);
+
                 break;
             case 8:
                 init_robot(s);

@@ -141,6 +141,8 @@ int beginner_small_stadium_2(state *s, mainpos *p)
     //position ballArea = s->ballPosition;
     //ballArea.y +=  20;
     go_to_pos(s, compute_arrival_point(s));
+    turn_absolute(s, HIGH_TURNING_SPEED, 135);
+    update_angle(s, gyro_angle(s));
 
     //Look for it and catch it!
     log_this(s,"\n[%s:beginner_small_stadium_2] Trying to catch the ball\n", __FILE__);
@@ -153,7 +155,9 @@ int beginner_small_stadium_2(state *s, mainpos *p)
     go_to_pos(s, p->s_fr_init);
 
     //Turn to be ready for next time
-    turn(s, HIGH_TURNING_SPEED, 180);
+//    turn(s, HIGH_TURNING_SPEED, 180);
+    turn_absolute(s, HIGH_TURNING_SPEED, -90);
+    update_angle(s, gyro_angle(s));
     release(s, RELEASING_SPEED);
 
     //Prevent beginner_small_stadium_1 to unitialize the position
