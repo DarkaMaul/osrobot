@@ -90,6 +90,9 @@ int read_message_from_server(state *s, char *buffer)
         nice_exit(s, EXIT_SUCCESS);
     }
 
+    if (buffer[HEADER_SRC] != SERVER_ID)
+        acknowledge(s, buffer);
+
     return readedBytes;
 }
 
@@ -238,6 +241,12 @@ int send_message(state *s, int messageType, unsigned char destination, ...)
 int send_position(state *s, position sendedPosition)
 {
     return send_message(s, MSG_POSITION, SERVER_ID, sendedPosition.x, sendedPosition.y);
+}
+
+void acknowledge(state *s, char *buffer)
+{
+    unsigned int idAck = (unsigned int) ((uint16_t) *buffer);
+    send_message(s, MSG_ACK, buffer[HEADER_SRC], idAck);
 }
 
 /**

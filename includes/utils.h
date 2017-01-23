@@ -37,6 +37,7 @@ int read_message_from_server(state *s, char *buffer);
 int load_game_params(state *s, char *buffer);
 
 int send_position(state *s, position sendedPosition);
+void acknowledge(state *s, char *buffer);
 
 int is_in_arena(state *s, position testedPosition);
 
