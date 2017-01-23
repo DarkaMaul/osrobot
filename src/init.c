@@ -108,12 +108,15 @@ void nice_exit(state *s, int exitState)
     if (exitState == EXIT_SUCCESS)
         close_threads(s);
 
+    //Delete robot var
+    ev3_delete_motors(s->motors);
+    close_sensors(s);
+
     if (s->sock > 0)
         close_socket(s);
 
     if (s->logfile_fd > 0)
         close_logger(s);
 
-    ev3_delete_motors(s->motors);
     exit(exitState);
 }
