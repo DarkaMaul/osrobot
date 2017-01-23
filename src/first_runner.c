@@ -140,8 +140,8 @@ int beginner_small_stadium_2(state *s, mainpos *p)
     //Look for it and catch it!
     log_this(s,"\n[%s:beginner_small_stadium_2] Trying to catch the ball\n", __FILE__);
     getchar();
-    look_for_ball(s);
-    catch_ball(s);
+    if (look_for_ball(s) == 0)
+        catch_ball(s);
 
     //Go to ending position
     log_this(s, "\n[%s:beginner_small_stadium_2] Going to the end\n", __FILE__);

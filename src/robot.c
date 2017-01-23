@@ -54,10 +54,11 @@ int catch_ball(state* s)
  * @param s State of LeE
  * @return angle if ball is found SONAR_ERROR_ANGLE otherwise
  */
-int look_for_ball_in_close_perimeter_mecanical(state *s){
+int look_for_ball_in_close_perimeter_mecanical(state *s)
+{
 
     int side = ((s->side==1)? 1:-1);
-    //printf("side : %d \n",side);
+
     //TODO REPLACE value with MAx sweep angle from config
     int tobereplaced=30*side;
     turn_imprecise(s, TURNING_SPEED, -tobereplaced);
@@ -108,7 +109,8 @@ int look_for_ball_in_close_perimeter_mecanical(state *s){
     return bissect_angle;
 }
 
-int look_for_ball_mecanical(state *s){
+int look_for_ball_mecanical(state *s)
+{
     log_this(s, "\n\n[%s] Look for ball started\n", __FILE__);
     int angle_to_ball = look_for_ball_in_close_perimeter_mecanical(s);
 
@@ -121,10 +123,13 @@ int look_for_ball_mecanical(state *s){
         {
             go_straight(s, MAX_WHEEL_SPEED, size_of_steps);
             angle_to_ball = look_for_ball_in_close_perimeter_mecanical(s);
-        }else{
+            if (angle_to_ball == SONAR_ERROR_ANGLE)
+                return -1;
+
+        }else
             log_this(s, "[%s] Look for ball succeeded there is something close to the robot\n", __FILE__);
-        }
     }
+    
     return 0;
 }
 
@@ -199,7 +204,11 @@ int look_for_ball_in_close_perimeter(state *s){
  * @param s State of LeE
  * @return 0 if ball is found and is in front of the robot -1 otherwise
  */
-int look_for_ball(state *s){
+int look_for_ball(state *s)
+{
+    return look_for_ball_mecanical(s);
+
+    /*
     log_this(s, "\n\n[%s] Look for ball started\n", __FILE__);
     int angle_to_ball = look_for_ball_in_close_perimeter(s);
 
@@ -232,7 +241,7 @@ int look_for_ball(state *s){
             }
         }
          */
-    }
+    //}
 
     //TODO Scan the whole arena if we don't find the ball
 
