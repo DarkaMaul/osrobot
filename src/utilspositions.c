@@ -165,22 +165,22 @@ void init_main_positions(state *s, mainpos *p){
 
     int side = ((s->side==1)? 1:-1);
     //printf("%d\n",side);
-    position s_fr_init={.x = S_FR_S_0_X,.y = S_FR_S_0_Y +  WHEELS_TO_END};
+    position s_fr_init={.x = (S_FR_S_0_X + S_FR_S_2_X)/2,.y = (S_FR_S_0_Y + S_FR_S_2_Y )/2 };
     position s_fr_ballareaposition = {.x = S_BA_0_X - 5,.y = S_BA_0_Y - WHEELS_TO_END + 5};
     position s_fr_endingposition = {.x = S_FR_E_1_X,.y = S_FR_E_1_Y};
 
-    position l_fr_init = {.x = side*(L_FR_S_0_X + WHEELS_TO_END), .y = L_FR_S_0_Y + WHEELS_TO_END};
+    position l_fr_init = {.x = side*(L_FR_S_0_X + L_FR_S_2_X)/2, .y = (L_FR_S_0_Y + L_FR_S_2_Y)/2};
     position l_fr_dodgefirst = {.x = side*(L_O1_2_X + BIG_ARENA_MAX_X + ROBOT_WIDTH*1.5)/2, .y = L_O1_2_Y + L_FR_S_0_Y};
     position l_fr_center = {.x = side*(L_BA_1_X), .y = L_BA_1_Y + WHEELS_TO_END/2 };
     position l_fr_dodgesecond = {.x = side*(L_O2_0_X)/2, .y = L_O2_0_Y};
     position l_fr_ending = {.x = side*(L_FR_E_0_X + ROBOT_WIDTH), .y = L_FR_E_0_Y + 2.5*WHEELS_TO_END };
 
 
-    position s_sr_init={.x = S_SR_S_0_X + ROBOT_WIDTH,.y = S_SR_S_0_Y +  WHEELS_TO_END};
+    position s_sr_init={.x = (S_SR_S_0_X + S_SR_S_2_X)/2,.y = (S_SR_S_0_Y + S_SR_S_2_Y)/2};
     position s_sr_ballareaposition = {.x = S_BA_1_X - 5,.y = S_BA_1_Y + WHEELS_TO_END + 5};
     position s_sr_endingposition = {.x = S_SR_E_1_X + ROBOT_WIDTH, .y = S_SR_E_1_Y - WHEELS_TO_END};
 
-    position l_sr_init = {.x = side*(L_SR_S_2_X - WHEELS_TO_END), .y = L_SR_S_2_Y - WHEELS_TO_END};
+    position l_sr_init = {.x = side*(L_SR_S_0_X + L_SR_S_2_X)/2, .y = (L_SR_S_2_Y + L_SR_S_0_Y)/2};
     position l_sr_dodgefirst = {.x = side*(L_O2_0_X - ROBOT_WIDTH)/2, .y = L_O2_0_Y - WHEELS_TO_END};
     position l_sr_center = {.x = side*(L_BA_1_X - 2*ROBOT_WIDTH), .y = L_BA_1_Y + 2*WHEELS_TO_END};
     position l_sr_dodgesecond = {.x = side*(L_O1_2_X + BIG_ARENA_MAX_X)/2 , .y = L_O1_2_Y};
