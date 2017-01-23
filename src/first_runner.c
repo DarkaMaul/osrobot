@@ -104,6 +104,10 @@ int beginner_small_stadium_1(state *s, mainpos *p)
     log_this(s,"[%s:beginner_small_stadium_1] Going to ball area\n", __FILE__);
     go_to_pos(s, p->s_fr_ballarea);
     getchar();
+    position ballcenter = {(S_BA_0_X+S_BA_2_X)/2,(S_BA_0_Y+S_BA_2_Y)/2};
+    int rel_angle_to_ball = compute_rel_angle_to_destination(s, ballcenter);
+    turn(s,TURNING_SPEED, rel_angle_to_ball);
+    update_angle(s, gyro_angle(s));
 
     //release ball
     log_this(s,"\n[%s:beginner_small_stadium_1] Releasing ball\n", __FILE__);
