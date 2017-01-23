@@ -18,7 +18,7 @@ void init_motors(state *s){
     s->leftmotor=ev3_search_motor_by_port(s->motors, *PORT_LEFT_MOTOR);
     s->rightmotor=ev3_search_motor_by_port(s->motors, *PORT_RIGHT_MOTOR);
     s->grabmotor=ev3_search_motor_by_port(s->motors, *PORT_GRAB_MOTOR);
-    s->sweepmotor=ev3_search_motor_by_port(s->motors, *PORT_SWEEP_MOTOR);
+
     ev3_motor_ptr motor = s->motors;
     //Just in case reset all motors
     while (motor)
@@ -29,8 +29,7 @@ void init_motors(state *s){
         log_this(s, "[%s:init_motors] Motor %d on port %c opened, assigned and reseted\n", __FILE__, motor->motor_nr, motor->port);
         motor = motor->next;
     }
-    //ev3_stop_command_motor_by_name(s->grabmotor, "hold");
-    ev3_set_polarity(s->sweepmotor, -1);
+
     //Ramp smoothly to max speed
     ev3_set_ramp_up_sp(s->rightmotor, 1000);
     ev3_set_ramp_up_sp(s->leftmotor, 1000);
@@ -345,47 +344,3 @@ int is_running_in_correct_angle(state *s){
     }
     return 0;
 }
-
-
-//Sweep motor
-
-/**
- * Function which can be used to make the motor sweep at a specified speed at a specified angle
- * @param  s        State structure
- * @param  speed    Speed for Sweep motor (usually MAX_SWEEP_SPEED)
- * @param  angle    Speed for LeE (usually MAX_SWEEP_SPEED)
- * @return          0 if everything is allright -1 else
- */
-int sweep(state *s, int speed, int angle)
-{
-    log_this(s, "[%s:sweep] Sweeping for %d degrees\n", __FILE__, angle);
-    int cur_angle_sweep=ev3_get_position(s->sweepmotor);
-    int rel_sweep_angle = cur_angle_sweep + angle;
-    if (abs(rel_sweep_angle) > MAX_SWEEP_ANGLE) {
-        log_this(s, "[%s:sweep] Sweep failed current sweep angle + desired angle exceed limit (%d(actual) --> %d(desired)) \n", __FILE__, cur_angle_sweep,cur_angle_sweep+ angle);
-        return -1;
-    }
-    //printf("[sweep] current angle=%d desired angle=%d\n",cur_angle_sweep, rel_sweep_angle);
-    ev3_set_speed_sp(s->sweepmotor, speed);
-    ev3_set_position_sp(s->sweepmotor, rel_sweep_angle);
-    ev3_command_motor_by_name(s->sweepmotor, "run-to-abs-pos");
-
-    while (ev3_motor_state(s->sweepmotor) & MOTOR_RUNNING);
-
-    return 0;
-}
-
-/**
- * Function which can be used to make the motor sweep at a specified speed to an absolute angle
- * @param  s        State structure
- * @param  speed    Speed for Sweep motor (usually MAX_SWEEP_SPEED)
- * @param  angle    Speed for LeE (usually MAX_SWEEP_SPEED)
- * @return          0 if everything is allright -1 else
- */
-int sweep_absolute(state *s, int speed, int angle)
-{
-    int current_angle = ev3_get_position(s->sweepmotor);
-    int relative_angle = angle - current_angle;
-    return sweep(s, speed, relative_angle);
-}
-

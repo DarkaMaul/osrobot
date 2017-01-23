@@ -35,7 +35,6 @@
 #define PORT_LEFT_MOTOR "D"
 #define PORT_RIGHT_MOTOR "A"
 #define PORT_GRAB_MOTOR "C"
-#define PORT_SWEEP_MOTOR "B"
 
 //Sensor's port
 #define PORT_SENSOR_COLOR 4
