@@ -16,7 +16,7 @@
 
 /**
  * Initialize the bluetooth connexion to the SERV_ADDR (defined in config)
- * @return [description]
+ * @return 0 || -1 if error
  */
 int init_bluetooth()
 {
@@ -39,7 +39,7 @@ int init_bluetooth()
 }
 
 /**
- * Read byutes from server
+ * Read bytes from server
  * @param  s      State structure
  * @param  buffer Where to store the readed bytes
  * @return        Number of bytes read
@@ -58,6 +58,12 @@ int read_from_server(state *s, char *buffer)
     return readedBytes;
 }
 
+/**
+ * Read a  message from a server and start its interpretation
+ * @param  s      State structure
+ * @param  buffer Message buffer
+ * @return        < 0 if error || exit() if we've been kicked or game has stopped || > 0 readedBytes
+ */
 int read_message_from_server(state *s, char *buffer)
 {
     int readedBytes = read_from_server(s, buffer);

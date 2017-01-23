@@ -5,7 +5,6 @@
 #include "logger.h"
 #include "utils.h"
 
-
 extern state* s;
 /**
  * Function to handle the position thread
@@ -15,7 +14,6 @@ extern state* s;
 void position_thread()
 {
     //Wait until game start
-
     while(1)
     {
         pthread_mutex_lock(&(s->mutexGameStarted));
@@ -38,6 +36,7 @@ void position_thread()
 
         send_position(s, currentPos);
 
+        //Test regularly if we're still moving
         if (++i == 8)
         {
             pthread_mutex_lock(&(s->mutexGameStarted));

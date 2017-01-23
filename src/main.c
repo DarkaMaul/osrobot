@@ -21,6 +21,10 @@ state* s = &st;
 mainpos mpos;
 mainpos* p = &mpos;
 
+/**
+ * Game function : wait until the server send  a start message and process
+ * @return void
+ */
 void game()
 {
     //Game function o_OOOOO_o

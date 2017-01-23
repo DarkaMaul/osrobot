@@ -84,9 +84,14 @@ int game_wrapper(state *s, mainpos *p)
     return 0;
 }
 
+/**
+ * Beginner small stadium 1 strategy (LEADER 1->2)
+ * @param  s State structure
+ * @param  p Mainpos structure
+ * @return   0
+ */
 int beginner_small_stadium_1(state *s, mainpos *p)
 {
-    printf("BegSmall1:%d\n",s->doNotUnitialize);
     //If it's truely the first run, then do unitialize
     if (s->doNotUnitialize != 1)
         update_pos(s, p->s_fr_init);
@@ -117,6 +122,12 @@ int beginner_small_stadium_1(state *s, mainpos *p)
     return 0;
 }
 
+/**
+ * Beginner small stadium : stragegy LEADER (2->1)
+ * @param  s State structure
+ * @param  p Mainpos structure
+ * @return  0
+ */
 int beginner_small_stadium_2(state *s, mainpos *p)
 {
     //We already know where we are
@@ -146,6 +157,12 @@ int beginner_small_stadium_2(state *s, mainpos *p)
     return 0;
 }
 
+/**
+ * Beginner large stadium : Strategy LEADER
+ * @param  s State structure
+ * @param  p Mainpos structure
+ * @return 0
+ */
 int beginner_large_stadium(state *s, mainpos *p)
 {
     //Init the Game
@@ -191,6 +208,12 @@ int beginner_large_stadium(state *s, mainpos *p)
 
    }
 
+/**
+ * Finisher Small stadium : strategy FOLLOWER
+ * @param  s State structure
+ * @param  p Mainpos structure
+ * @return 0
+ */
 int finisher_small_stadium(state *s, mainpos *p)
 {
     //Init the Game
@@ -242,12 +265,18 @@ int finisher_small_stadium(state *s, mainpos *p)
     return 0;
 }
 
+/**
+ * Finisher large stadium: strategy FOLLOWER
+ * @param  s State structure
+ * @param  p Mainpos structure
+ * @return 0
+ */
 int finisher_large_stadium(state *s, mainpos *p)
 {
     //Init the Game
     update_pos(s, p->l_sr_init);
     update_angle(s, 90);
-    s->gyro_reference -= 180; 
+    s->gyro_reference -= 180;
 
     //Dodge first obstacle
     log_this(s, "\n[%s:finisher_large_stadium] Dodging first obstacle \n",__FILE__);
@@ -258,7 +287,7 @@ int finisher_large_stadium(state *s, mainpos *p)
     //go_to_pos(s, p->l_sr_ballarea);
     //go_to_pos(s, compute_arrival_point(s));
     int rel_angle_to_ball = compute_rel_angle_to_destination(s,s->ballPosition);
-    printf("\nTurning towards the ball %d \n\n",rel_angle_to_ball);
+    //printf("\nTurning towards the ball %d \n\n",rel_angle_to_ball);
     //int rel_angle_to_ball = -(s->side*45);
     turn(s,TURNING_SPEED, rel_angle_to_ball);
     update_angle(s, gyro_angle(s));
@@ -280,5 +309,4 @@ int finisher_large_stadium(state *s, mainpos *p)
     go_to_pos(s, p->l_sr_ending);
 
     return 0;
-
 }

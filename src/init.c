@@ -11,6 +11,10 @@
 
 extern state* s;
 
+/**
+ * Signal handler for signint
+ * @param signalNumber int Sign Number
+ */
 void signal_handler(int signalNumber)
 {
     if (signalNumber == SIGINT)
@@ -69,13 +73,15 @@ int init_robot(state *s)
     return 0;
 }
 
+/**
+ * Init the locks needed for the app
+ * @param  s State structure
+ * @return 0 || -1 if errors
+ */
 int init_locks(state *s)
 {
-    int rc;
-    if ((rc = pthread_mutex_init(&(s->mutexLogFile), NULL)) != 0)
+    if (pthread_mutex_init(&(s->mutexLogFile), NULL) != 0)
         return -1;
-
-    printf("RC:%d\n", rc);
 
     if (pthread_mutex_init(&(s->mutexGameStarted), NULL) != 0)
         return -1;
