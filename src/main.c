@@ -138,12 +138,21 @@ int main(int argc, char *argv[])
                 s->ballPosition.y = S_BA_2_Y;
                 beginner_small_stadium_2(s, p);
                 break;
-
+            case 9:
+                init_robot(s);
+                s->side = 1;
+                s->ally = 2;
+                s->role = ROLE_SECOND;
+                s->ballPosition.x = S_BA_2_X;
+                s->ballPosition.y = S_BA_2_Y;
+                finisher_small_stadium(s, p);
+                break;
             case 7:
                 init_robot(s);
                 grab(s, MAX_GRABBING_SPEED);
                 getchar();
                 release(s, RELEASING_SPEED);
+                break;
         }
     }
     //Close external ressources
