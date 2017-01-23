@@ -118,6 +118,7 @@ int main(int argc, char *argv[])
                 s->side = 1;
                 s->ally = 2;
                 s->role = ROLE_FIRST;
+                s->type = SMALL_ARENA;
                 s->sock =  -1;
                 game_wrapper(s, p);
                 break;
