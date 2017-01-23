@@ -220,6 +220,8 @@ position compute_arrival_point(state *s)
     arrivalPoint.x =  s->ballPosition.x - CONSTANT * (s->ballPosition.x - s->curPos.x) / norm;
     arrivalPoint.y =  s->ballPosition.y - CONSTANT * (s->ballPosition.x - s->curPos.y) / norm;
 
+    printf("Arrival Point: %d\t%d\n", arrivalPoint.x,  arrivalPoint.y);
+
     return arrivalPoint;
 }
 
