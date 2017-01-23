@@ -218,6 +218,9 @@ int send_message(state *s, int messageType, unsigned char destination, ...)
 
     //Send the message
     pthread_mutex_lock(&(s->mutexSockUsage));
+
+    if (s->sock == -1) return 0;
+
     write(s->sock, message, messageLength);
     pthread_mutex_unlock(&(s->mutexSockUsage));
 
