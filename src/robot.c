@@ -54,10 +54,11 @@ int catch_ball(state* s)
  * @param s State of LeE
  * @return angle if ball is found SONAR_ERROR_ANGLE otherwise
  */
-int look_for_ball_in_close_perimeter_mecanical(state *s){
+int look_for_ball_in_close_perimeter_mecanical(state *s)
+{
 
     int side = ((s->side==1)? 1:-1);
-    //printf("side : %d \n",side);
+
     //TODO REPLACE value with MAx sweep angle from config
     int tobereplaced=30*side;
     turn_imprecise(s, TURNING_SPEED, -tobereplaced);
@@ -108,7 +109,8 @@ int look_for_ball_in_close_perimeter_mecanical(state *s){
     return bissect_angle;
 }
 
-int look_for_ball_mecanical(state *s){
+int look_for_ball_mecanical(state *s)
+{
     log_this(s, "\n\n[%s] Look for ball started\n", __FILE__);
     int angle_to_ball = look_for_ball_in_close_perimeter_mecanical(s);
 
@@ -121,10 +123,13 @@ int look_for_ball_mecanical(state *s){
         {
             go_straight(s, MAX_WHEEL_SPEED, size_of_steps);
             angle_to_ball = look_for_ball_in_close_perimeter_mecanical(s);
-        }else{
+            if (angle_to_ball == SONAR_ERROR_ANGLE)
+                return -1;
+
+        }else
             log_this(s, "[%s] Look for ball succeeded there is something close to the robot\n", __FILE__);
-        }
     }
+
     return 0;
 }
 
@@ -199,76 +204,7 @@ int look_for_ball_in_close_perimeter(state *s){
  * @param s State of LeE
  * @return 0 if ball is found and is in front of the robot -1 otherwise
  */
-int look_for_ball(state *s){
-    log_this(s, "\n\n[%s] Look for ball started\n", __FILE__);
-    int angle_to_ball = look_for_ball_in_close_perimeter(s);
-
-    //TODO parameters can be adjusted to search more
-    int nb_of_steps=2;
-    int size_of_steps=15;
-    int i;
-    for (i=0;i<nb_of_steps;i++){
-        if (angle_to_ball == SONAR_ERROR_ANGLE)
-        {
-            go_straight(s, MAX_WHEEL_SPEED, size_of_steps);
-            angle_to_ball = look_for_ball_in_close_perimeter(s);
-        }else{
-            log_this(s, "[%s] Look for ball succeeded there is something close to the robot\n", __FILE__);
-        }
-        /*
-        }else{
-            //Turn to face the ball
-            log_this(s, "[%s] Turning to be in front of the ball of %d degrees\n", __FILE__, angle_to_ball);
-            turn(s,TURNING_SPEED, angle_to_ball);
-            log_this(s, "[%s] Checking that there is something in front of the robot\n", __FILE__);
-            int distanceToBallorObstacle = distance_from_obstacle(s);
-            if (distanceToBallorObstacle > GAP_MIN_BETWEEN_ROBOT_BALL){
-                log_this(s, "[%s] Look for ball go for another iteration there is nothing in front of the robot\n", __FILE__);
-                angle_to_ball = look_for_ball_in_close_perimeter(s);
-            }
-            else{
-                log_this(s, "[%s] Look for ball succeeded there is something close to the robot\n", __FILE__);
-                break;
-            }
-        }
-         */
-    }
-
-    //TODO Scan the whole arena if we don't find the ball
-
-    return 0;
+int look_for_ball(state *s)
+{
+    return look_for_ball_mecanical(s);
 }
-
-
-/**
- * Function to look for an obstacle while moving (or not)
- * @param s State of LeE
- * @return 0 if obstacle is found 1 otherwise
- */
-/*
-int look_for_obstacle(state *s){
-	int distanceToBallorObstacle = distance_from_obstacle(s);
-	int turn_sweep= MAX_SWEEP_ANGLE;
-    log_this(s, "[%s] Look for obstacle started\n", __FILE__);
-    log_this(s, "[%s] Distance to obstacle or obstacle %d\n", __FILE__, distanceToBallorObstacle);
-	sweep_absolute(s, 100, MAX_SWEEP_ANGLE);
-	int sweep_angle=-SWEEP_ANGLE;
-	while(distanceToBallorObstacle == -1 || distanceToBallorObstacle > GAP_MIN_BETWEEN_ROBOT_BALL)
-	{
-		turn_sweep+=sweep_angle;
-		//Positive for clockwise turn
-		if (abs(turn_sweep) < MAX_SWEEP_ANGLE){
-			sweep_absolute(s, 100, turn_sweep);
-		}
-		else{
-			sweep_angle=-sweep_angle;
-		}
-		usleep(200000);
-		distanceToBallorObstacle = distance_from_obstacle(s);
-	    log_this(s, "[%s] Distance to ball or obstacle %d\n", __FILE__, distanceToBallorObstacle);
-	}
-	//angle one detected is the first angle where the obstacle appears
-	int angle_one_detected=turn_sweep;
-    return 0;
-}
- */
