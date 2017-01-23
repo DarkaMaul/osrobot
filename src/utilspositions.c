@@ -177,8 +177,8 @@ void init_main_positions(state *s, mainpos *p){
 
 
     position s_sr_init={.x = (S_SR_S_0_X + S_SR_S_2_X)/2,.y = (S_SR_S_0_Y + S_SR_S_2_Y)/2};
-    position s_sr_ballareaposition = {.x = S_BA_1_X - 5,.y = S_BA_1_Y + WHEELS_TO_END + 5};
-    position s_sr_endingposition = {.x = S_SR_E_1_X + ROBOT_WIDTH, .y = S_SR_E_1_Y - WHEELS_TO_END};
+    position s_sr_ballareaposition = {.x = S_BA_1_X ,.y = S_BA_1_Y };
+    position s_fr_endingposition = {.x = (S_SR_E_0_X + S_SR_E_2_X)/2 ,.y = (S_SR_E_0_Y + S_SR_E_2_Y )/2 };
 
     position l_sr_init = {.x = side*(L_SR_S_0_X + L_SR_S_2_X)/2, .y = (L_SR_S_2_Y + L_SR_S_0_Y)/2};
     position l_sr_dodgefirst = {.x = side*(L_O2_0_X - ROBOT_WIDTH)/2, .y = L_O2_0_Y - WHEELS_TO_END};
