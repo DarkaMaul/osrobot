@@ -134,7 +134,7 @@ int main(int argc, char *argv[])
                 init_main_positions(s,p);
                 s->curPos = p->s_fr_ending;
                 s->ballPosition.x = S_BA_2_X;
-                s->ballPosition.y = S_BA_2_Y;
+                s->ballPosition.y = S_BA_2_Y + 20;
 
                 beginner_small_stadium_2(s, p);
                 break;
