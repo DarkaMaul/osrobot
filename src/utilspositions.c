@@ -208,6 +208,7 @@ void init_main_positions(state *s, mainpos *p){
 /**
  * Compute the point near the ball where the robot will stop
  * @param  s State structure
+ * @TODO NOT USED
  * @return   position
  */
 position compute_arrival_point(state *s)
@@ -215,7 +216,7 @@ position compute_arrival_point(state *s)
     position arrivalPoint;
     int norm = compute_distance(compute_relative_position(s->curPos, s->ballPosition));
 
-    int CONSTANT = 30;
+    int CONSTANT = 40;
     arrivalPoint.x =  s->ballPosition.x - CONSTANT * (s->ballPosition.x - s->curPos.x) / norm;
     arrivalPoint.y =  s->ballPosition.y - CONSTANT * (s->ballPosition.x - s->curPos.y) / norm;
 
