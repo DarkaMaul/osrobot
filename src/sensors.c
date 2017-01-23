@@ -18,7 +18,6 @@ int init_sensors(state *s)
     s->sensors = ev3_load_sensors();
     s->color    = ev3_search_sensor_by_port(s->sensors, PORT_SENSOR_COLOR);
     s->sonar    = ev3_search_sensor_by_port(s->sensors, PORT_SENSOR_SONAR);
-    //s->compass  = ev3_driver_sensor(ev3_search_sensor_by_port(s->sensors, PORT_SENSOR_COMPASS),"lego-nxt-sound" );
     s->gyro     = ev3_search_sensor_by_port(s->sensors, PORT_SENSOR_GYRO);
 
     //Configure color sensor
@@ -36,17 +35,8 @@ int init_sensors(state *s)
     ev3_mode_sensor_by_name(s->gyro, "GYRO-ANG");
     log_this(s, "[%s:init_sensors] Gyro Sensor on port %c opened and configured in mode %d\n", __FILE__, s->gyro->port,s->gyro->mode);
 
-    // Configure compass
-    //ev3_open_sensor(s->compass);
-    //ev3_mode_sensor_by_name(s->compass, "COMPASS");
-
     ev3_update_sensor_val(s->gyro);
     s->gyro_reference = s->gyro->val_data[0].s32 + 90; // The 90 is just to get an angle relative to the x axis
-
-    //ev3_update_sensor_val(s->compass);
-    //s->compass_reference = s->compass->val_data[0].s32;
-    ////printf("%d\n",s->compass_reference);
-    ////printf("Initial value of the compass : %d \n", compass_angle(s));
 
     return 0;
 }
@@ -99,17 +89,4 @@ int gyro_angle(state *s)
     return clean_angle(angle - s->gyro_reference);
 }
 
-/**
- * [compass_angle description]
- * @param  s State structure
- * @return   [description]
- * @TODO
- */
-int compass_angle(state *s)
-{
-//TODO Test if the initial value of the compass is 0
-    ev3_update_sensor_val(s->compass);
-    int angle = s->compass->val_data[0].s32;
-    //printf("Angle:%d\t%d\n", angle, clean_angle(angle - s->compass_reference));
-    return clean_angle(angle - s->compass_reference - 90);
-}
+

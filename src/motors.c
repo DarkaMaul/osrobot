@@ -135,9 +135,6 @@ void command_wheels(state *s, int cmd){
     ev3_command_motor(s->rightmotor, cmd);
 }
 
-/////////////////////////////////////////////////////////////////
-///////////wheels_run_time doesn't update the position///////////
-/////////////////////////////////////////////////////////////////
 /**
 * Go for a given time at a given speed
 * @param s     State of LeE
@@ -349,8 +346,8 @@ int is_running_in_correct_angle(state *s){
     return 0;
 }
 
-//Sweep motor
 
+//Sweep motor
 
 /**
  * Function which can be used to make the motor sweep at a specified speed at a specified angle
@@ -392,82 +389,3 @@ int sweep_absolute(state *s, int speed, int angle)
     return sweep(s, speed, relative_angle);
 }
 
-////////////////////////////////////////////////////////////////////
-////////////////////////////////////////////////////////////////////
-////////////////////////////////////////////////////////////////////
-//Same functions but using the compass, To test and choose/combine.
-
-/**
-* Turn from a given angle at a given speed using the compass
-* @param s State of LeE
-* @param speed Turning speed of LeE
-* @param angle Angle to turn in degrees and clockwise
-* @return 0 if eveything is alright, 1 if the angle is too small for the gyro
-*/
-int turn_compass(state *s, int speed, int angle){
-    if (abs(angle)<ERROR_MARGIN){
-        log_this(s, "[%s] : The angle is too small (%d). Not turning.\n", __FILE__, angle);
-        return 1;
-    }
-    log_this(s, "[%s] : Turning from %d degrees.\n", __FILE__, angle );
-    int angle_sign = sign(angle);
-    speed = speed * angle_sign;
-    ev3_update_sensor_val(s->compass);     // We make sure that the compass is updated
-    int current_angle = s->compass->val_data[0].s32 ; // We use the raw data of the compass, not the clean one
-    int goal = current_angle + angle;
-    ev3_set_speed_sp(s->leftmotor, speed);
-    ev3_set_speed_sp(s->rightmotor, -speed);
-    command_wheels(s, RUN_FOREVER);
-    // While we haven't reach the desired angle, we keep turning in the right direction
-    while(angle_sign * current_angle < angle_sign * goal){
-        ev3_update_sensor_val(s->compass);
-        current_angle = s->compass->val_data[0].s32 ;
-    }
-    command_wheels(s, STOP);
-    return 0;
-}
-
-
-/**
- * Function to correct the position while moving
- * @param s State of LeE
- * @return the difference between the actual angle and the wanted angle, 0 if this difference is smaller than the error margin
- */
-int is_running_in_correct_angle_compass(state *s){
-    int actualangle = compass_angle(s);
-    //+- ERROR_M degrees is ok
-    int angle_diff = clean_angle(s->angle - actualangle);
-    //printf("Is running: %d\t%d\n", actualangle, angle_diff);
-    log_this(s, "[%s] Angle diff is %d\n", __FILE__, angle_diff);
-    if(abs(angle_diff) > ERROR_MARGIN){
-        return angle_diff;
-    }
-    return 0;
-}
-
-/**
- * Go straight for a distance in cm
- * @param  s        State structure
- * @param  speed    Speed for  the LeE (usually MAX_WHEEL_SPEED)
- * @param  distance Distance in cm
- * @return          0 if everything is allright
- */
-int go_straight_compass(state *s, int speed, int distance){
-    log_this(s, "[%s] : Going straigth for%d cm\n", __FILE__, distance);
-    s->angle = compass_angle(s);
-
-    // We divide the wanted distance in steps od STEPLENGTH
-    int nb_of_steps = distance / STEPLENGTH;
-    int remaining_distance = distance % STEPLENGTH;
-    //printf("STP: %d \t RD: %d\n", nb_of_steps, remaining_distance);
-    int i;
-    // After each step we correct the direction of the robot
-    for (i=0; i<nb_of_steps; i++){
-        wheels_run_distance(s, speed, STEPLENGTH);
-        turn_compass(s, TURNING_SPEED, is_running_in_correct_angle_compass(s));
-    }
-    // We then go for the remaining distance and correct the angle again
-    wheels_run_distance(s, speed, remaining_distance);
-    turn_compass(s, TURNING_SPEED, is_running_in_correct_angle_compass(s));
-    return 0;
-}

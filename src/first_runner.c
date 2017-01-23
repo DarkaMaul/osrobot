@@ -192,13 +192,9 @@ int beginner_large_stadium(state *s, mainpos *p)
     send_message(s, MSG_BALL, s->ally);
     sleep(4);
 
-       //Go back a little
+    //Go back a little
     log_this(s, "\n[%s:beginner_large_stadium] Going back a little\n", __FILE__);
     go_straight(s, MAX_WHEEL_SPEED, -20);
-
-    //Dodge second stadium
-//    log_this(s, "\n[%s:beginner_large_stadium] Dodging second obstacle\n" ,__FILE__);
-//    go_to_pos(s, p->l_fr_dodgesecond);
 
     //Go to ending position
     log_this(s, "\n[%s: beginner_large_stadium] Going to the end\n", __FILE__);
