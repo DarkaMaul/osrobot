@@ -75,6 +75,7 @@ int release(state *s, int speed)
         log_this(s, "[%s:release] Releasing failed already in release position\n", __FILE__);
         return -1;
     }
+    sleep(5);
     ev3_set_speed_sp(s->grabmotor, speed);
     ev3_set_ramp_up_sp(s->grabmotor, 5500);
     ev3_set_position_sp(s->grabmotor, -7);
@@ -82,6 +83,7 @@ int release(state *s, int speed)
     while (ev3_motor_state(s->grabmotor) & MOTOR_RUNNING);
     //log_this(s, "Motor %d on port %c opened, assigned and reseted\n", motor->motor_nr, motor->port);
     ev3_set_ramp_up_sp(s->grabmotor, 0);
+    sleep(4);
     return 0;
 }
 
