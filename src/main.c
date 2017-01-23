@@ -133,10 +133,12 @@ int main(int argc, char *argv[])
 
                 init_main_positions(s,p);
                 s->curPos = p->s_fr_ending;
-                s->ballPosition = p->s_fr_ballarea;
+                s->ballPosition.x = S_BA_2_X;
+                s->ballPosition.y = S_BA_2_Y;
+
                 beginner_small_stadium_2(s, p);
                 break;
-                
+
             case 7:
                 init_robot(s);
                 grab(s, MAX_GRABBING_SPEED);
