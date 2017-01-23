@@ -76,7 +76,6 @@ int distance_from_obstacle(state *s)
         return valUS / 10;
 }
 
-
 /**
  * Retrieve the angle from the gyro and clean it
  * @param  s State structure
@@ -89,4 +88,16 @@ int gyro_angle(state *s)
     return clean_angle(angle - s->gyro_reference);
 }
 
+/**
+ * Close sensors after use
+ * @param  s State structure
+ * @return   0
+ */
+int close_sensors(state *s)
+{
+    ev3_close_sensor(s->gyro);
+    ev3_close_sensor(s->sonar);
+    ev3_close_sensor(s->color);
 
+    return 0;
+}
