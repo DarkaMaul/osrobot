@@ -230,8 +230,8 @@ int finisher_small_stadium(state *s, mainpos *p)
 
     //Look for the ball
     log_this(s,"\n[%s:finisher_small_stadium_1] Looking for the ball\n", __FILE__);
-    look_for_ball(s);
-    catch_ball(s);
+    if (look_for_ball(s) == 0)
+        catch_ball(s);
 
       //Go to ending position
     log_this(s, "\n[%s:finisher_small_stadium_1] Going to the end\n", __FILE__);
@@ -294,11 +294,8 @@ int finisher_large_stadium(state *s, mainpos *p)
 
     //Look for the ball
     log_this(s,"\n[%s:finisher_large_stadium] Looking for the ball\n", __FILE__);
-    look_for_ball_mecanical(s);
-
-    //Catch the ball
-    log_this(s,"\n[%s:finisher_large_stadium] Catching the ball\n", __FILE__);
-    catch_ball(s);
+    if (look_for_ball(s) == 0)
+        catch_ball(s);
 
     //Dodge second obstacle
     log_this(s, "\n[%s:finisher_large_stadium] Dodging first obstacle \n",__FILE__);
