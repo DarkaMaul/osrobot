@@ -153,6 +153,7 @@ int main(int argc, char *argv[])
                 s->ballPosition.x = S_BA_1_X;
                 s->ballPosition.y = S_BA_1_Y;
                 s->doNotUnitialize =  0;
+                init_main_positions(s,p);
                 finisher_small_stadium(s, p);
                 break;
             case 7:
