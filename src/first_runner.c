@@ -138,7 +138,9 @@ int beginner_small_stadium_2(state *s, mainpos *p)
 
     //Go to ball
     log_this(s,"\n[%s:beginner_small_stadium_2] Going to ball area\n", __FILE__);
-    go_to_pos(s, compute_arrival_point(s));
+    position ballArea = s->ballPosition;
+    ballArea.y +=  20;
+    go_to_pos(s, ballArea);
 
     //Look for it and catch it!
     log_this(s,"\n[%s:beginner_small_stadium_2] Trying to catch the ball\n", __FILE__);
