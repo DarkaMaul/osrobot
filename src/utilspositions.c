@@ -216,12 +216,18 @@ position compute_arrival_point(state *s)
     position arrivalPoint;
     int norm = compute_distance(compute_relative_position(s->curPos, s->ballPosition));
 
-    int CONSTANT = 40;
-    arrivalPoint.x =  s->ballPosition.x - CONSTANT * (s->ballPosition.x - s->curPos.x) / norm;
-    arrivalPoint.y =  s->ballPosition.y - CONSTANT * (s->ballPosition.x - s->curPos.y) / norm;
+    int CONSTANT = 20;
+    while (1)
+    {
+        arrivalPoint.x =  s->ballPosition.x - CONSTANT * (s->ballPosition.x - s->curPos.x) / norm;
+        arrivalPoint.y =  s->ballPosition.y - CONSTANT * (s->ballPosition.x - s->curPos.y) / norm;
+        if (compute_distance(compute_relative_position(s->ballPosition, arrivalPoint)) < 35)
+            CONSTANT += 5;
+        else
+            break;
 
-    printf("Arrival Point: %d\t%d\n", arrivalPoint.x,  arrivalPoint.y);
-
+    }
+    printf("Arrival point (%d/%d) from ball (%d/%d) with norm (%d) \n", arrivalPoint.x, arrivalPoint.y, s->ballPosition.x, s->ballPosition.y, compute_distance(compute_relative_position(s->ballPosition, arrivalPoint)));
     return arrivalPoint;
 }
 
