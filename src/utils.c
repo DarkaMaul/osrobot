@@ -52,7 +52,8 @@ int read_from_server(state *s, char *buffer)
 
     if (readedBytes <= 0)
     {
-        log_this(s, "[Utils] Impossible to read from server (error code: %d)", readedBytes);
+        log_this(s, "[Utils] Impossible to read from server (error code: %d)\n", readedBytes);
+        sleep(2);
         return -1;
     }
     return readedBytes;

@@ -23,6 +23,7 @@ void init_logger(state *s)
 
     s->logfile_fd = fp;
 
+    setvbuf(s->logfile_fd, NULL, _IONBF, 0);
     log_this(s, "[Logger] Initialize logger for this session.\n");
 }
 

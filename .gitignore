@@ -47,3 +47,4 @@ Debug/
 
 #GDB
 .gdb_history
+peda-session-*
