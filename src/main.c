@@ -122,6 +122,21 @@ int main(int argc, char *argv[])
                 s->sock =  -1;
                 game_wrapper(s, p);
                 break;
+            case 8:
+                init_robot(s);
+                s->side = 1;
+                s->ally = 2;
+                s->role = ROLE_FIRST;
+                s->doNotUnitialize = 1;
+                s->type = SMALL_ARENA;
+                s->sock = -1;
+
+                init_main_positions(s,p);
+                s->curPos = p->s_fr_ending;
+                s->ballPosition = p->s_fr_ballarea;
+                beginner_small_stadium_2(s, p);
+                break;
+                
             case 7:
                 init_robot(s);
                 grab(s, MAX_GRABBING_SPEED);
