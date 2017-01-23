@@ -233,6 +233,11 @@ int finisher_small_stadium(state *s, mainpos *p)
     log_this(s,"\n[%s:finisher_small_stadium_1] Going to ball area\n", __FILE__);
     go_to_pos(s, compute_arrival_point(s));
 
+    position ballcenter = {(S_BA_0_X+S_BA_2_X)/2,(S_BA_0_Y+S_BA_2_Y)/2};
+    int rel_angle_to_ball = compute_rel_angle_to_destination(s, ballcenter);
+    turn(s,TURNING_SPEED, rel_angle_to_ball);
+    update_angle(s, gyro_angle(s));
+
     //Look for the ball
     log_this(s,"\n[%s:finisher_small_stadium_1] Looking for the ball\n", __FILE__);
     if (look_for_ball(s) == 0)
