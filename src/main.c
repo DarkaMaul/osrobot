@@ -122,6 +122,11 @@ int main(int argc, char *argv[])
                 s->sock =  -1;
                 game_wrapper(s, p);
                 break;
+            case 7:
+                init_robot(s);
+                grab(s, MAX_GRABBING_SPEED);
+                getchar();
+                release(s, RELEASING_SPEED);
         }
     }
     //Close external ressources

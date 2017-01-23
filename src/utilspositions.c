@@ -167,7 +167,7 @@ void init_main_positions(state *s, mainpos *p){
     //printf("%d\n",side);
     position s_fr_init={.x = (S_FR_S_0_X + S_FR_S_2_X)/2,.y = (S_FR_S_0_Y + S_FR_S_2_Y )/2 };
     position s_fr_ballareaposition = {.x = S_BA_3_X, .y = S_BA_3_Y};
-    position s_fr_endingposition = {.x = (S_FR_E_0_X + S_FR_E_2_X)/2 - ROBOT_WIDTH,.y = (S_FR_E_0_Y + S_FR_E_2_Y )/2 };
+    position s_fr_endingposition = {.x = (S_FR_E_0_X + S_FR_E_2_X)/2 ,.y = (S_FR_E_0_Y + S_FR_E_2_Y )/2 };
 
     position l_fr_init = {.x = side*(L_FR_S_0_X + L_FR_S_2_X)/2, .y = (L_FR_S_0_Y + L_FR_S_2_Y)/2};
     position l_fr_dodgefirst = {.x = side*(L_O1_2_X + BIG_ARENA_MAX_X + ROBOT_WIDTH*1.5)/2, .y = L_O1_2_Y + L_FR_S_0_Y};
