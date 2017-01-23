@@ -18,7 +18,6 @@
  */
 int game_wrapper(state *s, mainpos *p)
 {
-
     while(1)
     {
         //If we have to wait until it's our turn
@@ -190,11 +189,9 @@ int beginner_large_stadium(state *s, mainpos *p)
     getchar();
 
     //Release ball
-    sleep(5);
     log_this(s, "\n[%s:beginner_large_stadium] Releasing the ball\n",__FILE__);
     release(s, RELEASING_SPEED);
     send_message(s, MSG_BALL, s->ally);
-    sleep(4);
 
     //Go back a little
     log_this(s, "\n[%s:beginner_large_stadium] Going back a little\n", __FILE__);
