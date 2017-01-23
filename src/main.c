@@ -113,6 +113,14 @@ int main(int argc, char *argv[])
                 update_pos(s,pos);
                 go_to_pos(s, pos2);
                 break;
+            case 6:
+                init_robot(s);
+                s->side = 1;
+                s->ally = 2;
+                s->role = ROLE_FIRST;
+                s->sock =  -1;
+                game_wrapper(s, p);
+                break;
         }
     }
     //Close external ressources

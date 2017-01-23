@@ -36,7 +36,6 @@ void test_bluetooth(state *s)
     exit(0);
 }
 
-
 //Small arena test 1 13 December
 int test_one(state *s, mainpos *p)
 {
