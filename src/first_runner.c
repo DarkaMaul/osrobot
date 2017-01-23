@@ -186,10 +186,11 @@ int beginner_large_stadium(state *s, mainpos *p)
     getchar();
 
     //Release ball
-    usleep(100000);
+    sleep(5);
     log_this(s, "\n[%s:beginner_large_stadium] Releasing the ball\n",__FILE__);
     release(s, RELEASING_SPEED);
     send_message(s, MSG_BALL, s->ally);
+    sleep(4);
 
        //Go back a little
     log_this(s, "\n[%s:beginner_large_stadium] Going back a little\n", __FILE__);
