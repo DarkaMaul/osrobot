@@ -150,8 +150,8 @@ int main(int argc, char *argv[])
                 s->side = 1;
                 s->ally = 2;
                 s->role = ROLE_SECOND;
-                s->ballPosition.x = S_BA_2_X;
-                s->ballPosition.y = S_BA_2_Y;
+                s->ballPosition.x = S_BA_1_X;
+                s->ballPosition.y = S_BA_1_Y;
                 finisher_small_stadium(s, p);
                 break;
             case 7:
