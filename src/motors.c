@@ -76,7 +76,7 @@ int release(state *s, int speed)
         return -1;
     }
     ev3_set_speed_sp(s->grabmotor, speed);
-    ev3_set_ramp_up_sp(s->grabmotor, 7000);
+    ev3_set_ramp_up_sp(s->grabmotor, 5500);
     ev3_set_position_sp(s->grabmotor, -7);
     ev3_command_motor_by_name(s->grabmotor, "run-to-abs-pos");
     while (ev3_motor_state(s->grabmotor) & MOTOR_RUNNING);
