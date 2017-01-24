@@ -246,7 +246,7 @@ int send_position(state *s, position sendedPosition)
 void acknowledge(state *s, char *buffer)
 {
     unsigned int idAck = (unsigned int) ((uint16_t) *buffer);
-    //send_message(s, MSG_ACK, buffer[HEADER_SRC], idAck);
+    send_message(s, MSG_ACK, buffer[HEADER_SRC], idAck, ACK_OK);
 }
 
 /**
