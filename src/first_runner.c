@@ -101,7 +101,7 @@ int beginner_small_stadium_1(state *s, mainpos *p)
     //Go to center
     log_this(s,"[%s:beginner_small_stadium_1] Going to ball area\n", __FILE__);
     go_to_pos(s, p->s_fr_ballarea);
-    getchar();
+
     position ballcenter = {(S_BA_0_X+S_BA_2_X)/2,(S_BA_0_Y+S_BA_2_Y)/2};
     int rel_angle_to_ball = compute_rel_angle_to_destination(s, ballcenter);
     turn(s,TURNING_SPEED, rel_angle_to_ball);
@@ -115,7 +115,6 @@ int beginner_small_stadium_1(state *s, mainpos *p)
     //Go back a little
     log_this(s, "\n[%s:beginner_small_stadium_1] Going back a little\n", __FILE__);
     go_straight(s, MAX_WHEEL_SPEED, -20);
-    getchar();
 
     //Go to ending position
     log_this(s, "\n[%s:beginner_small_stadium_1] Going to the end\n", __FILE__);
@@ -147,7 +146,7 @@ int beginner_small_stadium_2(state *s, mainpos *p)
 
     //Look for it and catch it!
     log_this(s,"\n[%s:beginner_small_stadium_2] Trying to catch the ball\n", __FILE__);
-    getchar();
+
     if (look_for_ball(s) == 0)
         catch_ball(s);
 
@@ -184,15 +183,13 @@ int beginner_large_stadium(state *s, mainpos *p)
     //Dodge first obstacle
     log_this(s, "\n[%s:beginner_large_stadium] Dodging first obstacle \n",__FILE__);
     go_to_pos(s, p->l_fr_dodgefirst);
-    getchar();
 
     //Go to center and do a 180
     log_this(s, "\n[%s:beginner_large_stadium] Going to the center\n",__FILE__);
     go_to_pos(s, p->l_fr_ballarea);
-    getchar();
+
     turn(s, HIGH_TURNING_SPEED, 180);
     update_angle(s, gyro_angle(s));
-    getchar();
 
     //Release ball
     log_this(s, "\n[%s:beginner_large_stadium] Releasing the ball\n",__FILE__);
@@ -237,6 +234,7 @@ int finisher_small_stadium(state *s, mainpos *p)
     int rel_angle_to_ball = compute_rel_angle_to_destination(s, ballcenter);
     turn(s,TURNING_SPEED, rel_angle_to_ball);
     update_angle(s, gyro_angle(s));
+
 
     //Look for the ball
     log_this(s,"\n[%s:finisher_small_stadium_1] Looking for the ball\n", __FILE__);

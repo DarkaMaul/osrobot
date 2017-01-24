@@ -39,10 +39,9 @@ int init_robot(state *s)
     init_logger(s);
 
     //Initialize sockets
-    /*s->sock = init_bluetooth();
+    s->sock = init_bluetooth();
     if (s->sock == -1)
         nice_exit(s, EXIT_FAILURE);
-    */
 
     //Init the motors
     init_motors(s);
@@ -57,7 +56,7 @@ int init_robot(state *s)
 
     //Init position
     init_pos(s);
-/*
+
     //Set game started
     pthread_mutex_lock(&(s->mutexGameStarted));
     s->gameStarted = IMMOBILE;
@@ -69,7 +68,7 @@ int init_robot(state *s)
         log_this(s, "[%s] Unable to create position thread\n", __FILE__);
         nice_exit(s, EXIT_FAILURE);
     }
-*/
+
     return 0;
 }
 
