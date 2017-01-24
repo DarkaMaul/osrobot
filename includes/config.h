@@ -71,8 +71,8 @@
 #define MSG_POSITION 6
 #define MSG_BALL 7
 
-#define PICK_BALL 0
-#define LET_BALL  1
+#define PICK_BALL 1
+#define LET_BALL  0
 
 #define MSG_ACK_LEN 8
 #define MSG_NEXT_LEN 5

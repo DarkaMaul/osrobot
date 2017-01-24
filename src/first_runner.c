@@ -112,7 +112,7 @@ int beginner_small_stadium_1(state *s, mainpos *p)
     //release ball
     log_this(s,"\n[%s:beginner_small_stadium_1] Releasing ball\n", __FILE__);
     release(s, RELEASING_SPEED);
-    send_message(s, MSG_BALL, s->ally, LET_BALL, s->ballPosition.x, s->ballPosition.y);
+    send_ball_position(s, LET_BALL);
 
     //Go back a little
     log_this(s, "\n[%s:beginner_small_stadium_1] Going back a little\n", __FILE__);
@@ -196,7 +196,7 @@ int beginner_large_stadium(state *s, mainpos *p)
     //Release ball
     log_this(s, "\n[%s:beginner_large_stadium] Releasing the ball\n",__FILE__);
     release(s, RELEASING_SPEED);
-    send_message(s, MSG_BALL, s->ally);
+    send_ball_position(s, LET_BALL);
 
     //Go back a little
     log_this(s, "\n[%s:beginner_large_stadium] Going back a little\n", __FILE__);
@@ -259,7 +259,7 @@ int finisher_small_stadium(state *s, mainpos *p)
     //Look for the ball
     log_this(s,"\n[%s:finisher_small_stadium_2] Release the ball\n", __FILE__);
     release(s, RELEASING_SPEED);
-    send_message(s, MSG_BALL, s->ally);
+    send_ball_position(s, LET_BALL);
 
     //Go back a little
     go_straight(s, MAX_WHEEL_SPEED, -20);
