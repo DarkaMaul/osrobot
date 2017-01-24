@@ -34,7 +34,7 @@ void position_thread()
         currentPos = s->curPos;
         pthread_mutex_unlock(&(s->mutexPosition));
 
-        send_position(s, currentPos);
+        //send_position(s, currentPos);
 
         //Test regularly if we're still moving
         if (++i == 8)

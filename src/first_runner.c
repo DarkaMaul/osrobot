@@ -23,7 +23,7 @@ int game_wrapper(state *s, mainpos *p)
     while(1)
     {
         //If we have to wait until it's our turn
-        if (s->role == ROLE_SECOND || (s->role == ROLE_FIRST && s->doNotUnitialize ==  1))
+        if (s->role == ROLE_SECOND || (s->role == ROLE_FIRST && strategyReturn ==  1))
         {
             char buf[100];
             int returnValue;
