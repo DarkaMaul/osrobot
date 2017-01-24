@@ -6,7 +6,7 @@
 
 //Team constants
 #define TEAM_ID 1
-#define SERVER_ID -1
+#define SERVER_ID 255
 #define TEST_SERV_ADDR "127.0.0.1"
 #define SERV_ADDR "b8:8a:60:D4:CE:1a"
 

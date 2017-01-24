@@ -90,7 +90,7 @@ int read_message_from_server(state *s, char *buffer)
         nice_exit(s, EXIT_SUCCESS);
     }
 
-    if (buffer[HEADER_SRC] != SERVER_ID)
+    if (buffer[HEADER_SRC] != (char) SERVER_ID)
         acknowledge(s, buffer);
 
     return readedBytes;
