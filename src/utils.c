@@ -228,7 +228,7 @@ int send_message(state *s, int messageType, unsigned char destination, ...)
     write(s->sock, message, messageLength);
     pthread_mutex_unlock(&(s->mutexSockUsage));
 
-    log_this(s, "[Utils] Message sent type %d\n.",messageType);
+    log_this(s, "[Utils] Message sent type %d with len %d\n.",messageType, messageLength);
     return 0;
 }
 
