@@ -248,6 +248,7 @@ int finisher_small_stadium(state *s, mainpos *p)
     // ------------------- SECOND TRIP ---------------
     //Turn the robot
     turn(s, HIGH_TURNING_SPEED, 180);
+    update(s, gyro_angle(s));
 
     //Go to center
     log_this(s,"\n[%s:finisher_small_stadium_2] Going to ball area\n", __FILE__);
@@ -266,6 +267,7 @@ int finisher_small_stadium(state *s, mainpos *p)
     go_to_pos(s, p->s_sr_init);
 
     turn(s, HIGH_TURNING_SPEED, 180);
+    update(s, gyro_angle(s));
     grab(s, MAX_GRABBING_SPEED);
 
     //We don't want intialization next time
