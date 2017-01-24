@@ -54,6 +54,10 @@ int main(int argc, char** argv)
 
     init_robot(s);
 
+    //Hot fix:
+    s->ballPosition.x = (S_BA_0_X + S_BA_3_X) / 2;
+    s->ballPosition.y = (S_BA_0_Y + S_BA_1_Y) / 2;
+
     game();
 
     nice_exit(s, EXIT_SUCCESS);
