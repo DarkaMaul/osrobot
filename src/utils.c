@@ -240,7 +240,7 @@ int send_message(state *s, int messageType, unsigned char destination, ...)
  */
 int send_position(state *s, position sendedPosition)
 {
-    return send_message(s, MSG_POSITION, SERVER_ID, sendedPosition.x, sendedPosition.y);
+    return send_message(s, MSG_POSITION, 0xff, sendedPosition.x, sendedPosition.y);
 }
 
 void acknowledge(state *s, char *buffer)
