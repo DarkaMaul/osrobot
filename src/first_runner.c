@@ -18,6 +18,8 @@
  */
 int game_wrapper(state *s, mainpos *p)
 {
+
+    int strategyReturn = 0;
     while(1)
     {
         //If we have to wait until it's our turn
@@ -44,7 +46,7 @@ int game_wrapper(state *s, mainpos *p)
         {
             if(s->role == ROLE_FIRST)
             {
-                if (s->side == 1)
+                if (strategyReturn == 0)
                     strategy = &beginner_small_stadium_1;
                 else
                     strategy = &beginner_small_stadium_2;
@@ -66,7 +68,7 @@ int game_wrapper(state *s, mainpos *p)
         pthread_mutex_unlock(&(s->mutexGameStarted));
 
         init_main_positions(s, p);
-        strategy(s, p);
+        strategyReturn = strategy(s, p);
 
         pthread_mutex_lock(&(s->mutexGameStarted));
         s->gameStarted = IMMOBILE;
@@ -122,7 +124,7 @@ int beginner_small_stadium_1(state *s, mainpos *p)
 
     grab(s, MAX_GRABBING_SPEED);
 
-    return 0;
+    return 1;
 }
 
 /**
@@ -248,7 +250,7 @@ int finisher_small_stadium(state *s, mainpos *p)
     // ------------------- SECOND TRIP ---------------
     //Turn the robot
     turn(s, HIGH_TURNING_SPEED, 180);
-    update(s, gyro_angle(s));
+    update_angle(s, gyro_angle(s));
 
     //Go to center
     log_this(s,"\n[%s:finisher_small_stadium_2] Going to ball area\n", __FILE__);
@@ -267,7 +269,7 @@ int finisher_small_stadium(state *s, mainpos *p)
     go_to_pos(s, p->s_sr_init);
 
     turn(s, HIGH_TURNING_SPEED, 180);
-    update(s, gyro_angle(s));
+    update_angle(s, gyro_angle(s));
     grab(s, MAX_GRABBING_SPEED);
 
     //We don't want intialization next time
