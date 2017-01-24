@@ -35,9 +35,8 @@ int game_wrapper(state *s, mainpos *p)
 
                 if (buf[HEADER_TYPE] == MSG_NEXT)
                     break;
-                else if (buf[HEADER_TYPE] == MSG_BALL) //Interpret the ball message
-                    save_ball_position(s, buf);
-
+                //else if (buf[HEADER_TYPE] == MSG_BALL) //Interpret the ball message
+                    //save_ball_position(s, buf);
             }
         }
 
