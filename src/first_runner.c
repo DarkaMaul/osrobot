@@ -112,7 +112,7 @@ int beginner_small_stadium_1(state *s, mainpos *p)
     //release ball
     log_this(s,"\n[%s:beginner_small_stadium_1] Releasing ball\n", __FILE__);
     release(s, RELEASING_SPEED);
-    send_ball_position(s, LET_BALL);
+    send_ball_position(s, BALL_DROP);
 
     //Go back a little
     log_this(s, "\n[%s:beginner_small_stadium_1] Going back a little\n", __FILE__);
